@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { findAll, save } = require('../controller/ClientController') ;
+const { findAll, save } = require('../controller/UserController') ;
 /* GET users listing. */
 router.get('/',findAll );
 router.post('/save',save);

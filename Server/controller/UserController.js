@@ -1,7 +1,8 @@
-const Client = require("../models/Client") ;
+const User = require("../models/User") ;
+
 
 const findAll = async (req, res) => {
-    Client.find({}).then((result) => sendResult(res, result)) ;
+    User.find({}).then((result) => sendResult(res, result)) ;
 } ;
 
 const save = async (req, res) => {
@@ -14,7 +15,7 @@ const save = async (req, res) => {
         } ;
         sendResult(res, result) ;
     } else {
-        await new Client({username: req.body.username,mail:req.body.email,mdp:req.body.mdp}).save() ;
+        await new User({username: req.body.username,mail:req.body.email,mdp:req.body.mdp}).save() ;
         Client.find({email: req.body.email}).then((result) => sendResult(res, result)) ;
     }
 } ;

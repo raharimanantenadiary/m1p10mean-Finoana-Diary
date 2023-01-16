@@ -7,37 +7,33 @@ var nodemailer = require('nodemailer');
 
 const signup = (req, res) => {
     // Save User to Database
-    User.create({
-        username: req.body.username,
-        mail: req.body.email,
-        mdp: bcrypt.hashSync(req.body.mdp, 8)
-    }).then(function(item){
+   new User({
+    username: req.body.username,
+    mail:req.body.mail,
+    mdp: bcrypt.hashSync(req.body.mdp, 8),
+    role:{roleId:req.body.roleId,intitule:req.body.intitule}})
+    .save().then(function(item){
          res.send({message:'Attendre activation de votre compte',error:false});
-        // res.send({message:'Attendre activation de votre compte'})
+       
     })
         .catch(function (err) {
-            res.send({message:'Format de l`email incorrecte',error:true});
+            res.send({message:err.message,error:true});
         });
 
 };
 
 const signin = (req, res) => {
-    console.log(req.body.username, req.body.password, req.body.email);
-    User.findOne({
-        where: {
-            mail: req.body.email
-        }
-    })
-        .then(user => {
+    console.log(req.body.mail,req.body.mdp);
+    User.findOne({mail:req.body.mail})
+        .then((user) => {
             console.log(user);
             if (!user) {
-                return res.send({ message: "Utlisateur introuvable" });
+               return res.send({message:"utilisateur introuvable"});
             }
-            console.log(req.body.password);
-            console.log(user.password);
+         
             var passwordIsValid = bcrypt.compareSync(
-                req.body.password,
-                user.password
+                req.body.mdp,
+                user.mdp
             );
             console.log(passwordIsValid);
             if (!passwordIsValid) {
@@ -46,7 +42,7 @@ const signin = (req, res) => {
                     message: "Mot de passe eronné!"
                 });
             }
-            var token = jwt.sign({ id: user.id }, config.secret, {
+            var token = jwt.sign({ id: user.id },'secret', {
                 expiresIn: 86400 // 24 hours
             });
 
@@ -55,7 +51,7 @@ const signin = (req, res) => {
                 id: user.id,
                 username: user.username,
                 mail: user.mail,
-                roleId: user.roleId,
+                roleId: user.role.roleId,
                 accessToken: token
             });
 

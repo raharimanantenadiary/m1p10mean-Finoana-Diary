@@ -7,7 +7,7 @@ const findAll = async (req, res) => {
 
 const save = async (req, res) => {
     console.log(req.body);
-    if (req.body.username === '' && req.body.email === '' && req.body.mdp === '') {
+    if (req.body.username === '' && req.body.mail === '' && req.body.mdp === '') {
         const error = 'compte invalide' ;
         const result = {
             error: error,
@@ -15,8 +15,8 @@ const save = async (req, res) => {
         } ;
         sendResult(res, result) ;
     } else {
-        await new User({username: req.body.username,mail:req.body.email,mdp:req.body.mdp}).save() ;
-        Client.find({email: req.body.email}).then((result) => sendResult(res, result)) ;
+        await new User({username: req.body.username,mail:req.body.mail,mdp:req.body.mdp,role:{roleId:req.body.roleId,intitule:req.body.intitule},accessToken:req.body.accessToken}).save() ;
+        User.find({email: req.body.mail}).then((result) => sendResult(res, result)) ;
     }
 } ;
 

@@ -1,48 +1,41 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
-import { ListeComponent } from './composant/liste/liste.component';
-import { DetailComponent } from './composant/detail/detail.component';
-import { AcceuilComponent } from './composant/acceuil/acceuil.component';
-import { LoginComponent } from './composant/login/login.component';
 import { FooterComponent } from './composant/footer/footer.component';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './authentification/login/login.component';
+import { InscriptionComponent } from './authentification/inscription/inscription.component';
+import { AcceuilComponent } from './composant/client/acceuil/acceuil.component';
 import { TemplateComponent } from './composant/template/template.component';
-import { AndranaComponent } from './andrana/andrana.component';
-import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
-import { EmployeComponent } from './employe/employe/employe.component';
-import { EmployerComponent } from './composant/employer/employer.component';
+import { HeaderComponent } from './composant/header/header.component';
+import { NavbarComponent } from './composant/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListeComponent,
-    DetailComponent,
-    AcceuilComponent,
     LoginComponent,
-    FooterComponent,
+    InscriptionComponent,
+    AcceuilComponent,
     TemplateComponent,
-    AndranaComponent,
     HeaderComponent,
-    HomeComponent,
-    EmployeComponent,
-    EmployerComponent
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
-  RouterModule.forRoot([
-    { path: '', component: LoginComponent },
-    { path: 'liste', component: ListeComponent },
-    { path: 'acceuil', component: AcceuilComponent },
-    { path: 'emp', component: EmployerComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'andrana', component: AndranaComponent },
-    { path: 'template', component: TemplateComponent },
-    { path: 'detail/:id', component: DetailComponent },
-    { path: '**', redirectTo: 'acceuil'  }
-      ])
+    AppRoutingModule,
+    RouterModule.forRoot([
+      { path: '', component: LoginComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'inscription', component: InscriptionComponent },
+      { path: 'template', component: TemplateComponent },
+      { path: 'acceuil', component: AcceuilComponent },
+      { path: 'navbar', component: NavbarComponent },
+      { path: 'header', component: HeaderComponent },
+      { path: 'footer', component: FooterComponent },
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]

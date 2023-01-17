@@ -11,6 +11,8 @@ const signup = (req, res) => {
     username: req.body.username,
     mail:req.body.mail,
     mdp: bcrypt.hashSync(req.body.mdp, 8),
+    isactive:false,
+    validation:0,
     role:{roleId:req.body.roleId,intitule:req.body.intitule}})
     .save().then(function(item){
          res.send({message:'Attendre activation de votre compte',error:false});
@@ -30,6 +32,10 @@ const signin = (req, res) => {
             if (!user) {
                return res.send({message:"utilisateur introuvable"});
             }
+
+            if (!user.isactive) {
+                return res.send({message:"le compte n'est pas encore activé"});
+             }
          
             var passwordIsValid = bcrypt.compareSync(
                 req.body.mdp,
@@ -62,35 +68,39 @@ const signin = (req, res) => {
 };
 
 
-const activation = (req, res) => {
+const envoyecode = (req, res) => {
+    var email='noumsfinoana@gmail.com';
+    var mdp= 'yfuixbmjtxhuorxv';
+
+    console.log(req.body.mail);
+    console.log(email);
     var transporter = nodemailer.createTransport({
         service: 'gmail',
-        auth: { user: config.email, pass: config.password }
+        auth: { user:email , pass:mdp }
     });
-    let generatePassword = generator.generate({ length: 20, numbers: true });
+    let code = generator.generate({ length: 5, numbers: true });
 
     var mailOptions = {
-        from: config.email,
-        to: req.body.email,
-        subject: 'Activation de votre compte',
+        from: email,
+        to: req.body.mail,
+        subject: 'Verification email',
         text: 'Vous etes authorise a utiliser le plateforme Suivi de projet; Votre mot de passe est: ZJbcsuygSUHXAIUSsiduc; Veuillez le changer apres activation,Cordialement, l equipe DSI',
         html: `<!doctype html>
                 <html>
                 <head></head>
                 <body>
-                 <img src="https://scontent.ftnr2-2.fna.fbcdn.net/v/t39.30808-6/273191828_307451018091211_7562487185427167423_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHqfXpm-heTtAQ4Kz38VE8GalDUGreXOrtqUNQat5c6u4llM8DE9y_8D-awL9RAvEscO6xI2uW_1mHQwBhK4tG2&_nc_ohc=83-T4_RSDZcAX97pvCR&_nc_oc=AQmz8vqJJLTVSpsHIsoo1PD87DmwO2qZFzReGsgKESTuRAj71kQFLf6bIBLQY6IH2Yo&_nc_ht=scontent.ftnr2-2.fna&oh=00_AT-KfjAXDplIuFXwBiDl1rrwPrsklFCDY82Z9HBJa9WGNQ&oe=635ACEF1" width="200" height="200"/>
-                    <h1>Ministere de l'eau et de l'assainissement</h1>
-                    <h2>Vous etes authorise a utiliser le plateforme Suivi de projet</h2>
-                    <p>Votre mot de passe est: ${generatePassword}</p>
-                    <p>Veuillez le changer apres activation,</p>
-                    <p>Cordialement, l'equipe DSI</p>
+                 
+                    <h1>GARAGE</h1>
+        
+                    <p>Votre code de validation:${code} </p>
+                    <p>Cordialement, GARAGE</p>
                 </body>
                 </html>`
     };
 
     transporter.sendMail(mailOptions)
     .then(info => {
-        UserModel.update({ isAvtive: true, password: bcrypt.hashSync(generatePassword, 8) }, { where: { email: req.body.email } })
+        User.updateOne({ mail: req.body.mail },{$set:{validation:code}})
             .then(rep => {
                 console.log('success send mail:' + info);
                 res.send('activation reussis');
@@ -106,9 +116,26 @@ const activation = (req, res) => {
 
 }
 
+const activation = (req, res) => {
+    console.log(req.body.code);
+        User.findOne( { email: req.body.mail,validation:req.body.code })
+            .then(rep => {
+               if(!rep)
+               {
+                return  res.send({message:'code invalide' });
+               }
+               res.send(rep);
+            })
+            .catch(err => {
+                res.send('Erreur activation user:' + err);
+            })
+
+}
+
 
 module.exports = {
    signup,
    signin,
+   envoyecode,
    activation
 }

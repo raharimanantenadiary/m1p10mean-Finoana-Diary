@@ -2,31 +2,24 @@ const User = require("../models/User") ;
 
 
 const findAll = async (req, res) => {
-    User.find({}).then((result) => sendResult(res, result)) ;
+    User.find({email:'nom@gmail.com'}).then((result) => sendResult(res, result)) ;
 } ;
 
 const save = async (req, res) => {
-    // console.log(req.body);
-    // if (req.body.username === '' && req.body.mail === '' && req.body.mdp === '') {
-    //     const error = 'compte invalide' ;
-    //     const result = {
-    //         error: error,
-    //         body: req.body
-    //     } ;
-    //     sendResult(res, result) ;
-    // } else {
-    //     await new User({username: req.body.username,mail:req.body.mail,mdp:req.body.mdp,role:{roleId:req.body.roleId,intitule:req.body.intitule},accessToken:req.body.accessToken}).save() ;
-    //     User.find({email: req.body.mail}).then((result) => sendResult(res, result)) ;
-    // }
+    console.log(req.body);
+    if (req.body.username === '' && req.body.mail === '' && req.body.mdp === '') {
+        const error = 'compte invalide' ;
+        const result = {
+            error: error,
+            body: req.body
+        } ;
+        sendResult(res, result) ;
+    } else {
+        await new User({username: req.body.username,mail:req.body.mail,mdp:req.body.mdp,role:{roleId:req.body.roleId}}).save() ;
+        User.find({email: req.body.mail}).then((result) => sendResult(res, result)) ;
+    }
 
-    User.updateOne({ mail: req.body.mail},{$set:{validation:1}})
-    .then(rep => {
-        console.log('success send mail:');
-        res.send('activation reussis');
-    })
-    .catch(err => {
-        res.send('Erreur activation user:' + err);
-    })
+  
 } ;
 
 // const roleClient = async () => {

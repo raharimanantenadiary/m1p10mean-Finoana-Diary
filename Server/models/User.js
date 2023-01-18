@@ -26,27 +26,11 @@ const UserSchema = new Schema({
     mdp: { type: String, required: true } ,
     role:{ 
     roleId:{ type: String, required: true } ,
-    intitule:{ type: String, required: true },
+    intitule:{ type: String} ,
     },
-    voiture:{ 
-      id:{ type: String} ,
-      marque:{ type: String},
-      designation:{ type: String},
-      matricule:{ type: String,
-        validate: {
-          validator: async function(matricule) {
-            const user = await this.constructor.findOne({matricule});
-            if(user) {
-              if(this.id === user.id) {
-                return true;
-              }
-              return false;
-            }
-            return true;
-          },
-          message: props => 'cette matricule est deja utilisé.'
-        },
-     }
+    voiture:
+    {
+        id: { type: ObjectId, ref: "Voiture"}, 
     }
    
   

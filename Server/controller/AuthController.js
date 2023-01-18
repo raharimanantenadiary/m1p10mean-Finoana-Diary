@@ -81,7 +81,7 @@ const envoyecode = (req, res) => {
     let code = generator.generate({ length: 5, numbers: true });
 
     var mailOptions = {
-        from: email,
+        from: "Garage Laurence",
         to: req.body.mail,
         subject: 'Verification email',
         text: 'Vous etes authorise a utiliser le plateforme Suivi de projet; Votre mot de passe est: ZJbcsuygSUHXAIUSsiduc; Veuillez le changer apres activation,Cordialement, l equipe DSI',

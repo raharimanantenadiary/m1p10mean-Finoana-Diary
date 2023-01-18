@@ -4,9 +4,9 @@ const ObjectId = require("mongodb").ObjectId ;
 
 const FactureSchema = new Schema({
 
-    idvoiture: { type: ObjectId, ref: "Voiture", required: true } ,
-    datefacture:{type: Date, required: true},
-    etat:{type: String, required: true},
+    idreparation: { type: ObjectId, ref: "Reparation", required: true } ,
+    datefacture:{type: Date,default: Date.now, required: true},
+    etat:{type: Number, required: true},
 
     paiement:{
         datepaiement:{type: Date},

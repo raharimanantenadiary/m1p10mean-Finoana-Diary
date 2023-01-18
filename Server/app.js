@@ -9,6 +9,7 @@ var authRouter = require('./routes/AuthRoute');
 var voitureRouter = require('./routes/VoitureRoute');
 var depotRouter = require('./routes/DepotRoute');
 var reparationRouter = require('./routes/ReparationRoute');
+var factureRouter = require('./routes/FactureRoute');
 
 var app = express();
 
@@ -37,6 +38,8 @@ app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/depot', depotRouter);
 app.use('/api/reparation', reparationRouter);
+app.use('/api/facture', factureRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

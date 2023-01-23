@@ -1,25 +1,7 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Acceuil</h1>
+    <h1 class="h3 mb-0 text-gray-800">Client: Valimbavaka</h1>
 </div>
 <div class="row">
-    <div class="row">
-        <div class="col-12">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Username</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of emplist_noumena">
-                        <td>1</td>
-                        <td>{{item.username}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>  
-    </div>
     <div class="col-lg-6">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
@@ -35,16 +17,29 @@
                     <div class="modal fade" id="exampleModalI" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header " style="background-color: rgb(40, 40, 219);">
                                     <h5 class="modal-title" id="exampleModalLabel">Nouvelle voiture</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                        <form>
+                                                <div class="col-10">
+                                                    <label for="">Designation</label>
+                                                    <input type="text" name="designation" class="form-control">
+                                                </div>
+                                                <div class="col-10">
+                                                    <label for="">Marque</label>
+                                                    <input type="text" name="marque" class="form-control">
+                                                </div>
+                                                <div class="col-10">
+                                                    <label for="">Matricule</label>
+                                                    <input type="text" name="matricule" class="form-control">
+                                                </div>
+                                        </form>
+                                    <div class="modal-footer mt-3">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                        <button type="button" class="btn btn-primary">Ajouter</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +51,7 @@
             <div class="card-body">
                 <div
                     id="all"
-                    cdkDropList
+                    cdkDropList 
                     [cdkDropListData]="voitures"
                     cdkDropListConnectedTo="even"
                     class="example-list"
@@ -67,15 +62,17 @@
                         *ngFor="let number of voitures"
                         [cdkDragData]="number"
                         cdkDrag>
-                        <div class="d-flex flex-row justify-content-between bg-warning">
-                            <div class="bg-primary">
-                                <h4>Information Voiture:</h4>{{number.make}}**{{number.model}}**{{number.year}}
+                        <div class="d-flex justify-content-between" style="margin: 10px 10px;">
+                            <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                                <p>Marque: {{number.make}}</p>
+                                <p>Modele: {{number.model}}</p>
+                                <p>Année: {{number.year}}</p>
                             </div>
-                            <div class="bg-success">
-                                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModalModifier">
+                            <div style="display: flex;flex-direction: column;justify-content: space-evenly;">
+                                <button  type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModalModifier">
                                 Mofidier
                                 </button>
-                                <button class="btn btn-outline-warning">Historique</button>
+                                <button class="btn btn-outline-primary" [routerLink]="['/t/historique']" >Historique</button>
                             </div>
                         </div>
                     </div>
@@ -118,8 +115,20 @@
                     <div
                         class="example-box"
                         *ngFor="let number of garage"
-                        cdkDrag
-                    [cdkDragData]="number">{{number.make}}**{{number.model}}**{{number.year}}</div>
+                        [cdkDragData]="number"
+                        cdkDrag>
+                        <div class="d-flex justify-content-between" style="margin: 10px 10px;">
+                            <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                                <p>Marque: {{number.make}}</p>
+                                <p>Modele: {{number.model}}</p>
+                                <p>Année: {{number.year}}</p>
+                            </div>
+                            <div style="display: flex;flex-direction: column;" >
+                                <a [routerLink]="['/t/avancement']"> <button class="btn btn-outline-success mt-3">Avancement</button></a>
+                                <a [routerLink]="['/t/detailfacture']"> <button class="btn btn-outline-primary mt-3">Facture</button></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,17 +138,30 @@
 <div class="modal fade" id="exampleModalModifier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: aqua;">
                 <h5 class="modal-title" id="exampleModalLabel">Modifier voiture</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form>
+                        <div class="col-10">
+                            <label for="">Designation</label>
+                            <input type="text" name="designation" class="form-control">
+                        </div>
+                        <div class="col-10">
+                            <label for="">Marque</label>
+                            <input type="text" name="marque" class="form-control">
+                        </div>
+                        <div class="col-10">
+                            <label for="">Matricule</label>
+                            <input type="text" name="matricule" class="form-control">
+                        </div>
+                </form>
+            <div class="modal-footer mt-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">Modifier</button>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+        </div>
         </div>
     </div>
 </div>

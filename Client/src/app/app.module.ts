@@ -18,6 +18,11 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SidebarComponent } from './composant/sidebar/sidebar.component';
 import { HistoriqueComponent } from './composant/client/historique/historique.component';
+import { HomedefaultComponent } from './composant/homedefault/homedefault.component';
+import { DetailfactureComponent } from './composant/client/detailfacture/detailfacture.component';
+import { AvancementComponent } from './composant/client/avancement/avancement.component';
+import { AcceuilmecanicienComponent } from './composant/mecanicien/acceuilmecanicien/acceuilmecanicien.component';
+import { AcceuilfinancierComponent } from './composant/financier/acceuilfinancier/acceuilfinancier.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +35,12 @@ import { HistoriqueComponent } from './composant/client/historique/historique.co
     NavbarComponent,
     FooterComponent,
     SidebarComponent,
-    HistoriqueComponent
+    HistoriqueComponent,
+    HomedefaultComponent,
+    DetailfactureComponent,
+    AvancementComponent,
+    AcceuilmecanicienComponent,
+    AcceuilfinancierComponent
   ],
   imports: [
     BrowserModule,
@@ -44,12 +54,16 @@ import { HistoriqueComponent } from './composant/client/historique/historique.co
       { path: '', component: LoginComponent },
       { path: 'login', component: LoginComponent },
       { path: 'inscription', component: InscriptionComponent },
-      { path: 'template', component: TemplateComponent },
-      { path: 'acceuil', component: AcceuilComponent },
-      { path: 'navbar', component: NavbarComponent },
-      { path: 'header', component: HeaderComponent },
-      { path: 'footer', component: FooterComponent },
-      { path: 'historique', component: HistoriqueComponent },
+      { path: 't', component: TemplateComponent , children:[
+        { path: '', component: HomedefaultComponent },
+        { path: 'acceuil', component: AcceuilComponent },
+        { path: 'historique', component: HistoriqueComponent },
+        { path: 'detailfacture', component: DetailfactureComponent },
+        { path: 'avancement', component: AvancementComponent },
+        { path: 'acm', component: AcceuilmecanicienComponent },
+        { path: 'acf', component: AcceuilfinancierComponent },
+      ]},
+      
     ])
   ],
   providers: [],

@@ -10,9 +10,6 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-
-   
-
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -22,20 +19,25 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link"  [routerLink]="['/acceuil']">
+        <a class="nav-link"  [routerLink]="['/t/']">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Acceuil</span></a>
+            <span>Home default</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/historique']">
+        <a class="nav-link"  [routerLink]="['/t/acceuil']">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Factures</span></a>
+            <span>Acceuil Client</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link"  [routerLink]="['/acceuil']">
+        <a class="nav-link"  [routerLink]="['/t/acm']">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Recherche</span></a>
-    </li>
+            <span>Acceuil Mécanicien</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"  [routerLink]="['/t/acf']">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Acceuil Financier</span></a>
+        </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
 

@@ -23,6 +23,7 @@ import { DetailfactureComponent } from './composant/client/detailfacture/detailf
 import { AvancementComponent } from './composant/client/avancement/avancement.component';
 import { AcceuilmecanicienComponent } from './composant/mecanicien/acceuilmecanicien/acceuilmecanicien.component';
 import { AcceuilfinancierComponent } from './composant/financier/acceuilfinancier/acceuilfinancier.component';
+import { ListepaiementComponent } from './composant/financier/listepaiement/listepaiement.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { AcceuilfinancierComponent } from './composant/financier/acceuilfinancie
     DetailfactureComponent,
     AvancementComponent,
     AcceuilmecanicienComponent,
-    AcceuilfinancierComponent
+    AcceuilfinancierComponent,
+    ListepaiementComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +64,7 @@ import { AcceuilfinancierComponent } from './composant/financier/acceuilfinancie
         { path: 'avancement', component: AvancementComponent },
         { path: 'acm', component: AcceuilmecanicienComponent },
         { path: 'acf', component: AcceuilfinancierComponent },
+        { path: 'lp', component: ListepaiementComponent },
       ]},
       
     ])

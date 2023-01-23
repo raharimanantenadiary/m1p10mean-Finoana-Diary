@@ -51,17 +51,6 @@ drop(event: CdkDragDrop<Fiara[]>) {
     }
   }
 
-  evenPredicate() {
-    return true;
-  }
-  
 
-  verifieranne(item: CdkDrag<Fiara>){
-    return item.data.year > 2016;
-  }
-
-  noReturnPredicate() {
-    return true;
-  }
  
 }

@@ -1,0 +1,96 @@
+[debug] [2023-01-23T09:28:31.323Z] ----------------------------------------------------------------------
+[debug] [2023-01-23T09:28:31.326Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ar\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2023-01-23T09:28:31.327Z] CLI Version:   11.20.0
+[debug] [2023-01-23T09:28:31.327Z] Platform:      win32
+[debug] [2023-01-23T09:28:31.327Z] Node Version:  v16.16.0
+[debug] [2023-01-23T09:28:31.328Z] Time:          Mon Jan 23 2023 12:28:31 GMT+0300 (heure normale de Moscou)
+[debug] [2023-01-23T09:28:31.329Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-23T09:28:31.435Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-23T09:28:31.436Z] > authorizing via signed-in user (raharimanantenadiary@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  E:\M1\Web avancé\Janvier\gittest\depart\m1p10mean-Finoana-Diary\Client
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-01-23T09:28:40.170Z] Using project from CLI flag: mean10
+[debug] [2023-01-23T09:28:40.175Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mean10 [none]
+[debug] [2023-01-23T09:28:41.014Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mean10 200
+[debug] [2023-01-23T09:28:41.015Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mean10 {"projectId":"mean10","projectNumber":"998035139083","displayName":"mean10","name":"projects/mean10","resources":{"hostingSite":"mean10"},"state":"ACTIVE","etag":"1_b3e261bb-1f42-4fc2-b38b-f49f3be079b5"}
+[info] i  Using project mean10 (mean10) 
+[info] 
+=== Hosting:github Setup
+[info] 
+[info] i  Detected a .git folder at E:\M1\Web avancé\Janvier\gittest\depart\m1p10mean-Finoana-Diary 
+[info] i  Authorizing with GitHub to upload your service account to a GitHub repository's secrets store. 
+[info] 
+[info] Visit this URL on this device to log in:
+[info] https://github.com/login/oauth/authorize?client_id=89cf50f02ac6aaed3484&state=973110401&redirect_uri=http%3A%2F%2Flocalhost%3A9005&scope=read%3Auser%20repo%20public_repo
+[info] 
+[info] Waiting for authentication...
+[debug] [2023-01-23T09:28:44.313Z] >>> [apiv2][query] POST https://github.com/login/oauth/access_token [none]
+[debug] [2023-01-23T09:28:44.313Z] >>> [apiv2][body] POST https://github.com/login/oauth/access_token [stream]
+[debug] [2023-01-23T09:28:46.033Z] <<< [apiv2][status] POST https://github.com/login/oauth/access_token 200
+[debug] [2023-01-23T09:28:46.034Z] <<< [apiv2][body] POST https://github.com/login/oauth/access_token {"access_token":"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","token_type":"bearer","scope":"read:user,repo"}
+[debug] [2023-01-23T09:28:46.091Z] >>> [apiv2][query] GET https://api.github.com/user [none]
+[debug] [2023-01-23T09:28:47.269Z] <<< [apiv2][status] GET https://api.github.com/user 200
+[debug] [2023-01-23T09:28:47.270Z] <<< [apiv2][body] GET https://api.github.com/user {"login":"raharimanantenadiary","id":87566881,"node_id":"MDQ6VXNlcjg3NTY2ODgx","avatar_url":"https://avatars.githubusercontent.com/u/87566881?v=4","gravatar_id":"","url":"https://api.github.com/users/raharimanantenadiary","html_url":"https://github.com/raharimanantenadiary","followers_url":"https://api.github.com/users/raharimanantenadiary/followers","following_url":"https://api.github.com/users/raharimanantenadiary/following{/other_user}","gists_url":"https://api.github.com/users/raharimanantenadiary/gists{/gist_id}","starred_url":"https://api.github.com/users/raharimanantenadiary/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/raharimanantenadiary/subscriptions","organizations_url":"https://api.github.com/users/raharimanantenadiary/orgs","repos_url":"https://api.github.com/users/raharimanantenadiary/repos","events_url":"https://api.github.com/users/raharimanantenadiary/events{/privacy}","received_events_url":"https://api.github.com/users/raharimanantenadiary/received_events","type":"User","site_admin":false,"name":null,"company":null,"blog":"","location":null,"email":null,"hireable":null,"bio":null,"twitter_username":null,"public_repos":6,"public_gists":0,"followers":0,"following":1,"created_at":"2021-07-17T10:13:32Z","updated_at":"2023-01-10T13:57:57Z","private_gists":0,"total_private_repos":5,"owned_private_repos":5,"disk_usage":66952,"collaborators":3,"two_factor_authentication":false,"plan":{"name":"free","space":976562499,"collaborators":0,"private_repos":10000}}
+[info] 
+[info] +  Success! Logged into GitHub as raharimanantenadiary 
+[info] 
+[debug] [2023-01-23T09:29:48.956Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:29:50.239Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key 404
+[debug] [2023-01-23T09:29:50.240Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:30:04.973Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:30:16.353Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key 404
+[debug] [2023-01-23T09:30:16.354Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:31:29.604Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:31:42.628Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key 404
+[debug] [2023-01-23T09:31:42.629Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:31:45.552Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary//actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:31:48.198Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary//actions/secrets/public-key 404
+[debug] [2023-01-23T09:31:48.198Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary//actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:32:27.024Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:32:28.763Z] >>> [apiv2][query] GET https://api.github.com/repos//actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:32:30.215Z] >>> [apiv2][query] GET https://api.github.com/repos//actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:32:31.521Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:32:43.570Z] <<< [apiv2][status] GET https://api.github.com/repos//actions/secrets/public-key 404
+[debug] [2023-01-23T09:32:43.571Z] <<< [apiv2][body] GET https://api.github.com/repos//actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:32:43.658Z] <<< [apiv2][status] GET https://api.github.com/repos//actions/secrets/public-key 404
+[debug] [2023-01-23T09:32:43.659Z] <<< [apiv2][body] GET https://api.github.com/repos//actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:32:43.731Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key 404
+[debug] [2023-01-23T09:32:43.732Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:32:43.754Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key 404
+[debug] [2023-01-23T09:32:43.754Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:32:46.403Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diaryhttps://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:32:56.723Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:33:03.798Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diaryhttps://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key 404
+[debug] [2023-01-23T09:33:03.798Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diaryhttps://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:33:05.690Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key 404
+[debug] [2023-01-23T09:33:05.690Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:33:11.598Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diaryhttps://github.com/raharimanantenadiary/m1p10mean-Finoana-Diaryhttps://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:33:15.103Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diaryhttps://github.com/raharimanantenadiary/m1p10mean-Finoana-Diaryhttps://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key 404
+[debug] [2023-01-23T09:33:15.104Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diaryhttps://github.com/raharimanantenadiary/m1p10mean-Finoana-Diaryhttps://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:45:07.278Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary//actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:45:08.264Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary//actions/secrets/public-key 404
+[debug] [2023-01-23T09:45:08.264Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary//actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2023-01-23T09:45:12.079Z] >>> [apiv2][query] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key type=owner
+[debug] [2023-01-23T09:45:13.111Z] <<< [apiv2][status] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key 404
+[debug] [2023-01-23T09:45:13.111Z] <<< [apiv2][body] GET https://api.github.com/repos/https://github.com/raharimanantenadiary/m1p10mean-Finoana-Diary/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}

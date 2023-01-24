@@ -39,16 +39,16 @@ export class AcceuilComponent implements OnInit {
     this.getListevoitureDansGarage();
   }
 
-  getListeVoitureClient(){
-    return  this.service.voitureById(this.idclient).subscribe(response => {
+  getListeVoitureClient() {
+    return this.service.voitureById(this.idclient).subscribe(response => {
       this.message = response;
       console.log(this.message.voiture);
       this.listevoitures = this.message.voiture;
     });
   }
 
-    getListevoitureDansGarage(){
-    return  this.service.voitureByIdDansGarage(this.idclient).subscribe(response => {
+  getListevoitureDansGarage() {
+    return this.service.voitureByIdDansGarage(this.idclient).subscribe(response => {
       this.message = response;
       console.log(this.message.voiture);
       this.listevoituresdansgarage = this.message.voiture;

@@ -1,6 +1,6 @@
-import { TestService } from './../../../testservice/test.service';
-import { Component , OnInit , TemplateRef} from '@angular/core';
-import {CdkDragDrop,CdkDropList, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
+import { SgarageService } from './../../../service/sgarage.service';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 import { _isTestEnvironment } from '@angular/cdk/platform';
 import { Fiara } from '../../Fiara';
 
@@ -15,33 +15,34 @@ export class AcceuilmecanicienComponent implements OnInit {
   even = [10];
 
   emplist_noumena: any;
+  listevoitures: any;
+  garage: any;
+  fin: any;
+  listevoituresdansgarage: any;
+  message: any;
 
-  constructor(private service: TestService){}
+  constructor(private service: SgarageService) { }
 
-  ngOnInit(){
-     this.service.getListe_Nomena().subscribe(result => {  this.emplist_noumena = result; });
-     console.log(this.emplist_noumena);
+  ngOnInit() {
+
+    this.getListeVoitureDepot();
+
+  }
+  getListeVoitureDepot() {
+    return this.service.listedepot().subscribe(response => {
+      this.message = response;
+      console.log(this.message);
+      this.listevoitures = this.message;
+    });
   }
 
-  voitures: Fiara[] = [
-    new Fiara('Toyota', 'Camry', 2020, 1),
-    new Fiara('Honda', 'Civic', 2021, 2),
-    new Fiara('Ford', 'Mustang', 2019, 3),
-];
-garage: Fiara[] = [
-  new Fiara('Kangoo', 'Renault', 2020, 1),
-];
 
-fin: Fiara[] = [
-  new Fiara('Clio', 'Renault', 2021, 1),
-];
 
-  
-  
-drop(event: CdkDragDrop<Fiara[]>) {
-  if (event.previousContainer === event.container) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-  } else {
+
+  drop(event: CdkDragDrop<Fiara[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -52,5 +53,5 @@ drop(event: CdkDragDrop<Fiara[]>) {
   }
 
 
- 
+
 }

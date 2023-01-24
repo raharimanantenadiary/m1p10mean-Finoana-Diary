@@ -1,10 +1,11 @@
 const Depot = require("../models/Depot") ;
 const User = require("../models/Depot") ;
+const Voiture = require("../models/Voiture") ;
 
-const findByClient = async (req, res) => {
-    await Depot.find({idclient:req.body.idclient})
-    .populate('idclient')
+const findAll = async (req, res) => {
+    await Depot.find({etat:0})
     .populate('idvoiture')
+    .populate({path:'idclient',select:'username' })
     .exec(function (err, depot) {
         if (err) {
             // gestion des erreurs
@@ -50,6 +51,6 @@ function sendResult(res, result) {
  * EXPORTATION *
  **************/
 module.exports = {
-    findByClient ,
+    findAll,
     save 
 }

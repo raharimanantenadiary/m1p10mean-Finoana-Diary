@@ -26,21 +26,22 @@
                 <div
                     id="deposition"
                     cdkDropList 
-                    [cdkDropListData]="voitures"
+                    [cdkDropListData]="listevoitures"
                     cdkDropListConnectedTo="encours"
                     class="example-list"
                     (cdkDropListDropped)="drop($event)"
                     >
                     <div
                         class="example-box"
-                        *ngFor="let number of voitures"
+                        *ngFor="let number of listevoitures"
                         [cdkDragData]="number"
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
                             <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                                <p>Marque: {{number.make}}</p>
-                                <p>Modele: {{number.model}}</p>
-                                <p>Année: {{number.year}}</p>
+                                <p>Marque: {{number.idvoiture.marque}}</p>
+                                <p>Matricule: {{number.idvoiture.matricule}}</p>
+                                <p>Client: {{number.idclient.username}}</p>
+                                <p>Date: {{number.datedepot}}</p>
                             </div>
                         </div>
                     </div>

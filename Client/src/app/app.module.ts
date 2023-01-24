@@ -24,11 +24,13 @@ import { AvancementComponent } from './composant/client/avancement/avancement.co
 import { AcceuilmecanicienComponent } from './composant/mecanicien/acceuilmecanicien/acceuilmecanicien.component';
 import { AcceuilfinancierComponent } from './composant/financier/acceuilfinancier/acceuilfinancier.component';
 import { ListepaiementComponent } from './composant/financier/listepaiement/listepaiement.component';
+import { SearchPipe } from './SearchPipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    SearchPipe,
     InscriptionComponent,
     AcceuilComponent,
     TemplateComponent,

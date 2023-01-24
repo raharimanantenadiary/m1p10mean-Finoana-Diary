@@ -9,9 +9,20 @@
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Voitures</h6>
                 <div class="dropdown no-arrow">
-                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModalI">
-                    Nouvelle
-                    </button>
+                    <div class="d-flex justify-content-between" >
+                        <select name="" id=""  [(ngModel)]="annee">
+                            <option value="">All</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                        </select>
+                        <!-- <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Annee"> -->
+                        <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Tout....." [(ngModel)]="searchText">
+                        <button type="button"  class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModalI">
+                            Nouvelle
+                        </button>
+                    </div>
                     <!-- Modal ajout voiture -->
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModalI" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -59,7 +70,7 @@
                     [cdkDropListEnterPredicate]="noReturnPredicate">
                     <div
                         class="example-box"
-                        *ngFor="let number of voitures"
+                        *ngFor="let number of voitures | search: searchText :annee "
                         [cdkDragData]="number"
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">

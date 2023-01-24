@@ -19,7 +19,7 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link"  [routerLink]="['/t/']">
+        <a class="nav-link"  [routerLink]="['/t/'] "  >
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Home default</span></a>
     </li>
@@ -28,7 +28,7 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Acceuil Client</span></a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="user.role == 'mecanicien' ">
         <a class="nav-link"  [routerLink]="['/t/acm']">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Acceuil Mécanicien</span></a>

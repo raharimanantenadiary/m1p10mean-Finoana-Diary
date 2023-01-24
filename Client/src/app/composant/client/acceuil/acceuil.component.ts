@@ -15,6 +15,8 @@ export class AcceuilComponent implements OnInit {
   all = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   even = [10];
 
+  searchText = '';
+  annee = '';
 
   emplist_noumena: any;
 

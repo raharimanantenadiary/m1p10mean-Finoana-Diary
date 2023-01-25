@@ -16,23 +16,47 @@ export class AcceuilmecanicienComponent implements OnInit {
 
   emplist_noumena: any;
   listevoitures: any;
-  garage: any;
-  fin: any;
-  listevoituresdansgarage: any;
+  garage: any = [];
+  fin: any = [];
   message: any;
 
   constructor(private service: SgarageService) { }
+
+  formData = {
+    partie: '',
+    montant: '',
+    detail: '',
+    avancement: '0' //0 % par défaut
+  };
 
   ngOnInit() {
 
     this.getListeVoitureDepot();
 
   }
+
   getListeVoitureDepot() {
     return this.service.listedepot().subscribe(response => {
       this.message = response;
       console.log(this.message);
       this.listevoitures = this.message;
+    });
+  }
+ 
+  //mbola ovaina le fonction maka an leiz
+  getListeVoitureReparation() {
+    return this.service.listedepot().subscribe(response => {
+      this.message = response;
+      console.log(this.message);
+      this.garage = this.message;
+    });
+  }
+  //mbola ovaina le fonction maka an leiz
+  getListeVoitureFin() {
+    return this.service.listedepot().subscribe(response => {
+      this.message = response;
+      console.log(this.message);
+      this.fin = this.message;
     });
   }
 
@@ -51,6 +75,12 @@ export class AcceuilmecanicienComponent implements OnInit {
       );
     }
   }
+
+  OnSubmit() {
+    //appelle fonction ajouter reparation voiture
+      alert(JSON.stringify(this.formData));
+  };
+
 
 
 

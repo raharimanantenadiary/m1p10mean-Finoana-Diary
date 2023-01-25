@@ -33,15 +33,15 @@
                     >
                     <div
                         class="example-box"
-                        *ngFor="let number of listevoitures"
-                        [cdkDragData]="number"
+                        *ngFor="let lv of listevoitures"
+                        [cdkDragData]="lv"
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
                             <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                                <p>Marque: {{number.idvoiture.marque}}</p>
-                                <p>Matricule: {{number.idvoiture.matricule}}</p>
-                                <p>Client: {{number.idclient.username}}</p>
-                                <p>Date: {{number.datedepot}}</p>
+                                <p>Marque: {{lv.idvoiture.marque}}</p>
+                                <p>Matricule: {{lv.idvoiture.matricule}}</p>
+                                <p>Client: {{lv.idclient.username}}</p>
+                                <p>Date: {{lv.datedepot}}</p>
                             </div>
                         </div>
                     </div>
@@ -83,14 +83,15 @@
                     >
                     <div
                         class="example-box"
-                        *ngFor="let number of garage"
-                        [cdkDragData]="number"
+                        *ngFor="let lv of garage"
+                        [cdkDragData]="lv"
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
                             <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                                <p>Marque: {{number.make}}</p>
-                                <p>Modele: {{number.model}}</p>
-                                <p>Année: {{number.year}}</p>
+                                <p>Marque: {{lv.idvoiture.marque}}</p>
+                                <p>Matricule: {{lv.idvoiture.matricule}}</p>
+                                <p>Client: {{lv.idclient.username}}</p>
+                                <p>Date: {{lv.datedepot}}</p>
                             </div>
                             <span class="vertical-line"></span>
                             <button type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -132,14 +133,15 @@
                     >
                     <div
                         class="example-box"
-                        *ngFor="let number of fin"
-                        [cdkDragData]="number"
+                        *ngFor="let lv of fin"
+                        [cdkDragData]="lv"
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
                             <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                                <p>Marque: {{number.make}}</p>
-                                <p>Modele: {{number.model}}</p>
-                                <p>Année: {{number.year}}</p>
+                                <p>Marque: {{lv.idvoiture.marque}}</p>
+                                <p>Matricule: {{lv.idvoiture.matricule}}</p>
+                                <p>Client: {{lv.idclient.username}}</p>
+                                <p>Date: {{lv.datedepot}}</p>
                             </div>
                             <span class="vertical-line"></span>
                             <a [routerLink]="['/t/avancement']"> <button class="btn btn-outline-success mt-3">Valider BS</button></a>
@@ -162,21 +164,25 @@
             </div>
             <div class="modal-body">
               <h3 style="text-align: center;" >Ajouter nouvelle répration</h3>
-              <form action="">
+              <form (ngSubmit) = "OnSubmit()">
                 <div class="row">
                     <div class="col-6">
-                        <label for="">Désignation</label>
-                        <input type="text" class="form-control" name="designation" id="">
+                        <label for="">Partie</label>
+                        <input type="text"  [(ngModel)] = "formData.partie" class="form-control" name="partie" id="">
                     </div>
                     <div class="col-6">
                         <label for="">Montant</label>
-                        <input type="text" min="1"  class="form-control" name="montant" id="">
+                        <input type="number" min="1"  [(ngModel)] = "formData.montant" class="form-control" name="montant" id="">
                     </div>
-                        <input type="hidden"  value="0"  class="form-control" name="avancement" id="">
+                    <div class="col-12">
+                        <label for="">Détails</label>
+                        <textarea name="detail" [(ngModel)] = "formData.detail" id="" class="form-control" cols="50" rows="2"></textarea>
+                    </div>
+                        <input type="hidden"  [(ngModel)] = "formData.avancement" class="form-control" name="avancement" id="">
                 </div>
                 <div class="row d-flex justify-content-end mt-3 mb-3">
                     <div class="col-5 d-flex justify-content-end">
-                        <button class="btn btn-outline-success" >Ajouter</button>
+                        <button type="submit"  class="btn btn-outline-success" >Ajouter</button>
                     </div>
                 </div>
               </form>

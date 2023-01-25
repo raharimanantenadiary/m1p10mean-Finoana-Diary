@@ -81,9 +81,17 @@
     <div class="example-box" *ngFor="let voiture of liste_voiture_garage" [cdkDragData]="voiture" cdkDrag>
       <div class="d-flex justify-content-between" style="margin: 10px 10px;">
         <div *ngIf="voiture.id !== null" style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-          <p>Designation: {{voiture.id.designation}}</p>
-          <p>Marque: {{voiture.id.marque}}</p>
-          <p>Matricule: {{voiture.id.matricule}}</p>
+            <div  class="d-flex justify-content-between" style="margin: 10px 10px;">
+                <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                    <p>Designation: {{voiture.id.designation}}</p>
+                    <p>Marque: {{voiture.id.marque}}</p>
+                    <p>Matricule: {{voiture.id.matricule}}</p>
+                </div>
+                <div style="display: flex;flex-direction: column;" >
+                    <a [routerLink]="['/t/avancement']"> <button class="btn btn-outline-success mt-3">Avancement</button></a>
+                    <a [routerLink]="['/t/detailfacture']"> <button class="btn btn-outline-primary mt-3">Facture</button></a>
+                </div>
+            </div>
         </div>
       </div>
     </div>

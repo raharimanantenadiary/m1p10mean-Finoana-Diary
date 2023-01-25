@@ -4,6 +4,7 @@ import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem, CdkDrag }
 import { _isTestEnvironment } from '@angular/cdk/platform';
 import { Fiara } from '../../Fiara';
 import { SvoitureService } from './../../../service/svoiture.service';
+import { SgarageService } from './../../../service/sgarage.service';
 
 @Component({
   selector: 'app-acceuil',
@@ -18,11 +19,16 @@ export class AcceuilComponent implements OnInit {
 
   emplist_noumena: any;
 
-  listevoitures: any;
-  listevoituresdansgarage: any;
+ 
+
+
   message: any;
 
   idclient: any = localStorage.getItem("id");
+
+  listevoitures: any;
+  liste_voiture_garage: any;
+
 
   formData = {
     marque: '',
@@ -31,79 +37,87 @@ export class AcceuilComponent implements OnInit {
     idclient: this.idclient
   };
 
-  constructor(private service: SvoitureService) { }
+  constructor(private service: SvoitureService,private depot_service: SgarageService) { }
 
   ngOnInit() {
-    console.log(this.idclient);
+    
     this.getListeVoitureClient();
     this.getListevoitureDansGarage();
   }
 
-  getListeVoitureClient() {
-    return this.service.voitureById(this.idclient).subscribe(response => {
+  getListeVoitureClient(){
+    return  this.service.voitureById(this.idclient).subscribe(response => {
       this.message = response;
-      console.log(this.message.voiture);
+      console.log(this.message);
       this.listevoitures = this.message.voiture;
     });
   }
 
-  getListevoitureDansGarage() {
-    return this.service.voitureByIdDansGarage(this.idclient).subscribe(response => {
+    getListevoitureDansGarage(){
+    return  this.service.voitureByIdDansGarage(this.idclient).subscribe(response => {
       this.message = response;
-      console.log(this.message.voiture);
-      this.listevoituresdansgarage = this.message.voiture;
+      this.liste_voiture_garage = this.message.voiture;
     });
   }
 
-  OnSubmit() {
-    console.log(this.formData);
-    this.service.ajoutVoiture(this.formData).subscribe(response => {
-      console.log(response);
-      this.message = response;
-      this.getListeVoitureClient();
-    });
-  };
-
-  voitures: Fiara[] = [
-    new Fiara('Toyota', 'Camry', 2020, 1),
-    new Fiara('Honda', 'Civic', 2021, 2),
-    new Fiara('Ford', 'Mustang', 2019, 3),
-    new Fiara('Chevrolet', 'Camaro', 2018, 4),
-    new Fiara('Tesla', 'Model S', 2017, 5),
-    new Fiara('Nissan', 'Altima', 2016, 6),
-    new Fiara('Hyundai', 'Sonata', 2015, 7),
-    new Fiara('Kia', 'Optima', 2014, 8),
-    new Fiara('Subaru', 'Outback', 2013, 9)
-  ];
-  garage: Fiara[] = [
-    new Fiara('Kangoo', 'Renault', 2020, 1),
-  ];
-
-
-  drop(event: CdkDragDrop<Fiara[]>) {
+  drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      // Si on veu faire un autre transfert on ajoute une autre condition 
+      //c est tout les Noums bonne continuation la kkkkk hahahahahahah
+      //affichage mbola amboariko fa afahana miasa ftsn aloh zao no atao hahahahahahhahah
+      if( event.item.data.id.etat != null  && event.item.data.id.etat == 0){
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex,
+          );
+          this.depot_service.ajoutDeposition({
+            "idvoiture": event.item.data.id._id,"idclient": localStorage.getItem("id") ,"date": "03" 
+          }).subscribe(response => {
+            this.message = response;
+            console.log("Effectué");
+          });
+        }
+        if( event.item.data.id.etat != null  && event.item.data.id.etat == 1){
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex,
+            );
+          }
+    }
+}
+
+drop_vers_parking(event: CdkDragDrop<any[]>) {
+  if (event.previousContainer === event.container) {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  } else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
-      );
-    }
+        );
   }
+}
 
-  evenPredicate() {
+  OnSubmit() {
+    this.service.ajoutVoiture(this.formData).subscribe(response => {
+      this.message = response;
+      this.getListeVoitureClient();
+    });
+  };
+
+  Pas_de_retour() {
     return true;
   }
 
-
-  verifieranne(item: CdkDrag<Fiara>) {
-    return item.data.year > 2016;
-  }
-
-  noReturnPredicate() {
+  interdireDepot(item: any) {
     return true;
-  }
+}
 
 }

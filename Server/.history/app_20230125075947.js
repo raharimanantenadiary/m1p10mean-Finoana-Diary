@@ -54,7 +54,7 @@ app.use('/api/facture', factureRouter);
 app.use('/api/bonsortie', bonsortieRouter);
 app.use('/api/depense',depenseRouter);
 
-const port = process.env.PORT;
+const port = 3050;
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });

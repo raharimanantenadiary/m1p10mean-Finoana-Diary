@@ -19,5 +19,9 @@ export class SgarageService {
     return this.http.get(this.apiurl + "depot/");
   }
 
+  ajoutDeposition(inputData: any) {
+    return this.http.post(this.apiurl + 'depot/save', inputData);
+  }
+
 
 }

@@ -246,7 +246,35 @@ const deleteDiagnostic = async (req, res) => {
 
 const updateDiagnostic = async (req, res) => {
     
+//     Reparation.updateOne({ _id: "R1" }, { $pull: { diagnostics: { $elemMatch: { iddiagnostic: "diag2" } } } },  function(err, doc) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Diagnostic supprimé avec succès!");
+//   }
+// });
 
+Reparation.updateOne({ _id: req.body.idreparation, "diagnostic": { $elemMatch: { _id: req.body.iddiag } } }, 
+  { $set: { "diagnostics.$.partie": req.body.partie } },
+  function(err, doc) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Diagnostic mis à jour avec succès!");
+    }
+});
+
+
+    // Reparation.updateOne(
+    //     { _id: req.body.id}, 
+    //     { $set: { diagnostic: {
+    //         _id:req.body.iddiag
+    //     } }},
+    //     (err, user) => {
+    //         if (err) return sendResult(res,err);
+    //         sendResult(res,user);
+    //     }
+    // ); 
 };
 
 

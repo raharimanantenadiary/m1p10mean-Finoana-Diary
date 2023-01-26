@@ -1,20 +1,10 @@
 const Reparation = require("../models/Reparation") ;
 const Depot = require("../models/Depot") ;
+const mongoose=require("mongoose");
 
 
 
-const findAllReparation = async (req, res) => {
-    await Depot.find({etat:1})
-    .populate('idvoiture')
-    .populate({path:'idclient',select:'username' })
-    .exec(function (err, depot) {
-        if (err) {
-            // gestion des erreurs
-        } else {
-        sendResult(res, depot);
-    }
-});
-}
+
 
 const findReparationByDepot = async (req, res) => {
     await Reparation.findOne({iddepot: req.params.iddepot})
@@ -40,16 +30,147 @@ const findByClient = async (req, res) => {
 });
 }
 
-const findReparation = async (req, res) => {
-    console.log(req.body.id);
-    await Reparation.find({_id: req.body.id},{diagnostic:1}).exec(function (err, reparation) {
+const findReparationByvoiture = async (req, res) => {
+    console.log(req.params);
+    let idreparation=mongoose.Types.ObjectId(req.params.idreparation);
+    
+    let idvoiture=mongoose.Types.ObjectId(req.params.idvoiture);
+
+    Reparation.aggregate([
+        {
+          $lookup:
+            {
+              from: "depots",
+              localField: "iddepot",
+              foreignField: "_id",
+              as: "depot"
+            }
+        },
+        {
+          $unwind: "$depot"
+        },
+        {
+            $lookup:
+              {
+                from: "users",
+                localField: "depot.idclient",
+                foreignField: "_id",
+                as: "user"
+              }
+        },
+       
+ 
+        {
+            $match: {
+                $and: [
+                    {"_id":idreparation},
+                    {"depot.idvoiture":idvoiture},
+                    {"depot.etat":1}
+                ]
+                
+            }
+        },
+        {
+          $group:
+            {
+              _id:"$_id",
+              data:{ $first: "$$ROOT" },
+              sumAvanc: { $sum: { $sum: "$diagnostic.avancement"} },
+              sumMont: { $sum: { $sum: "$diagnostic.montant"} },
+              count:{$sum:{$size:"$diagnostic"}},
+        
+      
+          
+            }
+        },
+        { 
+            $project:
+            { 
+            _id:"$_id",
+            data:1,
+            totalAv: {$divide: ["$sumAvanc", "$count"]},
+            totalMont: {$divide: ["$sumMont", "$count"]},
+            }
+        }
+      ]) .exec(function (err, reparation) {
         if (err) {
             sendResult(res, err);
         } else {
         sendResult(res, reparation);
-   
-}})
-};
+    
+        }})
+     
+
+}
+
+
+
+const findAllReparation = async (req, res) => {
+    console.log(req.params);
+    Reparation.aggregate([
+        {
+          $lookup:
+            {
+              from: "depots",
+              localField: "iddepot",
+              foreignField: "_id",
+              as: "depot"
+            }
+        },
+        {
+          $unwind: "$depot"
+        },
+        {
+            $lookup:
+              {
+                from: "users",
+                localField: "depot.idclient",
+                foreignField: "_id",
+                as: "user"
+              }
+        },
+       
+ 
+        {
+            $match: {
+                $and: [
+                    {"depot.etat":1}
+                ]
+                
+            }
+        },
+        {
+          $group:
+            {
+              _id:"$_id",
+              data:{ $first: "$$ROOT" },
+              sumAvanc: { $sum: { $sum: "$diagnostic.avancement"} },
+              sumMont: { $sum: { $sum: "$diagnostic.montant"} },
+              count:{$sum:{$size:"$diagnostic"}},
+        
+      
+          
+            }
+        },
+        { 
+            $project:
+            { 
+            _id:"$_id",
+            data:1,
+            totalAv: {$divide: ["$sumAvanc", "$count"]},
+            totalMont: {$divide: ["$sumMont", "$count"]},
+            }
+        }
+      ]) .exec(function (err, reparation) {
+        if (err) {
+            sendResult(res, err);
+        } else {
+        sendResult(res, reparation);
+    
+        }})
+     
+}
+
 
 const historiqueReparation= async (req, res) => {
     await Reparation.find({},{diagnostic:1},{datereparation:1})
@@ -152,10 +273,10 @@ module.exports = {
     findByClient ,
     save,
     ajoutDiagnostic,
-    findReparation,
     historiqueReparation,
     findAllReparation,
     findReparationByDepot,
     deleteDiagnostic,
-    updateDiagnostic
+    updateDiagnostic,
+    findReparationByvoiture
 }

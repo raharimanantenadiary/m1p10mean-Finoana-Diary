@@ -17,8 +17,7 @@ const findAllReparation = async (req, res) => {
 }
 
 const findReparationByDepot = async (req, res) => {
-    await Reparation.findOne({iddepot: req.params.iddepot})
-    .populate({path:'iddepot',match:{etat: 1}})
+    await Reparation.findOne({iddepot: req.params.iddepot })
     .exec(function (err, reparation) {
         if (err) {
             sendResult(res, err);
@@ -87,7 +86,10 @@ const save = async (req, res) => {
             sendResult(res,reparation);
         }
     }
-    );  
+    );
+        
+
+  
 } ;
 
 
@@ -95,41 +97,8 @@ const ajoutDiagnostic = async (req, res) => {
    
     Reparation.findOneAndUpdate(
         { _id: req.body.id}, 
-        { $push: { diagnostic: {
-            partie:req.body.partie,
-            avancement:0,
-            montant:req.body.montant,
-            details:req.body.details
-        } }}, // add the new role to the 'roles' array
+        { $push: { diagnostic: {partie:req.body.partie,avancement:0,montant:req.body.montant,details:req.body.details} }}, // add the new role to the 'roles' array
         { new: true }, 
-        (err, user) => {
-            if (err) return sendResult(res,err);
-            sendResult(res,user);
-        }
-    ); 
-};
-
-const deleteDiagnostic = async (req, res) => {
-   
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $pull: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
-        (err, user) => {
-            if (err) return sendResult(res,err);
-            sendResult(res,user);
-        }
-    ); 
-};
-
-const updateDiagnostic = async (req, res) => {
-   
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $set: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
         (err, user) => {
             if (err) return sendResult(res,err);
             sendResult(res,user);
@@ -154,8 +123,5 @@ module.exports = {
     ajoutDiagnostic,
     findReparation,
     historiqueReparation,
-    findAllReparation,
-    findReparationByDepot,
-    deleteDiagnostic,
-    updateDiagnostic
+    findAllReparation
 }

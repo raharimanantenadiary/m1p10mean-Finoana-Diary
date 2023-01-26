@@ -2,32 +2,6 @@ const Reparation = require("../models/Reparation") ;
 const Depot = require("../models/Depot") ;
 
 
-
-const findAllReparation = async (req, res) => {
-    await Depot.find({etat:1})
-    .populate('idvoiture')
-    .populate({path:'idclient',select:'username' })
-    .exec(function (err, depot) {
-        if (err) {
-            // gestion des erreurs
-        } else {
-        sendResult(res, depot);
-    }
-});
-}
-
-const findReparationByDepot = async (req, res) => {
-    await Reparation.findOne({iddepot: req.params.iddepot})
-    .populate({path:'iddepot',match:{etat: 1}})
-    .exec(function (err, reparation) {
-        if (err) {
-            sendResult(res, err);
-        } else {
-        sendResult(res, reparation);
-    }
-});
-}
-
 const findByClient = async (req, res) => {
     await Reparation.find({})
     .populate({path:'iddepot',match:{idclient:req.params.idclient,etat:1 }})
@@ -87,7 +61,10 @@ const save = async (req, res) => {
             sendResult(res,reparation);
         }
     }
-    );  
+    );
+        
+
+  
 } ;
 
 
@@ -95,41 +72,8 @@ const ajoutDiagnostic = async (req, res) => {
    
     Reparation.findOneAndUpdate(
         { _id: req.body.id}, 
-        { $push: { diagnostic: {
-            partie:req.body.partie,
-            avancement:0,
-            montant:req.body.montant,
-            details:req.body.details
-        } }}, // add the new role to the 'roles' array
+        { $push: { diagnostic: {partie:req.body.partie,avancement:0,montant:req.body.montant,details:req.body.details} }}, // add the new role to the 'roles' array
         { new: true }, 
-        (err, user) => {
-            if (err) return sendResult(res,err);
-            sendResult(res,user);
-        }
-    ); 
-};
-
-const deleteDiagnostic = async (req, res) => {
-   
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $pull: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
-        (err, user) => {
-            if (err) return sendResult(res,err);
-            sendResult(res,user);
-        }
-    ); 
-};
-
-const updateDiagnostic = async (req, res) => {
-   
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $set: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
         (err, user) => {
             if (err) return sendResult(res,err);
             sendResult(res,user);
@@ -153,9 +97,5 @@ module.exports = {
     save,
     ajoutDiagnostic,
     findReparation,
-    historiqueReparation,
-    findAllReparation,
-    findReparationByDepot,
-    deleteDiagnostic,
-    updateDiagnostic
+    historiqueReparation
 }

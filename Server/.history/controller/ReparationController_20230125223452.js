@@ -109,34 +109,6 @@ const ajoutDiagnostic = async (req, res) => {
     ); 
 };
 
-const deleteDiagnostic = async (req, res) => {
-   
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $pull: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
-        (err, user) => {
-            if (err) return sendResult(res,err);
-            sendResult(res,user);
-        }
-    ); 
-};
-
-const updateDiagnostic = async (req, res) => {
-   
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $set: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
-        (err, user) => {
-            if (err) return sendResult(res,err);
-            sendResult(res,user);
-        }
-    ); 
-};
-
 
 /****************
  * SEND GENERAL *
@@ -155,7 +127,5 @@ module.exports = {
     findReparation,
     historiqueReparation,
     findAllReparation,
-    findReparationByDepot,
-    deleteDiagnostic,
-    updateDiagnostic
+    findReparationByDepot
 }

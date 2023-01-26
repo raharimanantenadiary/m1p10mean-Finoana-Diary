@@ -11,6 +11,7 @@
     <h1 class="h3 mb-0 text-gray-800">Mecanicien: Valimbavaka</h1>
 </div>
 
+
 <div class="row">
     <div class="col-lg-4">
         <div class="card shadow mb-4">
@@ -94,9 +95,11 @@
                                 <p>Date: {{lv.datedepot}}</p>
                             </div>
                             <span class="vertical-line"></span>
-                            <button type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                Diagnostic
-                            </button>
+                            <a [routerLink]="['/t/acm/', lv._id]">
+                                <button type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" >
+                                    Diagnostic
+                                </button>
+                            </a>   
                         </div>
                     </div>
                 </div>
@@ -154,68 +157,4 @@
 </div>
 
 
-     <!-- Modal -->
-     <div class="modal fade " id="staticBackdrop"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Diagnostic</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <h3 style="text-align: center;" >Ajouter nouvelle répration</h3>
-              <form (ngSubmit) = "OnSubmit()">
-                <div class="row">
-                    <div class="col-6">
-                        <label for="">Partie</label>
-                        <input type="text"  [(ngModel)] = "formData.partie" class="form-control" name="partie" id="">
-                    </div>
-                    <div class="col-6">
-                        <label for="">Montant</label>
-                        <input type="number" min="1"  [(ngModel)] = "formData.montant" class="form-control" name="montant" id="">
-                    </div>
-                    <div class="col-12">
-                        <label for="">Détails</label>
-                        <textarea name="detail" [(ngModel)] = "formData.detail" id="" class="form-control" cols="50" rows="2"></textarea>
-                    </div>
-                        <input type="hidden"  [(ngModel)] = "formData.avancement" class="form-control" name="avancement" id="">
-                </div>
-                <div class="row d-flex justify-content-end mt-3 mb-3">
-                    <div class="col-5 d-flex justify-content-end">
-                        <button type="submit"  class="btn btn-outline-success" >Ajouter</button>
-                    </div>
-                </div>
-              </form>
-
-              <div class="row d-flex justify-content-start">
-                <div class="col-6">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Désignation</th>
-                                <th>Montant</th>
-                                <th>Avancement</th>
-                                <th>Finir</th>
-                            </tr>  
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Remplacement de la battérie</th>
-                                <th>90 000 Ar</th>
-                                <th>0%</th>
-                                <th>Carre no eto</th>
-                            </tr>
-                        </tbody>
-                    </table>   
-                </div>   
-              </div>
-
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-              <button type="button" class="btn btn-primary">Traiter</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Modal -->
+      

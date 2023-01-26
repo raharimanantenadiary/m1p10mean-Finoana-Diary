@@ -1,0 +1,78 @@
+<div class="container">
+    <div style="border-bottom: 1px solid rgb(179, 155, 155);">
+    <h3 style="text-align: center;" >Ajouter nouvelle répration</h3>
+</div>
+    <div class="row">
+        <div class="col-12">
+                <h4>Infomation:</h4>
+            <div>
+                <p>Date de déposition: {{info_reparation.datefinreparation | date}} </p>
+                <p>Voiture: </p>
+                <p>Client: </p>
+                <!-- CRUD réparation -->
+            </div>
+            <form (ngSubmit) = "OnSubmit()">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Partie</label>
+                        <input type="text"  [(ngModel)] = "formData.partie" class="form-control" name="partie" id="">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Montant</label>
+                        <input type="number" min="1"  [(ngModel)] = "formData.montant" class="form-control" name="montant" id="">
+                    </div>
+                    <div class="col-12">
+                        <label for="">Détails</label>
+                        <textarea name="detail" [(ngModel)] = "formData.detail" id="" class="form-control" cols="50" rows="2"></textarea>
+                    </div>
+                    <input type="hidden"  [(ngModel)] = "formData.avancement" class="form-control" name="avancement" id="">
+                </div>
+                <div class="row d-flex justify-content-end mt-3 mb-3">
+                    <div class="col-5 d-flex justify-content-end">
+                        <button type="submit"  class="btn btn-outline-success" >Ajouter</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-start ">
+                        <button class="btn btn-outline-success mb-1">Avancement 100%</button> 
+                    </div>
+                </div>
+                  <div class="col-12">
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                <th>Partie</th>
+                                <th>Montant</th>
+                                <th>Avancement</th>
+                                <th>Détail</th>
+                                <th>Modifier</th>
+                                <th>Supprimer</th>
+                            </tr>  
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let diag of info_reparation.diagnostic">
+                                <th>{{diag.partie}}</th>
+                                <th>{{diag.montant | number }} Ar</th>
+                                <th>{{diag.avancement}} %</th>
+                                <th>{{diag.details}}</th>
+                                <th> <a [routerLink]="['/t/modif']" >  <button class="btn btn-outline-success ">Modifier</button></a> </th>
+                                <th> <button class="btn btn-outline-success ">Supprimer</button> </th>
+                            </tr>
+                        </tbody>
+                    </table>   
+                    <div class="col-12">
+                        <div class="d-flex justify-content-end ">
+                            <h4>Total: {{"1800000"|number}} Ar Statique mbola atao dynamique</h4>
+                        </div>
+                    </div>
+                </div>   
+                <!-- anaty diagnostic tokony asiana statut mijery oe vita total daol le reparation mba amindrana azy atsy @ le partie finale -->
+            </div>
+        </div>
+    </div>
+</div>
+        
+

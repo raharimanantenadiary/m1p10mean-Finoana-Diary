@@ -1,0 +1,30 @@
+<div class="col-12">
+    <h3>Modifier la reparation: </h3>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <form (ngSubmit) = "OnSubmit()">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Partie</label>
+                        <input type="text"  [(ngModel)] = "formData.partie" class="form-control" name="partie" id="">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Montant</label>
+                        <input type="number" min="1"  [(ngModel)] = "formData.montant" class="form-control" name="montant" id="">
+                    </div>
+                    <div class="col-6 ">
+                        <label for="">Avancement</label>
+                        <input type="text"  [(ngModel)] = "formData.avancement" class="form-control" name="avancement" id="">
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-end mt-3 mb-3">
+                    <div class="col-5 d-flex justify-content-end">
+                        <button type="submit"  class="btn btn-outline-success" >Modifier</button>
+                    </div>
+                </div>
+            </form>
+
+    </div>
+</div>

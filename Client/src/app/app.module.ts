@@ -1,3 +1,4 @@
+import { ModifieravancementComponent } from './composant/mecanicien/modifieravancement/modifieravancement.component';
 import { FooterComponent } from './composant/footer/footer.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -27,6 +28,8 @@ import { AcceuilmecanicienComponent } from './composant/mecanicien/acceuilmecani
 import { AcceuilfinancierComponent } from './composant/financier/acceuilfinancier/acceuilfinancier.component';
 import { ListepaiementComponent } from './composant/financier/listepaiement/listepaiement.component';
 import { SearchPipe } from './SearchPipe';
+import { DetailavancementComponent } from './composant/mecanicien/detailavancement/detailavancement.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,9 @@ import { SearchPipe } from './SearchPipe';
     AvancementComponent,
     AcceuilmecanicienComponent,
     AcceuilfinancierComponent,
-    ListepaiementComponent
+    ListepaiementComponent,
+    DetailavancementComponent,
+    ModifieravancementComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +61,7 @@ import { SearchPipe } from './SearchPipe';
     DragDropModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot(),
     RouterModule.forRoot([
@@ -71,6 +77,8 @@ import { SearchPipe } from './SearchPipe';
           { path: 'detailfacture', component: DetailfactureComponent },
           { path: 'avancement', component: AvancementComponent },
           { path: 'acm', component: AcceuilmecanicienComponent },
+          { path: 'acm/:id', component: DetailavancementComponent },
+          { path: 'modif', component: ModifieravancementComponent },
           { path: 'acf', component: AcceuilfinancierComponent },
           { path: 'lp', component: ListepaiementComponent },
         ]

@@ -2,7 +2,6 @@ import { SgarageService } from './../../../service/sgarage.service';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 import { _isTestEnvironment } from '@angular/cdk/platform';
-import { Fiara } from '../../Fiara';
 
 
 @Component({
@@ -19,33 +18,29 @@ export class AcceuilmecanicienComponent implements OnInit {
   garage: any = [];
   fin: any = [];
   message: any;
+  chart: any;
 
   constructor(private service: SgarageService) { }
 
-  formData = {
-    partie: '',
-    montant: '',
-    detail: '',
-    avancement: '0' //0 % par défaut
-  };
+  
 
   ngOnInit() {
-
+    console.log(this.chart);
     this.getListeVoitureDepot();
+    this.getListeVoitureReparation();
 
   }
 
   getListeVoitureDepot() {
     return this.service.listedepot().subscribe(response => {
       this.message = response;
-      console.log(this.message);
       this.listevoitures = this.message;
     });
   }
  
   //mbola ovaina le fonction maka an leiz
   getListeVoitureReparation() {
-    return this.service.listedepot().subscribe(response => {
+    return this.service.listeReparation().subscribe(response => {
       this.message = response;
       console.log(this.message);
       this.garage = this.message;
@@ -55,18 +50,31 @@ export class AcceuilmecanicienComponent implements OnInit {
   getListeVoitureFin() {
     return this.service.listedepot().subscribe(response => {
       this.message = response;
-      console.log(this.message);
       this.fin = this.message;
     });
   }
 
 
 
-
-  drop(event: CdkDragDrop<Fiara[]>) {
+  drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      //si depot etat == 0 
+      if(event.item.data.etat == 0){
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex,
+        );
+        //changement de depot dans reparation
+        this.service.ajoutDeposition_dans_reparation({ "iddepot": event.item.data._id 
+        }).subscribe(response => {
+          this.message = response;
+          console.log("Effectué");
+        });
+      }
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -76,12 +84,10 @@ export class AcceuilmecanicienComponent implements OnInit {
     }
   }
 
-  OnSubmit() {
-    //appelle fonction ajouter reparation voiture
-      alert(JSON.stringify(this.formData));
-  };
 
+ 
 
+ 
 
 
 }

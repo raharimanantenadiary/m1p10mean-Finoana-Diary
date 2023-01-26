@@ -109,27 +109,17 @@ const ajoutDiagnostic = async (req, res) => {
     ); 
 };
 
-const deleteDiagnostic = async (req, res) => {
+const DeleteDiagnostic = async (req, res) => {
    
-    Reparation.updateOne(
+    Reparation.Delete(
         { _id: req.body.id}, 
-        { $pull: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
-        (err, user) => {
-            if (err) return sendResult(res,err);
-            sendResult(res,user);
-        }
-    ); 
-};
-
-const updateDiagnostic = async (req, res) => {
-   
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $set: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
+        { $push: { diagnostic: {
+            partie:req.body.partie,
+            avancement:0,
+            montant:req.body.montant,
+            details:req.body.details
+        } }}, // add the new role to the 'roles' array
+        { new: true }, 
         (err, user) => {
             if (err) return sendResult(res,err);
             sendResult(res,user);
@@ -155,7 +145,5 @@ module.exports = {
     findReparation,
     historiqueReparation,
     findAllReparation,
-    findReparationByDepot,
-    deleteDiagnostic,
-    updateDiagnostic
+    findReparationByDepot
 }

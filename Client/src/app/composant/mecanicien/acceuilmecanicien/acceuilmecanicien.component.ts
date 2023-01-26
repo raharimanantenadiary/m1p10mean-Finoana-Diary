@@ -2,6 +2,7 @@ import { SgarageService } from './../../../service/sgarage.service';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 import { _isTestEnvironment } from '@angular/cdk/platform';
+import { isNgTemplate } from '@angular/compiler';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class AcceuilmecanicienComponent implements OnInit {
 
 
   drop(event: CdkDragDrop<any[]>) {
+    console.log(event.item.data);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -75,6 +77,11 @@ export class AcceuilmecanicienComponent implements OnInit {
           console.log("Effectué");
         });
       }
+        if(event.item.data.totalAv < 100 ){
+          alert("La réparation n'est pas encore achevé, il faut que tout soit réprarer");
+          return;
+        }
+        
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,

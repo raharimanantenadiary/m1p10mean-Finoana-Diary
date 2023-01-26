@@ -4,6 +4,9 @@ const ObjectId = require("mongodb").ObjectId ;
 
 const ReparationSchema = new Schema({
         iddepot: { type: ObjectId, ref: "Depot", required: true } ,
+        idfacture:{ type: ObjectId, ref: "Facture" } ,
+        idbonsortie:{ type: ObjectId, ref: "BonSortie" } ,
+
         diagnostic:[{
             partie:{ type: String } ,
             avancement:{ type: Number } ,

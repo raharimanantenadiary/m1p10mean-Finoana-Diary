@@ -1,7 +1,7 @@
 const Reparation = require("../models/Reparation") ;
 const Depot = require("../models/Depot") ;
 const mongoose=require("mongoose");
-
+const Facture = require('../controller/FactureController') ;
 
 
 
@@ -90,7 +90,7 @@ const findReparationByvoiture = async (req, res) => {
                 $cond: [
                     { $eq: [ "$diagnostic", [] ] },
                     0,
-                    { $divide: [ { $sum:"$diagnostic.montant" }, { $size:"$diagnostic" }]}
+                    { $sum:"$diagnostic.montant" }
                 ]
             },
             count:{$sum:{$size:"$diagnostic"}}
@@ -172,7 +172,7 @@ const findAllReparation = async (req, res) => {
                 $cond: [
                     { $eq: [ "$diagnostic", [] ] },
                     0,
-                    { $divide: [ { $sum:"$diagnostic.montant" }, { $size:"$diagnostic" }]}
+                     { $sum:"$diagnostic.montant" }
                 ]
             },
             count:{$sum:{$size:"$diagnostic"}}
@@ -249,9 +249,9 @@ const ajoutDiagnostic = async (req, res) => {
 };
 
 const deleteDiagnostic = async (req, res) => {
-   
+   console.log(req.body.iddiag);
     Reparation.updateOne(
-        { _id: req.body.id}, 
+        { _id: req.body.idreparation}, 
         { $pull: { diagnostic: {
             _id:req.body.iddiag
         } }},
@@ -264,18 +264,44 @@ const deleteDiagnostic = async (req, res) => {
 
 const updateDiagnostic = async (req, res) => {
    
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $set: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
+    Reparation.findOneAndUpdate(
+        { _id: req.body.idreparation, "diagnostic._id": req.body.iddiag },
+        { $set: { "diagnostic.$.avancement": req.body.avancement } },
+        { new: true },
+        (err, doc) => {
+            if (err) {
+                sendResult(res,err);
+            } else {
+                sendResult(res,doc);
+            }
+        }
+    );
+};
+
+const finirReparation = async (req, res) => {
+   
+    Reparation.findOne({ _id:req.body.idreparation }).populate('iddepot').exec(function (err, depot) {
+        if (err) sendResult(res,err);
+        Depot.findOneAndUpdate({_id: depot.iddepot._id},{etat:2}, {new: true}).exec(function (err, update) {
+          if (err)  sendResult(res,err);
+        Facture.save(req,res);
+
+        })
+      });
+};
+
+
+const ajoutFacture = async (req, res,idfacture) => {
+   
+    Reparation.findOneAndUpdate(
+        { _id: req.body.idreparation}, 
+        { $push: { idfacture:{idfacture} }}, 
         (err, user) => {
             if (err) return sendResult(res,err);
             sendResult(res,user);
         }
     ); 
 };
-
 
 /****************
  * SEND GENERAL *
@@ -296,5 +322,7 @@ module.exports = {
     findReparationByDepot,
     deleteDiagnostic,
     updateDiagnostic,
-    findReparationByvoiture
+    findReparationByvoiture,
+    finirReparation,
+    ajoutFacture
 }

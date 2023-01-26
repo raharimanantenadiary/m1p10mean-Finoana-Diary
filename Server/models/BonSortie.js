@@ -4,7 +4,7 @@ const ObjectId = require("mongodb").ObjectId ;
 
 const BonSchema = new Schema({
 
-    idFacture:{ type: ObjectId, ref: "Facture", required: true } ,
+    
     etatLivraison:{type: String, required: true},
     dateSortie:{type: Date, required: true},
 

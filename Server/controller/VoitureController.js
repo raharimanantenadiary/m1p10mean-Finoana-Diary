@@ -17,17 +17,37 @@ const findAll = async (req, res) => {
 let idclient=mongoose.Types.ObjectId(req.params.idclient);
 
 
-User.find({
-    $and: [{
-        voiture: {
-            $elemMatch: {
-                etat:1,
-                etat: { $ne: null }
-            }
-        },
-        _id:idclient
-    }]
-}).exec(function (err, facture) {
+User.aggregate([
+    {
+
+        $lookup:
+        {
+          from: "voitures",
+          localField: "voiture.id",
+          foreignField: "_id",
+          as: "voiture"
+        }
+    },
+    {
+        $unwind: "$voiture"
+    },
+    {
+        $match: {
+            $and: [
+                {"_id":idclient},
+                {"voiture.etat":0}
+            ]
+            
+        }
+    },
+      
+    {
+        $project:
+        {
+            voiture:1
+        }
+    },
+]).exec(function (err, facture) {
     if (err) {
         sendResult(res,err);
     } else {

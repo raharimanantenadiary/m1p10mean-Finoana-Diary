@@ -75,8 +75,8 @@ const findReparationByvoiture = async (req, res) => {
             {
               _id:"$_id",
               data:{ $first: "$$ROOT" },
-              sumAvanc: { $sum: { $sum: "$diagnostic.avancement"} },
-              sumMont: { $sum: { $sum: "$diagnostic.montant"} },
+              sumAvanc: { $sum: { $sum: {$ifNull: ["$diagnostic.avancement", 0]}} },
+              sumMont: { $sum: { $sum: {$ifNull: ["$diagnostic.montant", 0]}} },
               count:{$sum:{$size:"$diagnostic"}},
         
       
@@ -108,6 +108,7 @@ const findReparationByvoiture = async (req, res) => {
 const findAllReparation = async (req, res) => {
     console.log(req.params);
     Reparation.aggregate([
+
         {
           $lookup:
             {
@@ -129,6 +130,16 @@ const findAllReparation = async (req, res) => {
                 as: "user"
               }
         },
+        {
+            $lookup:
+              {
+                from: "voitures",
+                localField: "depot.idvoiture",
+                foreignField: "_id",
+                as: "voiture"
+              }
+        },
+       
        
  
         {
@@ -144,12 +155,9 @@ const findAllReparation = async (req, res) => {
             {
               _id:"$_id",
               data:{ $first: "$$ROOT" },
-              sumAvanc: { $sum: { $sum: "$diagnostic.avancement"} },
-              sumMont: { $sum: { $sum: "$diagnostic.montant"} },
-              count:{$sum:{$size:"$diagnostic"}},
-        
-      
-          
+              sumAvanc: { $sum: { $sum: {$ifNull: ["$diagnostic.avancement", 0]}} },
+              sumMont: { $sum: { $sum: {$ifNull: ["$diagnostic.montant", 0]}} },
+              count:{$sum:{$size:"$diagnostic"}}
             }
         },
         { 
@@ -169,6 +177,7 @@ const findAllReparation = async (req, res) => {
     
         }})
      
+
 }
 
 

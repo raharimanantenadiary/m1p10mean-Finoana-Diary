@@ -1,17 +1,39 @@
 const Voiture = require("../models/Voiture") ;
 const User = require("../models/User") ;
+const mongoose=require("mongoose");
 
 
 const findAll = async (req, res) => {
     console.log(req.params);
-    User.findOne({_id:req.params.idclient},{voiture:1}).populate({path:'voiture.id',match:{etat:0}})
-    .exec(function (err, facture) {
-        if (err) {
-            sendResult(res,err);
-        } else {
-        sendResult(res, facture);
-    }
-});
+//     User.findOne({_id:req.params.idclient},{voiture:1}).populate({path:'voiture.id',match:{etat:0}})
+//     .exec(function (err, facture) {
+//         if (err) {
+//             sendResult(res,err);
+//         } else {
+//         sendResult(res, facture);
+//     }
+// });
+
+let idclient=mongoose.Types.ObjectId(req.params.idclient);
+
+
+User.find({
+    $and: [{
+        voiture: {
+            $elemMatch: {
+                etat:1,
+                etat: { $ne: null }
+            }
+        },
+        _id:idclient
+    }]
+}).exec(function (err, facture) {
+    if (err) {
+        sendResult(res,err);
+    } else {
+    sendResult(res, facture);
+};
+})
 }
 
 

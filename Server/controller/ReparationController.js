@@ -70,28 +70,33 @@ const findReparationByvoiture = async (req, res) => {
                 
             }
         },
-        {
-          $group:
-            {
-              _id:"$_id",
-              data:{ $first: "$$ROOT" },
-              sumAvanc: { $sum: { $sum: {$ifNull: ["$diagnostic.avancement", 0]}} },
-              sumMont: { $sum: { $sum: {$ifNull: ["$diagnostic.montant", 0]}} },
-              count:{$sum:{$size:"$diagnostic"}},
         
-      
-          
-            }
-        },
-        { 
+        {
             $project:
-            { 
-            _id:"$_id",
-            data:1,
-            totalAv: {$divide: ["$sumAvanc", "$count"]},
-            totalMont: {$divide: ["$sumMont", "$count"]},
+            {
+            
+             diagnostic:1,
+             depot:1,
+             user:1,
+             voiture:1,
+              sumAvanc: { 
+                $cond: [
+                    { $eq: [ "$diagnostic", [] ] },
+                    0,
+                    { $divide: [ { $sum: "$diagnostic.avancement" }, { $size: "$diagnostic" } ]}
+                ]
+            },
+              sumMont:{
+                $cond: [
+                    { $eq: [ "$diagnostic", [] ] },
+                    0,
+                    { $divide: [ { $sum:"$diagnostic.montant" }, { $size:"$diagnostic" }]}
+                ]
+            },
+            count:{$sum:{$size:"$diagnostic"}}
             }
         }
+       
       ]) .exec(function (err, reparation) {
         if (err) {
             sendResult(res, err);
@@ -144,29 +149,33 @@ const findAllReparation = async (req, res) => {
  
         {
             $match: {
-                $and: [
-                    {"depot.etat":1}
-                ]
-                
+            "depot.etat":1
+                  
             }
         },
         {
-          $group:
-            {
-              _id:"$_id",
-              data:{ $first: "$$ROOT" },
-              sumAvanc: { $sum: { $sum: {$ifNull: ["$diagnostic.avancement", 0]}} },
-              sumMont: { $sum: { $sum: {$ifNull: ["$diagnostic.montant", 0]}} },
-              count:{$sum:{$size:"$diagnostic"}}
-            }
-        },
-        { 
             $project:
-            { 
-            _id:"$_id",
-            data:1,
-            totalAv: {$divide: ["$sumAvanc", "$count"]},
-            totalMont: {$divide: ["$sumMont", "$count"]},
+            {
+            
+             diagnostic:1,
+             depot:1,
+             user:1,
+             voiture:1,
+              sumAvanc: { 
+                $cond: [
+                    { $eq: [ "$diagnostic", [] ] },
+                    0,
+                    { $divide: [ { $sum: "$diagnostic.avancement" }, { $size: "$diagnostic" } ]}
+                ]
+            },
+              sumMont:{
+                $cond: [
+                    { $eq: [ "$diagnostic", [] ] },
+                    0,
+                    { $divide: [ { $sum:"$diagnostic.montant" }, { $size:"$diagnostic" }]}
+                ]
+            },
+            count:{$sum:{$size:"$diagnostic"}}
             }
         }
       ]) .exec(function (err, reparation) {
@@ -254,8 +263,17 @@ const deleteDiagnostic = async (req, res) => {
 };
 
 const updateDiagnostic = async (req, res) => {
-    
-
+   
+    Reparation.updateOne(
+        { _id: req.body.id}, 
+        { $set: { diagnostic: {
+            _id:req.body.iddiag
+        } }},
+        (err, user) => {
+            if (err) return sendResult(res,err);
+            sendResult(res,user);
+        }
+    ); 
 };
 
 

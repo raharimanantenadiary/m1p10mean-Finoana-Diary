@@ -30,17 +30,23 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                   <div id="parking" cdkDropList [cdkDropListData]="listevoitures" cdkDropListConnectedTo="deposition" (cdkDropListDropped)="drop($event)" [cdkDropListEnterPredicate]="Pas_de_retour">
-    <div class="example-box" *ngFor="let voiture of listevoitures" [cdkDragData]="voiture" cdkDrag>
-      <div class="d-flex justify-content-between" style="margin: 10px 10px;">
-        <div *ngIf="voiture.id  !== null" style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-          <p>Designation: {{voiture.id.designation}}</p>
-          <p>Marque: {{voiture.id.marque}}</p>
-          <p>Matricule: {{voiture.id.matricule}}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+                   <div id="parking" 
+                   cdkDropList 
+                   class="example-list"
+                   [cdkDropListData]="listevoitures" 
+                   cdkDropListConnectedTo="deposition" 
+                   (cdkDropListDropped)="drop($event)" 
+                   [cdkDropListEnterPredicate]="Pas_de_retour">
+                        <div class="example-box" *ngFor="let voiture of listevoitures" [cdkDragData]="voiture" cdkDrag>
+                        <div class="d-flex justify-content-between" style="margin: 10px 10px;">
+                            <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                            <p>Designation: {{voiture.voiture.designation}}</p>
+                            <p>Marque: {{voiture.voiture.marque}}</p>
+                            <p>Matricule: {{voiture.voiture.matricule}}</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -80,16 +86,16 @@
                    <div id="deposition" cdkDropList [cdkDropListData]="liste_voiture_garage" cdkDropListConnectedTo="parking" (cdkDropListDropped)="drop($event)"  [cdkDropListEnterPredicate]="interdireDepot">
     <div class="example-box" *ngFor="let voiture of liste_voiture_garage" [cdkDragData]="voiture" cdkDrag>
       <div class="d-flex justify-content-between" style="margin: 10px 10px;">
-        <div *ngIf="voiture.id !== null" style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+        <div  style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
             <div  class="d-flex justify-content-between" style="margin: 10px 10px;">
                 <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                    <p>Designation: {{voiture.id.designation}}</p>
-                    <p>Marque: {{voiture.id.marque}}</p>
-                    <p>Matricule: {{voiture.id.matricule}}</p>
+                    <p>Designation: {{voiture.voiture.designation}}</p>
+                    <p>Marque: {{voiture.voiture.marque}}</p>
+                    <p>Matricule: {{voiture.voiture.matricule}}</p>
                 </div>
                 <div style="display: flex;flex-direction: column;" >
                     <a [routerLink]="['/t/avancement']"> <button class="btn btn-outline-success mt-3">Avancement</button></a>
-                    <a [routerLink]="['/t/detailfacture']"> <button class="btn btn-outline-primary mt-3">Facture</button></a>
+                    <a [routerLink]="['/t/detailfacture/', voiture.voiture._id]"> <button class="btn btn-outline-primary mt-3">Facture</button></a>
                 </div>
             </div>
         </div>
@@ -110,7 +116,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form (ngSubmit) = "OnSubmit()" >
+                <form (ngSubmit) = "Ajouter()" >
                     <div class="col-10">
                         <label for="">Designation</label>
                         <input type="text" [(ngModel)] = "formData.designation" name="designation" class="form-control">

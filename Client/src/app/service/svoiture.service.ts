@@ -20,11 +20,12 @@ export class SvoitureService {
     return this.http.patch(this.api + '/update/', data);
   }
 
-
-
   voitureById(id: any) {
     return this.http.get(this.api + "voiture/byclient/" + id);
   }
+  
+  
+  
   
   voitureByIdDansGarage(id: any) {
     return this.http.get(this.api + "voiture/byclient/garage/" + id);

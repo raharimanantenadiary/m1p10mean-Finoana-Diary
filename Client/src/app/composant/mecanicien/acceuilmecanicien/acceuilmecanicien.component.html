@@ -89,13 +89,11 @@
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
                             <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                                <p>Marque: {{lv.data.depot.idvoiture}}</p>
-                                <p>Matricule: {{lv.idvoiture.matricule}}</p>
-                                <p>Client: {{lv.idclient.username}}</p>
-                                <p>Date: {{lv.datedepot}}</p>
+                                <p>Marque: {{lv.user.mail}}</p>
+                                <p>Matricule: {{lv.voiture.matricule}}</p>
                             </div>
                             <span class="vertical-line"></span>
-                            <a [routerLink]="['/t/acm/', lv._id]">
+                            <a [routerLink]="['/t/acm/', lv.voiture._id,lv._id]">
                                 <button type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" >
                                     Diagnostic
                                 </button>
@@ -141,13 +139,15 @@
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
                             <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                                <p>Marque: {{lv.idvoiture.marque}}</p>
-                                <p>Matricule: {{lv.idvoiture.matricule}}</p>
-                                <p>Client: {{lv.idclient.username}}</p>
-                                <p>Date: {{lv.datedepot}}</p>
+                                <p>Marque: {{lv.user[0].mail}}</p>
+                                <p>Matricule: {{lv.voiture[0].matricule}}</p>
                             </div>
                             <span class="vertical-line"></span>
-                            <a [routerLink]="['/t/avancement']"> <button class="btn btn-outline-success mt-3">Valider BS</button></a>
+                            <!-- <a [routerLink]="['/t/acm/', lv.voiture[0]._id,lv._id]"> -->
+                                <button type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" >
+                                    BSortie
+                                </button>
+                            <!-- </a>    -->
                         </div>
                     </div>
                 </div>

@@ -8,15 +8,17 @@
                 <tr>
                     <th>Réference facture</th>
                     <th>Client</th>
+                    <th>Date</th>
                     <th>Montant</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngFor="let liste of liste_non_valide">
                     <td>N°4564</td>
-                    <td>Valimbavaka</td>
-                    <td>100 000 Ar</td>
-                    <td><button class="btn btn-outline-success">Valider</button></td>
+                    <td>{{liste.user[0].mail}}</td>
+                    <td>{{liste.facture.datefacture | date}}</td>
+                    <td>{{liste.sumMont |number }}</td>
+                    <td><button class="btn btn-outline-success" (click)="validerFacture(liste.facture._id)" >Valider</button></td>
                 </tr>
             </tbody>
         </table>

@@ -1,8 +1,7 @@
 const Reparation = require("../models/Reparation") ;
 const Depot = require("../models/Depot") ;
 const mongoose=require("mongoose");
-
-
+const Facture = require('../controller/FactureController') ;
 
 
 
@@ -30,6 +29,7 @@ const findByClient = async (req, res) => {
 });
 }
 
+//repration par voiture
 const findReparationByvoiture = async (req, res) => {
     console.log(req.params);
     let idreparation=mongoose.Types.ObjectId(req.params.idreparation);
@@ -58,23 +58,18 @@ const findReparationByvoiture = async (req, res) => {
                 as: "user"
               }
         },
-       
- 
         {
             $match: {
                 $and: [
                     {"_id":idreparation},
                     {"depot.idvoiture":idvoiture},
                     {"depot.etat":1}
-                ]
-                
+                ]      
             }
         },
-        
         {
             $project:
             {
-            
              diagnostic:1,
              depot:1,
              user:1,
@@ -90,9 +85,16 @@ const findReparationByvoiture = async (req, res) => {
                 $cond: [
                     { $eq: [ "$diagnostic", [] ] },
                     0,
-                    { $divide: [ { $sum:"$diagnostic.montant" }, { $size:"$diagnostic" }]}
+                      { $sum:"$diagnostic.montant" } 
                 ]
             },
+            sumJour:{
+              $cond: [
+                  { $eq: [ "$diagnostic", [] ] },
+                  0,
+                    { $sum:"$diagnostic.duree" } 
+              ]
+          },
             count:{$sum:{$size:"$diagnostic"}}
             }
         }
@@ -110,10 +112,10 @@ const findReparationByvoiture = async (req, res) => {
 
 
 
+//En cours de reparation
 const findAllReparation = async (req, res) => {
     console.log(req.params);
     Reparation.aggregate([
-
         {
           $lookup:
             {
@@ -136,6 +138,9 @@ const findAllReparation = async (req, res) => {
               }
         },
         {
+          $unwind: "$user"
+        },
+        {
             $lookup:
               {
                 from: "voitures",
@@ -144,9 +149,9 @@ const findAllReparation = async (req, res) => {
                 as: "voiture"
               }
         },
-       
-       
- 
+        {
+          $unwind: "$voiture"
+        },
         {
             $match: {
             "depot.etat":1
@@ -172,7 +177,7 @@ const findAllReparation = async (req, res) => {
                 $cond: [
                     { $eq: [ "$diagnostic", [] ] },
                     0,
-                    { $divide: [ { $sum:"$diagnostic.montant" }, { $size:"$diagnostic" }]}
+                    { $sum:"$diagnostic.montant" }
                 ]
             },
             count:{$sum:{$size:"$diagnostic"}}
@@ -185,10 +190,85 @@ const findAllReparation = async (req, res) => {
         sendResult(res, reparation);
     
         }})
-     
-
 }
 
+//Fini:
+const findAllReparationFin = async (req, res) => {
+  Reparation.aggregate([
+      {
+        $lookup:
+          {
+            from: "depots",
+            localField: "iddepot",
+            foreignField: "_id",
+            as: "depot"
+          }
+      },
+      {
+        $unwind: "$depot"
+      },
+      {
+          $lookup:
+            {
+              from: "users",
+              localField: "depot.idclient",
+              foreignField: "_id",
+              as: "user"
+            }
+      },
+      {
+          $lookup:
+            {
+              from: "voitures",
+              localField: "depot.idvoiture",
+              foreignField: "_id",
+              as: "voiture"
+            }
+      },
+    
+
+      {
+          $match: {
+          "depot.etat":2
+                
+          }
+      },
+      {
+          $project:
+          {
+          
+           diagnostic:1,
+           depot:1,
+           user:1,
+           voiture:1,
+           bonsortie:1,
+            sumAvanc: { 
+              $cond: [
+                  { $eq: [ "$diagnostic", [] ] },
+                  0,
+                  { $divide: [ { $sum: "$diagnostic.avancement" }, { $size: "$diagnostic" } ]}
+              ]
+          },
+            sumMont:{
+              $cond: [
+                  { $eq: [ "$diagnostic", [] ] },
+                  0,
+                   { $sum:"$diagnostic.montant" }
+              ]
+          },
+          count:{$sum:{$size:"$diagnostic"}}
+          }
+      }
+    ]) .exec(function (err, reparation) {
+      if (err) {
+          sendResult(res, err);
+      } else {
+      sendResult(res, reparation);
+  
+      }})
+   
+
+}
 
 const historiqueReparation= async (req, res) => {
     await Reparation.find({},{diagnostic:1},{datereparation:1})
@@ -230,6 +310,20 @@ const save = async (req, res) => {
 } ;
 
 
+
+//Transfert dans la partie finale
+const finirReparation = async (req, res) => {
+        Reparation.findOne({ _id:req.body.idreparation }).populate('iddepot').exec(function (err, depot) {
+        if (err) sendResult(res,err);
+        Depot.findOneAndUpdate({_id: depot.iddepot._id},{etat:2}, {new: true}).exec(function (err, update) {
+          if (err)  sendResult(res,err);
+        Facture.save(req,res)
+        });
+
+      });
+};
+
+
 const ajoutDiagnostic = async (req, res) => {
    
     Reparation.findOneAndUpdate(
@@ -238,7 +332,8 @@ const ajoutDiagnostic = async (req, res) => {
             partie:req.body.partie,
             avancement:0,
             montant:req.body.montant,
-            details:req.body.details
+            details:req.body.details,
+            duree:req.body.duree
         } }}, // add the new role to the 'roles' array
         { new: true }, 
         (err, user) => {
@@ -249,32 +344,35 @@ const ajoutDiagnostic = async (req, res) => {
 };
 
 const deleteDiagnostic = async (req, res) => {
-   
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $pull: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
-        (err, user) => {
-            if (err) return sendResult(res,err);
-            sendResult(res,user);
-        }
-    ); 
-};
+    console.log(req.body.iddiag);
+     Reparation.updateOne(
+         { _id: req.body.idreparation}, 
+         { $pull: { diagnostic: {
+             _id:req.body.iddiag
+         } }},
+         (err, user) => {
+             if (err) return sendResult(res,err);
+             sendResult(res,user);
+         }
+     ); 
+ };
+ 
+ const updateDiagnostic = async (req, res) => {
+    
+     Reparation.findOneAndUpdate(
+         { _id: req.body.idreparation, "diagnostic._id": req.body.iddiag },
+         { $set: { "diagnostic.$.avancement": req.body.avancement } },
+         { new: true },
+         (err, doc) => {
+             if (err) {
+                 sendResult(res,err);
+             } else {
+                 sendResult(res,doc);
+             }
+         }
+     );
+ };
 
-const updateDiagnostic = async (req, res) => {
-   
-    Reparation.updateOne(
-        { _id: req.body.id}, 
-        { $set: { diagnostic: {
-            _id:req.body.iddiag
-        } }},
-        (err, user) => {
-            if (err) return sendResult(res,err);
-            sendResult(res,user);
-        }
-    ); 
-};
 
 
 /****************
@@ -296,5 +394,7 @@ module.exports = {
     findReparationByDepot,
     deleteDiagnostic,
     updateDiagnostic,
-    findReparationByvoiture
+    findReparationByvoiture,
+    finirReparation,
+    findAllReparationFin
 }

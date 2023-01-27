@@ -12,7 +12,7 @@ export class SearchPipe implements PipeTransform {
     args = args.toLowerCase();
 
     return value.filter((item: any) => {
-      return JSON.stringify(item).toLowerCase().includes(args) && item.year == deux;
+      return JSON.stringify(item).toLowerCase().includes(args) && item.marque == deux;
     })
   }
 

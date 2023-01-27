@@ -40,23 +40,24 @@ export class AcceuilComponent implements OnInit {
   constructor(private service: SvoitureService,private depot_service: SgarageService) { }
 
   ngOnInit() {
-    
     this.getListeVoitureClient();
     this.getListevoitureDansGarage();
   }
 
   getListeVoitureClient(){
-    return  this.service.voitureById(this.idclient).subscribe(response => {
+    return  this.service.voitureById(localStorage.getItem("id")).subscribe(response => {
       this.message = response;
-      console.log(this.message);
-      this.listevoitures = this.message.voiture;
+      // console.log(this.message);
+      this.listevoitures = this.message;
+      // console.log("voiture 1", this.listevoitures);
     });
   }
-
-    getListevoitureDansGarage(){
+  
+  getListevoitureDansGarage(){
     return  this.service.voitureByIdDansGarage(this.idclient).subscribe(response => {
       this.message = response;
-      this.liste_voiture_garage = this.message.voiture;
+      this.liste_voiture_garage = this.message;
+      console.log("voiture 1", this.listevoitures);
     });
   }
 
@@ -67,7 +68,7 @@ export class AcceuilComponent implements OnInit {
       // Si on veu faire un autre transfert on ajoute une autre condition 
       //c est tout les Noums bonne continuation la kkkkk hahahahahahah
       //affichage mbola amboariko fa afahana miasa ftsn aloh zao no atao hahahahahahhahah
-      if( event.item.data.id.etat != null  && event.item.data.id.etat == 0){
+      if( event.item.data.voiture.etat != null  && event.item.data.voiture.etat == 0){
         transferArrayItem(
           event.previousContainer.data,
           event.container.data,
@@ -75,13 +76,13 @@ export class AcceuilComponent implements OnInit {
           event.currentIndex,
           );
           this.depot_service.ajoutDeposition({
-            "idvoiture": event.item.data.id._id,"idclient": localStorage.getItem("id") ,"date": "03" 
+            "idvoiture": event.item.data.voiture._id,"idclient": localStorage.getItem("id") ,"date": "03" 
           }).subscribe(response => {
             this.message = response;
-            console.log("Effectué");
+            alert("Effectué");
           });
         }
-        if( event.item.data.id.etat != null  && event.item.data.id.etat == 1){
+        if( event.item.data.voiture.etat != null  && event.item.data.voiture.etat == 1){
           transferArrayItem(
             event.previousContainer.data,
             event.container.data,
@@ -105,11 +106,13 @@ drop_vers_parking(event: CdkDragDrop<any[]>) {
   }
 }
 
-  OnSubmit() {
+Ajouter() {
+    console.log('form',this.formData);
     this.service.ajoutVoiture(this.formData).subscribe(response => {
       this.message = response;
       this.getListeVoitureClient();
     });
+    this.getListeVoitureClient();
   };
 
   Pas_de_retour() {

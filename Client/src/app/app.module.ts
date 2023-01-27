@@ -30,6 +30,7 @@ import { ListepaiementComponent } from './composant/financier/listepaiement/list
 import { SearchPipe } from './SearchPipe';
 import { DetailavancementComponent } from './composant/mecanicien/detailavancement/detailavancement.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     HttpClientModule,
     AppRoutingModule,
     DragDropModule,
@@ -74,11 +76,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
           { path: '', component: HomedefaultComponent },
           { path: 'acceuil', component: AcceuilComponent },
           { path: 'historique', component: HistoriqueComponent },
-          { path: 'detailfacture', component: DetailfactureComponent },
+          { path: 'detailfacture/:idvoiture', component: DetailfactureComponent },
           { path: 'avancement', component: AvancementComponent },
           { path: 'acm', component: AcceuilmecanicienComponent },
-          { path: 'acm/:id', component: DetailavancementComponent },
-          { path: 'modif', component: ModifieravancementComponent },
+          { path: 'acm/:idvoiture/:idreparation', component: DetailavancementComponent },
+          { path: 'modif/:idvoiture/:idrep/:iddiag/:partie/:montant/:av/:det', component: ModifieravancementComponent },
           { path: 'acf', component: AcceuilfinancierComponent },
           { path: 'lp', component: ListepaiementComponent },
         ]

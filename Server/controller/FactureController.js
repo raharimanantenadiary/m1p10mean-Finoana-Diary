@@ -167,6 +167,103 @@ const findByVoiture = async (req, res) => {
        
       }
 
+
+      const ChiffreAffaireJour = async (req, res) => {
+        Reparation.aggregate([
+            
+             
+            {
+                $lookup:
+                  {
+                    from: "factures",
+                    localField: "idfacture",
+                    foreignField: "_id",
+                    as: "facture"
+                  }
+            },
+            {
+                $unwind: "$facture"
+            },
+        
+            {
+                $match: {
+                    $and: [
+                        {"facture.etat":1},
+                        {"facture.datepaiement":req.params.date}
+                    ]
+                    
+                }
+            },
+            {
+                $project:
+                {
+                facture:1,
+                sumMont:{ $sum:"$diagnostic.montant" }
+                }
+            }
+            
+           
+          ]) .exec(function (err, reparation) {
+            if (err) {
+                sendResult(res, err);
+            } else {
+            sendResult(res, reparation);
+        
+            }})
+         
+        }
+
+    const ChiffreAffaireMois = async (req, res) => {
+            Reparation.aggregate([
+                {
+                    $lookup:
+                      {
+                        from: "factures",
+                        localField: "idfacture",
+                        foreignField: "_id",
+                        as: "facture"
+                      }
+                },
+                {
+                    $unwind: "$facture"
+                },
+            
+                {
+                    $match: {
+                        $and: [
+                            {"facture.etat":1},
+                            {
+                                $expr: {
+                                    $eq: [
+                                      { $month: "$facture.datefacture" },
+                                      req.params.mois
+                                    ]
+                                  }
+                            }
+                        ]
+                        
+                    }
+                },
+                {
+                    $project:
+                    {
+                    facture:1,
+                    sumMont:{ $sum:"$diagnostic.montant" }
+                    }
+                }
+                
+               
+              ]) .exec(function (err, reparation) {
+                if (err) {
+                    sendResult(res, err);
+                } else {
+                sendResult(res, reparation);
+            
+                }})
+             
+            }
+  
+
 const save = async (req, res) => {
     await new Facture({idreparation:req.body.idreparation,etat:0}).save(function(error,facture) {
         if (error) {
@@ -226,6 +323,8 @@ module.exports = {
     paiement,
     validation,
     findNonValide,
-    findByVoiture
+    findByVoiture,
+    ChiffreAffaireJour,
+    ChiffreAffaireMois
 
 }

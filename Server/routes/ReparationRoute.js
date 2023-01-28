@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const {save,findByClient,ajoutDiagnostic,historiqueReparation, findAllReparation,updateDiagnostic,deleteDiagnostic,finirReparation, findReparationByDepot,findReparationByvoiture,findAllReparationFin } = require('../controller/ReparationController') ;
+const {save,findByClient,ajoutDiagnostic,historiqueReparation, findAllReparation,updateDiagnostic,deleteDiagnostic,finirReparation, findReparationByDepot,findReparationByvoiture,findAllReparationFin,findMoyenRep } = require('../controller/ReparationController') ;
 /* GET users listing. */
 
 router.post('/save',save); //ajout reparation
@@ -15,6 +15,7 @@ router.put('/update',updateDiagnostic);
 router.delete('/delete',deleteDiagnostic);
 router.post('/finir',finirReparation);
 router.get('/finition/template',findAllReparationFin);
+router.get('/findRep/Moyen',findMoyenRep);
 
 
 module.exports = router;

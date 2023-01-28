@@ -110,6 +110,83 @@ const findReparationByvoiture = async (req, res) => {
 
 }
 
+const findMoyenRep = async(req, res) => {
+  Reparation.aggregate([
+    {
+      $lookup:
+        {
+          from: "depots",
+          localField: "iddepot",
+          foreignField: "_id",
+          as: "depot"
+        }
+    },
+    {
+      $unwind: "$depot"
+    },
+    {
+        $lookup:
+          {
+            from: "users",
+            localField: "depot.idclient",
+            foreignField: "_id",
+            as: "user"
+          }
+    },
+    {
+      $unwind: "$user"
+    },
+    {
+        $lookup:
+          {
+            from: "voitures",
+            localField: "depot.idvoiture",
+            foreignField: "_id",
+            as: "voiture"
+          }
+    },
+    {
+      $unwind: "$voiture"
+    },
+    {
+        $match: {
+        "depot.etat":2
+        }
+    },
+    {
+        $project:
+        {
+        
+         diagnostic:1,
+         user:1,
+         voiture:1,
+          moyenDuree: { 
+            $cond: [
+                { $eq: [ "$diagnostic", [] ] },
+                0,
+                { $divide: [ { $sum: "$diagnostic.duree" }, { $size: "$diagnostic" } ]}
+            ]
+        },
+          sumDuree:{
+            $cond: [
+                { $eq: [ "$diagnostic", [] ] },
+                0,
+                { $sum:"$diagnostic.duree" }
+            ]
+        },
+        count:{$sum:{$size:"$diagnostic"}}
+        }
+    }
+  ]) .exec(function (err, reparation) {
+      if (err) {
+          sendResult(res, err);
+      } else {
+      sendResult(res, reparation);
+  
+      }})
+   
+
+}
 
 
 //En cours de reparation
@@ -154,8 +231,7 @@ const findAllReparation = async (req, res) => {
         },
         {
             $match: {
-            "depot.etat":1
-                  
+            "depot.etat":1 
             }
         },
         {
@@ -396,5 +472,6 @@ module.exports = {
     updateDiagnostic,
     findReparationByvoiture,
     finirReparation,
-    findAllReparationFin
+    findAllReparationFin,
+    findMoyenRep
 }

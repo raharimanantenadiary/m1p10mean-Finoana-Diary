@@ -1,83 +1,104 @@
-<div class="container">
-    <div style="border-bottom: 1px solid rgb(179, 155, 155);">
-    <h3 style="text-align: center;" >Ajouter nouvelle répration</h3>
-</div>
-    <div class="row" >
-        <div class="col-12">
-                <h4>Infomation:</h4>
-            <div>
-                <p>Date de déposition: {{information_depot.datedepot | date }} </p>
-                <!-- <p>Voiture:  {{data.voiture.marque}} </p> -->
-                <p>Client: {{information_user.mail}}</p>
-                <!-- CRUD réparation -->
+<div class="container-fluid">
+    <h3 style="text-align: center;" >Suivi avancement de la voiture</h3>
+ 
+<div class="row mt-3">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-column align-items-center text-center">
+                     <h4> Voiture: Nissan 4*4 </h4>
+                </div>
+                <hr class="my-4">
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">Client</h6>
+									<span class="text-secondary">{{information_user.username}}</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">Date de déposition</h6>
+									<span class="text-secondary">{{information_depot.datedepot | date }}</span>
+								</li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">Total Montant</h6>
+									<span class="text-secondary">{{ info_reparation[0].sumMont | number }} Ar</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">Total Avancement</h6>
+									<span class="text-secondary">{{ info_reparation[0].sumAvanc }} %</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">Total Durée de répration</h6>
+									<span class="text-secondary">{{ info_reparation[0].sumJour }} jours </span>
+								</li>
+							</ul>
             </div>
-            <form (ngSubmit) = "OnSubmit()">
-                <div class="row">
-                    <div class="col-6">
-                        <label for="">Partie</label>
-                        <input type="text"  [(ngModel)] = "formData.partie" class="form-control" name="partie" id="">
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <form (ngSubmit) = "OnSubmit()">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Partie</label>
+                            <input type="text"  [(ngModel)] = "formData.partie" class="form-control" name="partie" id="">
+                        </div>
+                        <div class="col-6">
+                            <label for="">Montant</label>
+                            <input type="number" min="1"  [(ngModel)] = "formData.montant" class="form-control" name="montant" id="">
+                        </div>
+                        <div class="col-6">
+                            <label for="">Duree</label>
+                            <input type="number" min="1"   [(ngModel)] = "formData.duree" class="form-control" name="montant" id="">
+                        </div>
+                        <div class="col-6">
+                            <label for="">Détails</label>
+                            <textarea name="detail" [(ngModel)] = "formData.detail" id="" class="form-control" cols="50" rows="2"></textarea>
+                        </div>
+                        <input type="hidden"  [(ngModel)] = "formData.avancement" class="form-control" name="avancement" id="">
                     </div>
-                    <div class="col-6">
-                        <label for="">Montant</label>
-                        <input type="number" min="1"  [(ngModel)] = "formData.montant" class="form-control" name="montant" id="">
-                    </div>
-                    <div class="col-6">
-                        <label for="">Détails</label>
-                        <textarea name="detail" [(ngModel)] = "formData.detail" id="" class="form-control" cols="50" rows="2"></textarea>
-                    </div>
-                    <div class="col-6">
-                        <label for="">Duree</label>
-                        <input type="number" min="1"   [(ngModel)] = "formData.duree" class="form-control" name="montant" id="">
-                    </div>
-                    <input type="hidden"  [(ngModel)] = "formData.avancement" class="form-control" name="avancement" id="">
-                </div>
-                <div class="row d-flex justify-content-end mt-3 mb-3">
-                    <div class="col-5 d-flex justify-content-end">
-                        <button type="submit"  class="btn btn-outline-success" >Ajouter</button>
-                    </div>
-                </div>
-            </form>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="d-flex justify-content-start ">
-                        <button class="btn btn-outline-success mb-1">Avancement 100%</button> 
-                    </div>
-                </div>
-                  <div class="col-12">
-                      <table class="table">
-                          <thead>
-                              <tr>
-                                <th>Partie</th>
-                                <th>Montant</th>
-                                <th>Avancement</th>
-                                <th>Détail</th>
-                                <th>Jour(s)</th>
-                                <th>Modifier</th>
-                            </tr>  
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let diag of liste_diagnostic ">
-                                <th> {{diag.partie}}</th>
-                                <th>{{diag.montant | number }} Ar</th>
-                                <th>
-                                    {{diag.avancement}} %
-                                 </th>
-                                 <th>{{diag.details}}</th>
-                                <th>{{diag.duree}} jour(s)</th>
-                                <th> <a [routerLink]="['/t/modif/',information_depot.idvoiture,info_reparation[0]._id, diag._id,diag.partie,diag.montant,diag.avancement,diag.details]" >  <button class="btn btn-outline-success ">Modifier</button></a> </th>
-                            </tr>
-                        </tbody>
-                    </table>   
-                    <div class="col-12">
-                        <div class="d-flex justify-content-end ">
-                            <h4>Total Montant: {{ info_reparation[0].sumMont | number }} Ar </h4>
-                            <h4>Total Avancement: {{ info_reparation[0].sumAvanc }} %</h4>
-                            <h4>Total Durée de répration: {{ info_reparation[0].sumJour }} jour(s)</h4>
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-9 text-secondary">
+                            <input type="submit" class="btn btn-outline-primary px-4" value="Ajouter">
                         </div>
                     </div>
-                </div>   
-                <!-- anaty diagnostic tokony asiana statut mijery oe vita total daol le reparation mba amindrana azy atsy @ le partie finale -->
+                </form>
+              
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead style="background-color: rgb(3, 51, 51);color: black">
+                                <tr>
+                                  <th>Partie</th>
+                                  <th>Montant</th>
+                                  <th>Avancement</th>
+                                  <th>Détail</th>
+                                  <th>Jour(s)</th>
+                                  <th>Modifier</th>
+                              </tr>  
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let diag of liste_diagnostic ">
+                                  <th> {{diag.partie}}</th>
+                                  <th>{{diag.montant | number }} Ar</th>
+                                  <th>
+                                      <div class="progress">
+                                          <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="{'width': diag.avancement + '%'}" [attr.aria-valuenow]="diag.avancement" aria-valuemin="0" aria-valuemax="100">{{diag.avancement}}%</div>
+                                        </div>
+                                   </th>
+                                   <th>{{diag.details}}</th>
+                                  <th>{{diag.duree}} jour</th>
+                                  <th> <a [routerLink]="['/t/modif/',information_depot.idvoiture,info_reparation[0]._id, diag._id,diag.partie,diag.montant,diag.avancement,diag.details]" >  <button class="btn btn-outline-success ">Modifier</button></a> </th>
+                              </tr>
+                          </tbody>
+                      </table>   
+                    </div>
+                </div>
             </div>
         </div>
     </div>

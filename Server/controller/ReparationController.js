@@ -29,6 +29,105 @@ const findByClient = async (req, res) => {
 });
 }
 
+
+
+//reparation par voiture mais etat depot == 2
+//repration par voiture
+const findReparationByvoitureEtatFin = async (req, res) => {
+  console.log(req.params);
+  let idreparation=mongoose.Types.ObjectId(req.params.idreparation);
+  
+  let idvoiture=mongoose.Types.ObjectId(req.params.idvoiture);
+
+  Reparation.aggregate([
+      {
+        $lookup:
+          {
+            from: "depots",
+            localField: "iddepot",
+            foreignField: "_id",
+            as: "depot"
+          }
+      },
+      {
+        $unwind: "$depot"
+      },
+      {
+          $lookup:
+            {
+              from: "users",
+              localField: "depot.idclient",
+              foreignField: "_id",
+              as: "user"
+            }
+      },
+      {
+        $lookup:
+          {
+            from: "bonsorties",
+            localField: "idbonsortie",
+            foreignField: "_id",
+            as: "bonsortie"
+          }
+    },
+    {
+        $unwind: "$bonsortie"
+    },
+      {
+          $match: {
+              $and: [
+                  {"_id":idreparation},
+                  {"depot.idvoiture":idvoiture},
+                  {"depot.etat":2}
+              ]      
+          }
+      },
+      {
+          $project:
+          {
+           diagnostic:1,
+           depot:1,
+           bonsortie:1 ,
+           user:1,
+           voiture:1,
+            sumAvanc: { 
+              $cond: [
+                  { $eq: [ "$diagnostic", [] ] },
+                  0,
+                  { $divide: [ { $sum: "$diagnostic.avancement" }, { $size: "$diagnostic" } ]}
+              ]
+          },
+            sumMont:{
+              $cond: [
+                  { $eq: [ "$diagnostic", [] ] },
+                  0,
+                    { $sum:"$diagnostic.montant" } 
+              ]
+          },
+          sumJour:{
+            $cond: [
+                { $eq: [ "$diagnostic", [] ] },
+                0,
+                  { $sum:"$diagnostic.duree" } 
+            ]
+        },
+          count:{$sum:{$size:"$diagnostic"}}
+          }
+      }
+     
+    ]) .exec(function (err, reparation) {
+      if (err) {
+          sendResult(res, err);
+      } else {
+      sendResult(res, reparation);
+  
+      }})
+   
+
+}
+
+
+
 //repration par voiture
 const findReparationByvoiture = async (req, res) => {
     console.log(req.params);
@@ -293,6 +392,9 @@ const findAllReparationFin = async (req, res) => {
             }
       },
       {
+        $unwind: "$user"
+      },
+      {
           $lookup:
             {
               from: "voitures",
@@ -301,12 +403,21 @@ const findAllReparationFin = async (req, res) => {
               as: "voiture"
             }
       },
-    
-
+      {
+        $unwind: "$voiture"
+      },
+      {
+        $lookup:
+          {
+            from: "bonsorties",
+            localField: "idbonsortie",
+            foreignField: "_id",
+            as: "bonsortie"
+          }
+      },
       {
           $match: {
           "depot.etat":2
-                
           }
       },
       {
@@ -450,6 +561,57 @@ const deleteDiagnostic = async (req, res) => {
  };
 
 
+ const ChiffreAffaireMois = async (req, res) => {
+  Reparation.aggregate([
+      {
+          $lookup:
+            {
+              from: "factures",
+              localField: "idfacture",
+              foreignField: "_id",
+              as: "facture"
+            }
+      },
+      {
+          $unwind: "$facture"
+      },
+  
+      {
+          $match: {
+              $and: [
+                  {"facture.etat":1},
+                  {
+                      $expr: {
+                          $eq: [
+                            { $month: "$facture.datefacture" },
+                            req.params.mois
+                          ]
+                        }
+                  }
+              ]
+              
+          }
+      },
+      {
+          $project:
+          {
+          facture:1,
+          sumMont:{ $sum:"$diagnostic.montant" }
+          }
+      }
+      
+     
+    ]) .exec(function (err, reparation) {
+      if (err) {
+          sendResult(res, err);
+      } else {
+      sendResult(res, reparation);
+  
+      }})
+   
+  }
+
+
 
 /****************
  * SEND GENERAL *
@@ -473,5 +635,6 @@ module.exports = {
     findReparationByvoiture,
     finirReparation,
     findAllReparationFin,
-    findMoyenRep
+    findReparationByvoitureEtatFin,
+    ChiffreAffaireMois
 }

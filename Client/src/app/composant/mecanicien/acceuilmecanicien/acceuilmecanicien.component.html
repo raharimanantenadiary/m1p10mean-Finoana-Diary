@@ -89,7 +89,7 @@
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
                             <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                                <p>Marque: {{lv.user.mail}}</p>
+                                <p>Marque: {{lv.user.username}}</p>
                                 <p>Matricule: {{lv.voiture.matricule}}</p>
                             </div>
                             <span class="vertical-line"></span>
@@ -139,14 +139,21 @@
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
                             <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                                <p>Marque: {{lv.user[0].mail}}</p>
-                                <p>Matricule: {{lv.voiture[0].matricule}}</p>
+                                <p>Marque: {{lv.voiture.designation}}</p>
+                                <p>Matricule: {{lv.voiture.matricule}}</p>
                             </div>
                             <span class="vertical-line"></span>
                             <!-- <a [routerLink]="['/t/acm/', lv.voiture[0]._id,lv._id]"> -->
-                                <button type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" >
-                                    BSortie
-                                </button>
+                                    <div *ngIf=" lv.bonsortie.length > 0  ;">
+                                       <a [routerLink]="['/t/bdetail', lv.voiture._id,lv._id ]" >
+                                           <button   type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" >
+                                            BS
+                                        </button>
+                                    </a>
+                                    </div>
+                                    <div *ngIf=" lv.bonsortie.length == 0  ;">
+                                            En attente
+                                    </div>
                             <!-- </a>    -->
                         </div>
                     </div>

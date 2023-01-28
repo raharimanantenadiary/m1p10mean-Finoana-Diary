@@ -1,4 +1,6 @@
 const Voiture = require("../models/Voiture") ;
+const Depot = require("../models/Depot") ;
+const Reparation = require("../models/Reparation") ;
 const User = require("../models/User") ;
 const mongoose=require("mongoose");
 const Reparation = require("../models/Reparation") ;
@@ -79,14 +81,11 @@ const save = async (req, res) => {
     });
 }
 
-
-
-
-
-
 const recuperation = async (req, res) => {
-    console.log(req.params);
-    let idvoiture=mongoose.Types.ObjectId(req.params.idvoiture);
+
+    console.log("idvoiture: ",req.body.idvoiture);
+    let idvoiture=mongoose.Types.ObjectId(req.body.idvoiture);
+
     Reparation.aggregate([
         {
           $lookup:
@@ -100,8 +99,6 @@ const recuperation = async (req, res) => {
         {
           $unwind: "$depot"
         },
-
-        
         {
             $match: {
                 $and: [
@@ -123,8 +120,6 @@ const recuperation = async (req, res) => {
         {
             $unwind: "$bonsortie"
         },
-    
-        
         {
             $project:
             {
@@ -134,21 +129,23 @@ const recuperation = async (req, res) => {
         }
        
       ]).exec(function (err, recup) {
-        if (err) {
-            sendResult(res, err);
+        console.log(recup);
+        if (recup[0] == null ) {
+            return sendResult(res, err);
         } else {
        console.log(recup[0]);
-            if(recup[0].bonsortie.etatLivraison!=1)
+            if(recup[0].bonsortie.etatLivraison != 1)
                {
                 return  res.send({message:"bon de sortie non validé",error:true});
                }
                else
                {
-             Voiture.updateOne({ _id: recup[0].depot.idvoiture},{ $set: {etat:0} },(err,voiture) => {
+
+             Voiture.updateOne({ _id: req.body.idvoiture},{ $set: {etat:0} },(err,voiture) => {
             if (err) return sendResult(res,err);
-             Depot.updateOne({idvoiture: recup[0].depot.idvoiture,etat:2},{$set:{etat:3}},(err,depot) => {
+             Depot.findOneAndUpdate({idvoiture: req.body.idvoiture,etat:2},{$set:{etat:3}},(err,depot) => {
                 if (err) return sendResult(res,err);
-                res.send({message:"voiture recupere",error:false});
+                return res.send({message:"voiture recupere",error:false});
              }) 
              
         });
@@ -157,10 +154,8 @@ const recuperation = async (req, res) => {
     })
       
     };
-   
-       
 
-
+    
 const findAll = async (req, res) => {
     console.log(req.params);
 
@@ -206,6 +201,9 @@ User.aggregate([
 };
 })
 }
+
+
+
 
 
 

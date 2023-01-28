@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-12">
         <table class="table">
-            <thead>
+            <thead style="background-color: aquamarine;color: black;">
                 <tr>
                     <th>Réference facture</th>
                     <th>Client</th>
@@ -17,12 +17,13 @@
                     <td>N°4564</td>
                     <td>{{liste.user[0].mail}}</td>
                     <td>{{liste.facture.datefacture | date}}</td>
-                    <td>{{liste.sumMont |number }}</td>
+                    <td>{{liste.sumMont |number }} Ar</td>
                     <td><button class="btn btn-outline-success" (click)="validerFacture(liste.facture._id)" >Valider</button></td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+
 
 <!-- Liste paiement à valider ihan no miseho eto fa ts mampiseho ny liste paiement reetra na ny paye na ny tsy paye -->

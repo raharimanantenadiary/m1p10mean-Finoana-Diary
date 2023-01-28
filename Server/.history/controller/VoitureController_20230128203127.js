@@ -123,8 +123,8 @@ const recuperation = async (req, res) => {
        
       ]).exec(function (err, recup) {
         console.log(recup);
-        if (recup[0] == null ) {
-            return sendResult(res, err);
+        if (err) {
+            sendResult(res, err);
         } else {
        console.log(recup[0]);
             if(recup[0].bonsortie.etatLivraison != 1)
@@ -133,11 +133,11 @@ const recuperation = async (req, res) => {
                }
                else
                {
-             Voiture.updateOne({ _id: req.body.idvoiture},{ $set: {etat:0} },(err,voiture) => {
+             Voiture.updateOne({ _id: recup[0].depot.idvoiture},{ $set: {etat:0} },(err,voiture) => {
             if (err) return sendResult(res,err);
-             Depot.findOneAndUpdate({idvoiture: req.body.idvoiture,etat:2},{$set:{etat:3}},(err,depot) => {
+             Depot.updateOne({idvoiture: recup[0].depot.idvoiture,etat:2},{$set:{etat:3}},(err,depot) => {
                 if (err) return sendResult(res,err);
-                return res.send({message:"voiture recupere",error:false});
+                res.send({message:"voiture recupere",error:false});
              }) 
              
         });

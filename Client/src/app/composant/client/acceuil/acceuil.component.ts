@@ -15,7 +15,7 @@ export class AcceuilComponent implements OnInit {
 
   searchText = '';
   annee = '';
-
+  loading = false;
   emplist_noumena: any;
 
  
@@ -44,9 +44,11 @@ export class AcceuilComponent implements OnInit {
   }
 
   getListeVoitureClient(){
+    this.loading = true;
     return  this.service.voitureById(localStorage.getItem("id")).subscribe(response => {
       this.message = response;
       // console.log(this.message);
+      this.loading = false;
       this.listevoitures = this.message;
       // console.log("voiture 1", this.listevoitures);
     });
@@ -65,42 +67,30 @@ export class AcceuilComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      if( event.item.data.voiture.etat != null){
-        
-          let verification_dans_la_destinataion = this.liste_voiture_garage.find( (liste_dans_garage:any) => {
-              if(liste_dans_garage.voiture.etat == event.item.data.etat){return true;}
-              return false;
-          });
-          
-          if(verification_dans_la_destinataion){
-                  alert("La voiture est déja dans le garage");
-                }else{
+      if( event.item.data.voiture.etat == 0){
                   transferArrayItem(
                     event.previousContainer.data,
                     event.container.data,
                     event.previousIndex,
                     event.currentIndex,
                     );
-                    
-                    alert("La voiture en cours de deposition");
+                    const now = new Date();
+
               this.depot_service.ajoutDeposition({
-                "idvoiture": event.item.data.voiture._id,"idclient": localStorage.getItem("id") ,"date": "03" 
+                "idvoiture": event.item.data.voiture._id,"idclient": localStorage.getItem("id") ,"date": now.toString() 
               }).subscribe(response => {
                 this.message = response;
                 alert("Effectué");
               });
-          }
 
-
-        }
-        if( event.item.data.voiture.etat != null  && event.item.data.voiture.etat == 1){
+            }
+        if( event.item.data.voiture.etat == 1){
           transferArrayItem(
             event.previousContainer.data,
             event.container.data,
             event.previousIndex,
             event.currentIndex,
             );
-            alert("ifindra");
             this.depot_service.recuperarationVoiture(event.item.data.voiture._id).subscribe(response => {
               alert("Voiture récuperer");
               this.getListeVoitureClient();

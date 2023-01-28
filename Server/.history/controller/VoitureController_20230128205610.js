@@ -137,7 +137,7 @@ const recuperation = async (req, res) => {
             if (err) return sendResult(res,err);
              Depot.findOneAndUpdate({idvoiture: req.body.idvoiture,etat:2},{$set:{etat:3}},(err,depot) => {
                 if (err) return sendResult(res,err);
-                return res.send({message:"voiture recupere",error:false});
+                res.send({message:"voiture recupere",error:false});
              }) 
              
         });

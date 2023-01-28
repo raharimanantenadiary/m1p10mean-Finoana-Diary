@@ -1,0 +1,26 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Liste moyenne par voiture</h1>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table class="table">
+            <thead style="background-color: aquamarine;color: black;">
+                <tr>
+                    <th>Désignation</th>
+                    <th>duree</th>
+                    <th>moyenne</th>
+                    <th>nbr reparation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let liste of liste_moyenne">
+                    <td>{{liste.voiture.designation}}</td>
+                    <td>{{liste.sumDuree}} jours</td>
+                    <td>{{liste.moyenDuree}} jours</td>
+                    <td>{{liste.count}} </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

@@ -4,6 +4,7 @@ import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem, CdkDrag }
 import { _isTestEnvironment } from '@angular/cdk/platform';
 import { SvoitureService } from './../../../service/svoiture.service';
 import { SgarageService } from './../../../service/sgarage.service';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-acceuil',
@@ -17,6 +18,9 @@ export class AcceuilComponent implements OnInit {
   annee = '';
   loading = false;
   emplist_noumena: any;
+
+  lineChart!: Chart;
+  pieChart!: Chart ;
 
  
 
@@ -41,6 +45,34 @@ export class AcceuilComponent implements OnInit {
   ngOnInit() {
     this.getListeVoitureClient();
     this.getListevoitureDansGarage();
+
+     this.lineChart = new Chart('lineChart', {
+      type: 'line',
+      data : {
+        labels : ['Janv', 'Feb'],
+        datasets: [{
+          label: 'Number of Items sold in mouths',
+          data: [1, 2],
+          fill: false,
+          borderColor: 'red',
+          borderWidth: 1,
+        }]
+      }
+    });
+ 
+    this.pieChart = new Chart('pieChart', {
+      type: 'pie',
+      data: {
+        datasets: [{
+          data: [10, 20, 30]
+        }],
+        labels: [
+          'Red',
+          'Yellow',
+          'Blue'
+        ]
+      }
+    });
   }
 
   getListeVoitureClient(){

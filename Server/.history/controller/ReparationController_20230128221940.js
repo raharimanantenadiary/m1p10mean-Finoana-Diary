@@ -577,7 +577,7 @@ const deleteDiagnostic = async (req, res) => {
       },
       {
           $match: {
-          "depot.etat":3
+          "depot.etat":2
           }
       },
       {

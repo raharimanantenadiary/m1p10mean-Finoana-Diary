@@ -486,7 +486,7 @@ const deleteDiagnostic = async (req, res) => {
 
 
  const ChiffreAffaireMois = async (req, res) => {
-  console.log(req.body.mois);
+  console.log(req.params.mois);
   Reparation.aggregate([
       {
           $lookup:
@@ -509,7 +509,7 @@ const deleteDiagnostic = async (req, res) => {
                       $expr: {
                           $eq: [
                             { $month: "$facture.datefacture" },
-                            req.body.mois
+                            req.params.mois
                           ]
                         }
                   }
@@ -528,90 +528,14 @@ const deleteDiagnostic = async (req, res) => {
      
     ]) .exec(function (err, reparation) {
       if (err) {
-          return sendResult(res, err);
+          sendResult(res, err);
       } else {
-        return sendResult(res, reparation);
+      sendResult(res, reparation);
   
-      }});
+      }})
    
   }
 
-
-  const findMoyenRep = async(req, res) => {
-    Reparation.aggregate([
-      {
-        $lookup:
-          {
-            from: "depots",
-            localField: "iddepot",
-            foreignField: "_id",
-            as: "depot"
-          }
-      },
-      {
-        $unwind: "$depot"
-      },
-      {
-          $lookup:
-            {
-              from: "users",
-              localField: "depot.idclient",
-              foreignField: "_id",
-              as: "user"
-            }
-      },
-      {
-        $unwind: "$user"
-      },
-      {
-          $lookup:
-            {
-              from: "voitures",
-              localField: "depot.idvoiture",
-              foreignField: "_id",
-              as: "voiture"
-            }
-      },
-      {
-        $unwind: "$voiture"
-      },
-      {
-          $match: {
-          "depot.etat":3
-          }
-      },
-      {
-          $project:
-          {
-          
-           diagnostic:1,
-           user:1,
-           voiture:1,
-            moyenDuree: { 
-              $cond: [
-                  { $eq: [ "$diagnostic", [] ] },
-                  0,
-                  { $divide: [ { $sum: "$diagnostic.duree" }, { $size: "$diagnostic" } ]}
-              ]
-          },
-            sumDuree:{
-              $cond: [
-                  { $eq: [ "$diagnostic", [] ] },
-                  0,
-                  { $sum:"$diagnostic.duree" }
-              ]
-          },
-          count:{$sum:{$size:"$diagnostic"}}
-          }
-      }
-    ]) .exec(function (err, reparation) {
-        if (err) {
-           return sendResult(res, err);
-        } else {
-          return  sendResult(res, reparation);
-    
-        }})
-  }
 
 
 /****************
@@ -637,6 +561,5 @@ module.exports = {
     finirReparation,
     findAllReparationFin,
     findReparationByvoitureEtatFin,
-    ChiffreAffaireMois,
-    findMoyenRep
+    ChiffreAffaireMois
 }

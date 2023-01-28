@@ -31,6 +31,10 @@ export class SgarageService {
     return this.http.get(this.apiurl + "reparation/");
   }
   
+  listemoyenneparvoiture() {
+    return this.http.get(this.apiurl + "reparation/moyenne/voiture");
+  }
+  
   listeReparationFin() {
     return this.http.get(this.apiurl + "reparation/finition/template");
   }

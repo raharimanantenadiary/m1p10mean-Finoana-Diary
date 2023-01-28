@@ -32,6 +32,7 @@ import { DetailavancementComponent } from './composant/mecanicien/detailavanceme
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { BonsortieComponent } from './composant/mecanicien/bonsortie/bonsortie.component';
+import { MoyenneComponent } from './composant/financier/moyenne/moyenne.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { BonsortieComponent } from './composant/mecanicien/bonsortie/bonsortie.c
     ListepaiementComponent,
     DetailavancementComponent,
     ModifieravancementComponent,
-    BonsortieComponent
+    BonsortieComponent,
+    MoyenneComponent
   ],
   imports: [
     BrowserModule,
@@ -86,6 +88,7 @@ import { BonsortieComponent } from './composant/mecanicien/bonsortie/bonsortie.c
           { path: 'modif/:idvoiture/:idrep/:iddiag/:partie/:montant/:av/:det', component: ModifieravancementComponent },
           { path: 'acf', component: AcceuilfinancierComponent },
           { path: 'lp', component: ListepaiementComponent },
+          { path: 'moyenne', component: MoyenneComponent },
         ]
       },
 

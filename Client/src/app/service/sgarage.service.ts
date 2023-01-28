@@ -46,9 +46,21 @@ export class SgarageService {
   transfertDansFin(inputData: any) {
     return this.http.post(this.apiurl + 'reparation/finir', inputData);
   }
+ 
+  validationBondeSortie(inputData: any) {
+    return this.http.put(this.apiurl + 'bonsortie/validation', {"idBonSortie": inputData});
+  }
+ 
+  recuperarationVoiture(idvoiture: any) {
+    return this.http.put(this.apiurl + 'voiture/recuperation/',{"idvoiture": idvoiture});
+  }
   
   listeReparationByVoitureReparation(idreparation:any, idvoiture:any) {
     return this.http.get(this.apiurl + 'reparation/findRep/'+idreparation+"/"+idvoiture);
+  }
+  
+  reparationPourBondeSortie(idreparation:any, idvoiture:any) {
+    return this.http.get(this.apiurl + 'reparation/findRepfin/'+idreparation+"/"+idvoiture);
   }
   
   updateDiag(inputData: any) {

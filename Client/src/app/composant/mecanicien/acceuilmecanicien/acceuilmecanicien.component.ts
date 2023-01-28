@@ -22,7 +22,6 @@ export class AcceuilmecanicienComponent implements OnInit {
 
   constructor(private service: SgarageService) { }
 
-  
 
   ngOnInit() {
     this.getListeVoitureDepot();
@@ -31,13 +30,11 @@ export class AcceuilmecanicienComponent implements OnInit {
 
   }
 
-
-
-
   getListeVoitureDepot() {
     return this.service.listedepot().subscribe(response => {
       this.message = response;
       this.listevoitures = this.message;
+      console.log(this.listevoitures);
     });
   }
  
@@ -54,17 +51,17 @@ export class AcceuilmecanicienComponent implements OnInit {
     return this.service.listeReparationFin().subscribe(response => {
       this.message = response;
       this.fin = this.message;
-      // console.log('fin',response);
     });
   }
 
 
-
-  drop(event: CdkDragDrop<any[]>) {
-    console.log(event.item.data);
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
+    drop(event: CdkDragDrop<any[]>) {
+     
+    this.getListeVoitureReparation();
+    this.getListeVoitureFin();
+      if (event.previousContainer === event.container) {
+        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      } else {
       // si depot etat == 0 
       if(event.item.data.etat == 0){
         transferArrayItem(
@@ -74,15 +71,9 @@ export class AcceuilmecanicienComponent implements OnInit {
           event.currentIndex,
         );
         //changement de depot dans reparation
-        this.service.ajoutDeposition_dans_reparation({ "iddepot": event.item.data._id 
-        }).subscribe(response => {
-          this.message = response;
-          console.log("Effectué");
-        });
+        this.service.ajoutDeposition_dans_reparation({ "iddepot": event.item.data._id}).subscribe(response => {this.getListeVoitureDepot();this.getListeVoitureReparation();});
       }
         if( event.item.data.depot.etat == 1  && event.item.data.sumAvanc == 100 ){
-          console.log('reparation',event.item.data._id);
-          console.log('depot',event.item.data.depot._id);
           transferArrayItem(
             event.previousContainer.data,
             event.container.data,
@@ -90,17 +81,66 @@ export class AcceuilmecanicienComponent implements OnInit {
             event.currentIndex,
           );
 
-          this.service.transfertDansFin({"idreparation": event.item.data._id ,"iddepot": event.item.data.depot._id}).subscribe(response => {
-                this.getListeVoitureReparation();
-        });
-      }
+          this.service.transfertDansFin({"idreparation": event.item.data._id ,"iddepot": event.item.data.depot._id}).subscribe(response => {this.getListeVoitureReparation();this.getListeVoitureFin();});
+        }
         if( event.item.data.depot.etat == 1  && event.item.data.sumAvanc < 100 ){
           alert("La répration n'est pas encore achevé");
           return;
         }
 
+        
+
     }
   }
+  
+
+
+  // drop(event: CdkDragDrop<any[]>) {
+  //   console.log(event.item.data);
+  //   if (event.previousContainer === event.container) {
+  //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  //   } else {
+  //     // si depot etat == 0 
+  //     if(event.item.data.etat == 0){
+  //       transferArrayItem(
+  //         event.previousContainer.data,
+  //         event.container.data,
+  //         event.previousIndex,
+  //         event.currentIndex,
+  //       );
+  //       //changement de depot dans reparation
+  //       this.service.ajoutDeposition_dans_reparation({ "iddepot": event.item.data._id 
+  //       }).subscribe(response => {
+  //         this.message = response;
+  //         console.log("Effectué");
+  //       });
+  //     }
+  //       if( event.item.data.depot.etat == 1  && event.item.data.sumAvanc == 100 ){
+  //         console.log('reparation',event.item.data._id);
+  //         console.log('depot',event.item.data.depot._id);
+  //         transferArrayItem(
+  //           event.previousContainer.data,
+  //           event.container.data,
+  //           event.previousIndex,
+  //           event.currentIndex,
+  //         );
+
+  //         this.service.transfertDansFin({"idreparation": event.item.data._id ,"iddepot": event.item.data.depot._id}).subscribe(response => {
+  //               this.getListeVoitureReparation();
+  //       });
+  //     }
+  //       if( event.item.data.depot.etat == 1  && event.item.data.sumAvanc < 100 ){
+  //         alert("La répration n'est pas encore achevé");
+  //         return;
+  //       }
+
+  //   }
+  // }
+  
+
+
+
+ 
 
 
  

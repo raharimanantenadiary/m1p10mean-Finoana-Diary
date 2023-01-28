@@ -2,7 +2,7 @@
   <div class="card-header bg-primary"></div>
   <div class="card-body">
 
-    <div class="container">
+    <div class="container" *ngIf="detail_facture[0]">
       <div class="row">
         <div class="col-xl-12">
           <i class="far fa-house text-danger fa-6x float-start"></i>
@@ -63,8 +63,15 @@
       </div>
 
     </div>
+    <!-- Si Facture non payé  -->
+    <div class="container" *ngIf="!detail_facture[0]">
+          <div class="alert alert-warning  d-flex justify-content-center" >
+              <h2>Voiture en attente de réparation par le mécanicien </h2>
+            </div>
+    </div>
 
 
+    
 
   </div>
   <div class="card-footer bg-primary"></div>

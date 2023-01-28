@@ -43,6 +43,7 @@ export class DetailavancementComponent implements OnInit {
       this.getDepotEncours();
     });
   };
+  progress = 60;
 
 
   ngOnInit(){
@@ -59,8 +60,6 @@ export class DetailavancementComponent implements OnInit {
           this.liste_diagnostic = this.info_reparation[0].diagnostic;
           this.information_user = this.info_reparation[0].user[0];
           console.log('user',this.info_reparation[0].sumAvanc);
-          // console.log('depot',this.information_depot.datedepot);
-          // console.log('diagnostic',this.liste_diagnostic);
       });
     }
 

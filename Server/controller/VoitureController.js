@@ -3,7 +3,11 @@ const User = require("../models/User") ;
 const mongoose=require("mongoose");
 const Reparation = require("../models/Reparation") ;
 const Depot = require('../models/Depot') ;
-const findAll = async (req, res) => {
+
+
+
+const findAllWhereEtatVoitureGaraga = async (req, res) => {
+
     console.log(req.params);
 
 
@@ -28,12 +32,10 @@ User.aggregate([
         $match: {
             $and: [
                 {"_id":idclient},
-                {"voiture.etat":0}
-            ]
-            
+                {"voiture.etat":1}
+            ]            
         }
     },
-      
     {
         $project:
         {
@@ -47,19 +49,6 @@ User.aggregate([
     sendResult(res, facture);
 };
 })
-}
-
-
-const findAllWhereEtatVoitureGaraga = async (req, res) => {
-    console.log(req.params);
-    User.findOne({_id:req.params.idclient},{voiture:1}).populate({path:'voiture.id',match:{etat:1}})
-    .exec(function (err, facture) {
-        if (err) {
-            sendResult(res,err);
-        } else {
-        sendResult(res, facture);
-    }
-});
 }
 
 const save = async (req, res) => {
@@ -164,25 +153,59 @@ const recuperation = async (req, res) => {
              
         });
        }
-               }
+    }
     })
-    //    if(recup.idbonsortie.etatLivraison!=1)
-    //    {
-    //     return  res.send({message:"bon de sortie non validé",error:true});
-    //    }
-    //    else
-    //    {
-    //     Voiture.updateOne({ _id: recup.iddepot.idvoiture},{ $set: {etat:0} },(err,voiture) => {
-    //         if (err) return sendResult(res,err);
-    //         res.send({message:"bon de sortie non validé",error:false})
-    //     });
-    //    }
-   
       
     };
    
        
 
+
+const findAll = async (req, res) => {
+    console.log(req.params);
+
+
+let idclient=mongoose.Types.ObjectId(req.params.idclient);
+
+
+User.aggregate([
+    {
+
+        $lookup:
+        {
+          from: "voitures",
+          localField: "voiture.id",
+          foreignField: "_id",
+          as: "voiture"
+        }
+    },
+    {
+        $unwind: "$voiture"
+    },
+    {
+        $match: {
+            $and: [
+                {"_id":idclient},
+                {"voiture.etat":0}
+            ]
+            
+        }
+    },
+      
+    {
+        $project:
+        {
+            voiture:1
+        }
+    },
+]).exec(function (err, facture) {
+    if (err) {
+        sendResult(res,err);
+    } else {
+    sendResult(res, facture);
+};
+})
+}
 
 
 

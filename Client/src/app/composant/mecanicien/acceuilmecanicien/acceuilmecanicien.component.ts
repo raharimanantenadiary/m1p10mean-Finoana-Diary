@@ -11,8 +11,7 @@ import { isNgTemplate } from '@angular/compiler';
   styleUrls: ['./acceuilmecanicien.component.scss']
 })
 export class AcceuilmecanicienComponent implements OnInit {
-  all = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  even = [10];
+
 
   emplist_noumena: any;
   listevoitures: any;
@@ -26,11 +25,14 @@ export class AcceuilmecanicienComponent implements OnInit {
   
 
   ngOnInit() {
-    console.log(this.chart);
     this.getListeVoitureDepot();
     this.getListeVoitureReparation();
+    this.getListeVoitureFin();
 
   }
+
+
+
 
   getListeVoitureDepot() {
     return this.service.listedepot().subscribe(response => {
@@ -43,15 +45,16 @@ export class AcceuilmecanicienComponent implements OnInit {
   getListeVoitureReparation() {
     return this.service.listeReparation().subscribe(response => {
       this.message = response;
-      console.log(this.message);
       this.garage = this.message;
     });
   }
+
   //mbola ovaina le fonction maka an leiz
   getListeVoitureFin() {
-    return this.service.listedepot().subscribe(response => {
+    return this.service.listeReparationFin().subscribe(response => {
       this.message = response;
       this.fin = this.message;
+      // console.log('fin',response);
     });
   }
 
@@ -62,7 +65,7 @@ export class AcceuilmecanicienComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      //si depot etat == 0 
+      // si depot etat == 0 
       if(event.item.data.etat == 0){
         transferArrayItem(
           event.previousContainer.data,
@@ -77,17 +80,25 @@ export class AcceuilmecanicienComponent implements OnInit {
           console.log("Effectué");
         });
       }
-        if(event.item.data.totalAv < 100 ){
-          alert("La réparation n'est pas encore achevé, il faut que tout soit réprarer");
+        if( event.item.data.depot.etat == 1  && event.item.data.sumAvanc == 100 ){
+          console.log('reparation',event.item.data._id);
+          console.log('depot',event.item.data.depot._id);
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex,
+          );
+
+          this.service.transfertDansFin({"idreparation": event.item.data._id ,"iddepot": event.item.data.depot._id}).subscribe(response => {
+                this.getListeVoitureReparation();
+        });
+      }
+        if( event.item.data.depot.etat == 1  && event.item.data.sumAvanc < 100 ){
+          alert("La répration n'est pas encore achevé");
           return;
         }
-        
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
+
     }
   }
 

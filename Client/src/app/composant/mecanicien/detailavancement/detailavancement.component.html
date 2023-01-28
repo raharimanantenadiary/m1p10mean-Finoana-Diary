@@ -2,13 +2,13 @@
     <div style="border-bottom: 1px solid rgb(179, 155, 155);">
     <h3 style="text-align: center;" >Ajouter nouvelle répration</h3>
 </div>
-    <div class="row">
+    <div class="row" >
         <div class="col-12">
                 <h4>Infomation:</h4>
             <div>
-                <p>Date de déposition: {{info_reparation.datefinreparation | date}} </p>
-                <p>Voiture: </p>
-                <p>Client: </p>
+                <p>Date de déposition: {{information_depot.datedepot | date }} </p>
+                <!-- <p>Voiture:  {{data.voiture.marque}} </p> -->
+                <p>Client: {{information_user.mail}}</p>
                 <!-- CRUD réparation -->
             </div>
             <form (ngSubmit) = "OnSubmit()">
@@ -21,9 +21,13 @@
                         <label for="">Montant</label>
                         <input type="number" min="1"  [(ngModel)] = "formData.montant" class="form-control" name="montant" id="">
                     </div>
-                    <div class="col-12">
+                    <div class="col-6">
                         <label for="">Détails</label>
                         <textarea name="detail" [(ngModel)] = "formData.detail" id="" class="form-control" cols="50" rows="2"></textarea>
+                    </div>
+                    <div class="col-6">
+                        <label for="">Duree</label>
+                        <input type="number" min="1"   [(ngModel)] = "formData.duree" class="form-control" name="montant" id="">
                     </div>
                     <input type="hidden"  [(ngModel)] = "formData.avancement" class="form-control" name="avancement" id="">
                 </div>
@@ -48,24 +52,28 @@
                                 <th>Montant</th>
                                 <th>Avancement</th>
                                 <th>Détail</th>
+                                <th>Jour(s)</th>
                                 <th>Modifier</th>
-                                <th>Supprimer</th>
                             </tr>  
                         </thead>
                         <tbody>
-                            <tr *ngFor="let diag of info_reparation.diagnostic">
-                                <th>{{diag.partie}}</th>
+                            <tr *ngFor="let diag of liste_diagnostic ">
+                                <th> {{diag.partie}}</th>
                                 <th>{{diag.montant | number }} Ar</th>
-                                <th>{{diag.avancement}} %</th>
-                                <th>{{diag.details}}</th>
-                                <th> <a [routerLink]="['/t/modif']" >  <button class="btn btn-outline-success ">Modifier</button></a> </th>
-                                <th> <button class="btn btn-outline-success ">Supprimer</button> </th>
+                                <th>
+                                    {{diag.avancement}} %
+                                 </th>
+                                 <th>{{diag.details}}</th>
+                                <th>{{diag.duree}} jour(s)</th>
+                                <th> <a [routerLink]="['/t/modif/',information_depot.idvoiture,info_reparation[0]._id, diag._id,diag.partie,diag.montant,diag.avancement,diag.details]" >  <button class="btn btn-outline-success ">Modifier</button></a> </th>
                             </tr>
                         </tbody>
                     </table>   
                     <div class="col-12">
                         <div class="d-flex justify-content-end ">
-                            <h4>Total: {{"1800000"|number}} Ar Statique mbola atao dynamique</h4>
+                            <h4>Total Montant: {{ info_reparation[0].sumMont | number }} Ar </h4>
+                            <h4>Total Avancement: {{ info_reparation[0].sumAvanc }} %</h4>
+                            <h4>Total Durée de répration: {{ info_reparation[0].sumJour }} jour(s)</h4>
                         </div>
                     </div>
                 </div>   

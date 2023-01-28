@@ -4,19 +4,19 @@
 
 <div class="row">
     <div class="col-12">
-        <form (ngSubmit) = "OnSubmit()">
+        <form (ngSubmit) = "modifier()">
                 <div class="row">
                     <div class="col-6">
                         <label for="">Partie</label>
-                        <input type="text"  [(ngModel)] = "formData.partie" class="form-control" name="partie" id="">
+                        <input type="text"  [(ngModel)] = "formData.partie" placeholder="{{partie}}" value="{{partie}}" class="form-control" name="partie" id="">
                     </div>
                     <div class="col-6">
                         <label for="">Montant</label>
-                        <input type="number" min="1"  [(ngModel)] = "formData.montant" class="form-control" name="montant" id="">
+                        <input type="number" min="1"  value="{{montant}}" placeholder="{{montant}}" [(ngModel)] = "formData.montant" class="form-control" name="montant" id="">
                     </div>
                     <div class="col-6 ">
                         <label for="">Avancement</label>
-                        <input type="text"  [(ngModel)] = "formData.avancement" class="form-control" name="avancement" id="">
+                        <input type="text"  [(ngModel)] = "formData.avancement" placeholder="{{avancement}}"  class="form-control" name="avancement" id="">
                     </div>
                 </div>
                 <div class="row d-flex justify-content-end mt-3 mb-3">

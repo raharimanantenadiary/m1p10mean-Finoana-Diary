@@ -1,42 +1,72 @@
+  <div class="card">
+  <div class="card-header bg-primary"></div>
+  <div class="card-body">
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Détail du facture</h1>
-</div>
-<div class="row">
-    <div class="card">
-        <div class="card-header">
-          Facture réference: Aaa...123
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Réparations</h5>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Montant</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Changement de pneus</td>
-                <td>500 000 Ar</td>
-              </tr>
-              <tr>
-                <td>Remplacement de la batterie</td>
-                <td>750 000 Ar</td>
-              </tr>
-              <tr>
-                <td>Révision générale</td>
-                <td>1000 000 Ar</td>
-              </tr>
-            </tbody>
-          </table>
-          <h5 class="card-title">Total : 225 €</h5>
-          <a href="#" class="btn btn-outline-primary">Payer</a>
-          <div class="alert alert-success " style="display: flex;justify-content: center;">
-            <h3>Paiement déja effectué</h3>
-          </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12">
+          <i class="far fa-house text-danger fa-6x float-start"></i>
         </div>
       </div>
+
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <ul class="list-unstyled float-end">
+            <li style="font-size: 30px; color: red;">Garage-V</li>
+            <li>mail@mail.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <h3 class="text-uppercase text-center mt-3" style="font-size: 40px;">Facture</h3>
+        <p>123456789</p>
+      </div>
+      <div>
+        <p>Client: {{detail_facture[0].user[0].mail}}</p>
+      </div>
+
+      <div class="row ">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Partie</th>
+              <th scope="col">Montant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let diag of liste_diag">
+              <td>{{diag.partie}}</td>
+              <td>{{diag.montant | number }} Ar</td>
+            </tr>
+            
+          </tbody>
+        </table>
+
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-xl-8" style="margin-left:60px">
+          <p class="float-end"
+            style="font-size: 30px; color: black; font-weight: 400;font-family: Arial, Helvetica, sans-serif;">
+            Total:
+            <span> {{detail_facture[0].sumMont | number }} Ar</span></p>
+        </div>
+
+      </div>
+
+      <div class="row mt-2 mb-5">
+        <p class="fw-bold">Date: <span class="text-muted">{{detail_facture[0].facture.datefacture | date}}</span></p>
+        <p class="fw-bold mt-3">Statut: Non Payé </p>
+      </div>
+
+    </div>
+
+
+
+  </div>
+  <div class="card-footer bg-primary"></div>
 </div>
 

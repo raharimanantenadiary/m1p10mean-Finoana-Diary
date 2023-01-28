@@ -13,6 +13,7 @@ export class SgarageService {
   apiAdd = "https://jf101.onrender.com/test";
 
 
+  //liste depot no averin ito
   listedepot() {
     return this.http.get(this.apiurl + "depot/");
   }
@@ -25,8 +26,13 @@ export class SgarageService {
     return this.http.post(this.apiurl + 'reparation/save', inputData);
   }
 
+  //liste reparation no averin ito
   listeReparation() {
     return this.http.get(this.apiurl + "reparation/");
+  }
+  
+  listeReparationFin() {
+    return this.http.get(this.apiurl + "reparation/finition/template");
   }
   
   detailDepot_dans_Reparation(id:any){
@@ -37,9 +43,17 @@ export class SgarageService {
     return this.http.post(this.apiurl + 'reparation/saveDiag', inputData);
   }
   
-  // ajoutListeReparation(inputData: any) {
-  //   return this.http.put(this.apiurl + 'reparation/saveDiag', inputData);
-  // }
+  transfertDansFin(inputData: any) {
+    return this.http.post(this.apiurl + 'reparation/finir', inputData);
+  }
+  
+  listeReparationByVoitureReparation(idreparation:any, idvoiture:any) {
+    return this.http.get(this.apiurl + 'reparation/findRep/'+idreparation+"/"+idvoiture);
+  }
+  
+  updateDiag(inputData: any) {
+    return this.http.put(this.apiurl + 'reparation/update', inputData);
+  }
   
   
 

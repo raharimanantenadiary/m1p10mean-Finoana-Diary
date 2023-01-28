@@ -2,6 +2,7 @@
 const Facture = require("../models/Facture") ;
 const Reparation = require("../models/Reparation") ;
 const BonSortie = require("../controller/BonSortieController") ;
+const Depense= require("../controller/DepenseController") ;
 const mongoose=require('mongoose');
 
 
@@ -168,10 +169,8 @@ const findByVoiture = async (req, res) => {
       }
 
 
-      const ChiffreAffaireJour = async (req, res) => {
+      const beneficeMois= async (req, res,next) => {
         Reparation.aggregate([
-            
-             
             {
                 $lookup:
                   {
@@ -184,36 +183,46 @@ const findByVoiture = async (req, res) => {
             {
                 $unwind: "$facture"
             },
-        
             {
-                $match: {
-                    $and: [
-                        {"facture.etat":1},
-                        {"facture.datepaiement":req.params.date}
+            $match: {
+                $and: [
+                    {"facture.etat":1},
+                    {
+                     $expr: {
+                            $eq: [
+                                { $month: "$facture.datefacture" },
+                                parseInt(req.params.mois,10)
+                                ]
+                            }
+                    }
                     ]
-                    
                 }
             },
             {
-                $project:
+                $group:
                 {
-                facture:1,
-                sumMont:{ $sum:"$diagnostic.montant" }
+                _id:null,
+                sumMont:{ $sum:{$sum:"$diagnostic.montant"} }
                 }
             }
             
            
-          ]) .exec(function (err, reparation) {
+          ]).exec(function (err, chiffre) {
             if (err) {
-                sendResult(res, err);
+              return err;
             } else {
-            sendResult(res, reparation);
-        
-            }})
-         
+                console.log(chiffre[0].sumMont);
+                req.chiffre=0;
+                if(chiffre!=null)
+                  req.chiffre=chiffre[0].sumMont;
+                }
+                Depense.DepenseparMois(req,res);
+          
+            })
         }
-
-    const ChiffreAffaireMois = async (req, res) => {
+      
+        
+        const ChiffreAffaireMois = async (req, res) => {
             Reparation.aggregate([
                 {
                     $lookup:
@@ -236,7 +245,7 @@ const findByVoiture = async (req, res) => {
                                 $expr: {
                                     $eq: [
                                       { $month: "$facture.datefacture" },
-                                      req.params.mois
+                                      parseInt(req.params.mois,10)
                                     ]
                                   }
                             }
@@ -262,7 +271,6 @@ const findByVoiture = async (req, res) => {
                 }})
              
             }
-  
 
 const save = async (req, res) => {
     await new Facture({idreparation:req.body.idreparation,etat:0}).save(function(error,facture) {
@@ -296,6 +304,8 @@ const paiement = async (req, res) => {
     ); 
 };
 
+
+
 const validation = async (req, res,next) => {
     Facture.updateOne({ _id: req.body.idfacture},{ $set: {etat: 1} },(err,facture) => {
         if (err) return sendResult(res,err);
@@ -326,7 +336,7 @@ module.exports = {
     validation,
     findNonValide,
     findByVoiture,
-    ChiffreAffaireJour,
-    ChiffreAffaireMois
+    ChiffreAffaireMois,
+    beneficeMois
 
 }

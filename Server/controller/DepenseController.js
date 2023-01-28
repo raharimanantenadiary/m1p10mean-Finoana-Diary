@@ -18,7 +18,21 @@ const findAll = async (req, res) => {
 
 
 const save = async (req, res) => {
-    await new Depense({datedepense:req.body.date,typedepense:req.body.idtype,montant:req.body.montant}).save(function(error,depense) {
+    await new Depense({datedepense:new Date(),typedepense:req.body.idtype,montant:req.body.montant}).save(function(error,depense) {
+        if (error) {
+            sendResult(res,error);
+        } else { 
+            sendResult(res,depense);
+        }
+    }
+    );
+        
+
+  
+} ;
+
+const saveTypeDep = async (req, res) => {
+    await new TypeDepense({intitule:req.body.intitule}).save(function(error,depense) {
         if (error) {
             sendResult(res,error);
         } else { 
@@ -32,7 +46,47 @@ const save = async (req, res) => {
 } ;
 
 
-
+const DepenseparMois = async (req, res,next,chiffre) => {
+    Depense.aggregate([
+        {
+        $match: {
+          
+                    $expr: {
+                        $eq: [
+                          { $month: "$datedepense" },
+                         parseInt(req.params.mois,10)
+                        ]
+                      }
+        }  
+        },
+        {
+            $group:
+            {
+            _id:null,
+            sumDep:{ $sum:"$montant" }
+            }
+        }
+        
+       
+      ]) .exec(function (err, depense) {
+        if (err) {
+            sendResult(res, err);
+        } else {
+            let benefice=0;
+            console.log(req.chiffre);
+            let result = new Object();
+            if(depense!=null)
+            {
+            benefice=req.chiffre-depense[0].sumDep;
+            result.chiffre=req.chiffre;
+            result.depense=depense[0].sumDep;
+            result.benefice=benefice
+            }
+            
+            sendResult(res,result);
+    
+        }})
+    }
 
 /****************
  * SEND GENERAL *
@@ -46,6 +100,8 @@ function sendResult(res, result) {
  **************/
 module.exports = {
     save,
-    findAll
+    findAll,
+    DepenseparMois,
+    saveTypeDep
 
 }

@@ -3,8 +3,6 @@ const Depot = require("../models/Depot") ;
 const Reparation = require("../models/Reparation") ;
 const User = require("../models/User") ;
 const mongoose=require("mongoose");
-const Reparation = require("../models/Reparation") ;
-const Depot = require('../models/Depot') ;
 
 
 

@@ -211,15 +211,16 @@ const findByVoiture = async (req, res) => {
             if (err) {
               return err;
             } else {
-              
+                console.log(chiffre[0].sumMont);
                 req.chiffre=0;
-                if(chiffre.length>0)
+                if(chiffre!=null)
                   req.chiffre=chiffre[0].sumMont;
                 }
                 Depense.DepenseparMois(req,res);
           
             })
         }
+      
         
         const ChiffreAffaireMois = async (req, res) => {
             Reparation.aggregate([

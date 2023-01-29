@@ -25,8 +25,31 @@ export class SfincancierService {
     return this.http.post(this.apiurl + "facture/validerFacture", inputdata);
   }
 
+
+
   facturebyvoiture(idvoiture:any) {
     return this.http.get(this.apiurl + "facture/byvoiture/"+idvoiture);
+  }
+
+
+  beneficeMois(mois:any){
+     return this.http.get(this.apiurl + "facture/benefice/"+mois);
+  }
+
+  chiffremois(mois:any){
+     return this.http.get(this.apiurl + "facture/chiffre/"+mois);
+  }
+ 
+  getAllTypeDepense(){
+     return this.http.get(this.apiurl + "depense/");
+  }
+
+  ajoutTypeDepense(inputdata: any) {
+    return this.http.post(this.apiurl + "depense/saveType", inputdata);
+  }
+  
+  ajoutDepense(inputdata: any) {
+    return this.http.post(this.apiurl + "depense/save", inputdata);
   }
 
 

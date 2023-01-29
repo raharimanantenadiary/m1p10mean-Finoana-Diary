@@ -205,21 +205,22 @@ const findByVoiture = async (req, res) => {
                 sumMont:{ $sum:{$sum:"$diagnostic.montant"} }
                 }
             }
-            
+            //si mois n'existe pas //consition à verfifier
            
           ]).exec(function (err, chiffre) {
             if (err) {
               return err;
             } else {
-              
+                console.log(chiffre[0].sumMont);
                 req.chiffre=0;
-                if(chiffre.length>0)
+                if(chiffre!=null)
                   req.chiffre=chiffre[0].sumMont;
                 }
                 Depense.DepenseparMois(req,res);
           
             })
         }
+      
         
         const ChiffreAffaireMois = async (req, res) => {
             Reparation.aggregate([

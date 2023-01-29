@@ -92,6 +92,10 @@ export class AcceuilmecanicienComponent implements OnInit {
 
     }
   }
+
+  Pas_de_retour() {
+    return false;
+  }
   
 
 

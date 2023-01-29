@@ -2,34 +2,46 @@
     <h1 class="h3 mb-0 text-gray-800">Historique de répration du voiture Renault</h1>
 </div>
 
-<div class="card">
-    <div class="card-header">
-      Deposition n°12348 le 22 Janvier 2023
+
+<div *ngIf="detail[0] == null">
+  <div class="alert alert-warning">
+          <h3>Pas de réparation</h3>
+  </div>
+</div>
+
+
+<div *ngIf="detail != null">
+  <div class="card mt-3 mb-2" *ngFor="let d of detail">
+    <div class="card-header bg-primary" style="color: black;"  >
+      Deposition n°12348 le {{d.depot.datedepot|date}}
     </div>
     <div class="card-body">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Description</th>
+            <th scope="col">Partie</th>
             <th scope="col">Montant</th>
+            <th scope="col">Duree</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Changement de pneus</td>
-            <td>500 000 Ar</td>
-          </tr>
-          <tr>
-            <td>Remplacement de la batterie</td>
-            <td>750 000 Ar</td>
-          </tr>
-          <tr>
-            <td>Révision générale</td>
-            <td>1000 000 Ar</td>
+          <tr *ngFor="let diag of d.diagnostic" >
+            <td>{{diag.partie}}</td>
+            <td>{{diag.montant |number }} Ar</td>
+            <td>{{diag.duree}}</td>
           </tr>
         </tbody>
       </table>
-      <h5 class="card-title">Total : 225 €</h5>
-        <h3>En cours / Juste deposition / Réparation effectuée</h3>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <h6 class="mb-0">Total Montant</h6>
+          <span class="text-secondary">{{ d.sumMont | number }} Ar</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <h6 class="mb-0">Total Durée de répration</h6>
+          <span class="text-secondary">{{ d.sumJour }} jours </span>
+        </li>
+      </ul>
     </div>
   </div>
+</div>

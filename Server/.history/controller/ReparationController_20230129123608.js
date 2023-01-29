@@ -368,6 +368,7 @@ const findMoyenRep = async(req, res) => {
 
 }
 
+
 //En cours de reparation
 const findAllReparation = async (req, res) => {
     console.log(req.params);

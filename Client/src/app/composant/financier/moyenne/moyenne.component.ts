@@ -10,7 +10,7 @@ import { SgarageService } from './../../../service/sgarage.service';
 export class MoyenneComponent implements OnInit {
 
   liste_moyenne: any;
-
+ 
   constructor(private service: SgarageService){}
 
   ngOnInit(): void {
@@ -20,8 +20,15 @@ export class MoyenneComponent implements OnInit {
   getListeNonValide(){
     return  this.service.listemoyenneparvoiture().subscribe(response => {
         this.liste_moyenne = response;
-        console.log(this.liste_moyenne);
+        let somme = 0;
+        for(let i=0;i<this.liste_moyenne.length;i++){
+            somme = somme + this.liste_moyenne[i].count;
+        }
+        console.log('somme',somme);
     });
   }
+
+
+ 
 
 }

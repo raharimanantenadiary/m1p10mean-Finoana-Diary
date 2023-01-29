@@ -1,6 +1,9 @@
+import { TestGuard } from './../../.history/src/app/guard/test.guard_20230129000126';
+import { ClientGuard } from './../../.history/src/app/guard/client.guard_20230128235051';
 import { ModifieravancementComponent } from './composant/mecanicien/modifieravancement/modifieravancement.component';
 import { FooterComponent } from './composant/footer/footer.component';
 import { NgModule } from '@angular/core';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -33,6 +36,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { BonsortieComponent } from './composant/mecanicien/bonsortie/bonsortie.component';
 import { MoyenneComponent } from './composant/financier/moyenne/moyenne.component';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { DepenseComponent } from './composant/financier/depense/depense.component';
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -57,7 +65,8 @@ import { MoyenneComponent } from './composant/financier/moyenne/moyenne.componen
     DetailavancementComponent,
     ModifieravancementComponent,
     BonsortieComponent,
-    MoyenneComponent
+    MoyenneComponent,
+    DepenseComponent
   ],
   imports: [
     BrowserModule,
@@ -72,29 +81,31 @@ import { MoyenneComponent } from './composant/financier/moyenne/moyenne.componen
     ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: LoginComponent },
-      { path: 'login', component: LoginComponent },
+      { path: 'login', component: LoginComponent},
       { path: 'inscription', component: InscriptionComponent },
       { path: 'validation', component: ValidationComponent },
       {
         path: 't', component: TemplateComponent, children: [
-          { path: '', component: HomedefaultComponent },
-          { path: 'acceuil', component: AcceuilComponent },
-          { path: 'historique', component: HistoriqueComponent },
+          { path: '', component: HomedefaultComponent , canActivate: [TestGuard] },
+          { path: 'acceuil', component: AcceuilComponent    },
+          { path: 'historique/:idvoiture', component: HistoriqueComponent },
           { path: 'detailfacture/:idvoiture', component: DetailfactureComponent },
-          { path: 'avancement', component: AvancementComponent },
+          { path: 'avancement/:idvoiture', component: AvancementComponent },
           { path: 'acm', component: AcceuilmecanicienComponent },
           { path: 'acm/:idvoiture/:idreparation', component: DetailavancementComponent },
           { path: 'bdetail/:idvoiture/:idreparation', component: BonsortieComponent },
           { path: 'modif/:idvoiture/:idrep/:iddiag/:partie/:montant/:av/:det', component: ModifieravancementComponent },
           { path: 'acf', component: AcceuilfinancierComponent },
+          { path: 'acf/:mois', component: AcceuilfinancierComponent },
           { path: 'lp', component: ListepaiementComponent },
           { path: 'moyenne', component: MoyenneComponent },
+          { path: 'depense', component: DepenseComponent },
         ]
       },
 
     ])
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'fr' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

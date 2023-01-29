@@ -23,7 +23,7 @@ router.get('/finition/template',findAllReparationFin);
 //avancement pour une voiture voiture
 router.get('/findAvancement/:idvoiture',findAvancementByvoiture);
 //moyenne pour une voiture voiture // mila liste voiture niditra tao @ garage
-router.get('/moyenne/voiture',findMoyenRep);
+router.get('/findMoyen/:idvoiture',findMoyenRep);
 
               
               

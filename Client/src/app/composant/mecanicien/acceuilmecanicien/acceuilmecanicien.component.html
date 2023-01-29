@@ -31,6 +31,7 @@
                     cdkDropListConnectedTo="encours"
                     class="example-list"
                     (cdkDropListDropped)="drop($event)"
+                    [cdkDropListEnterPredicate]="Pas_de_retour"
                     >
                     <div
                         class="example-box"
@@ -81,6 +82,7 @@
                     [cdkDropListConnectedTo]="['deposition','fin']"
                     class="example-list"
                     (cdkDropListDropped)="drop($event)"
+                    
                     >
                     <div
                         class="example-box"

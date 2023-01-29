@@ -220,6 +220,7 @@ const findByVoiture = async (req, res) => {
           
             })
         }
+      
         
         const ChiffreAffaireMois = async (req, res) => {
             Reparation.aggregate([

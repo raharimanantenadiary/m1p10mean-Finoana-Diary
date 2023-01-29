@@ -7,6 +7,6 @@ const { find } = require('../models/User');
 router.post('/save',save);
 router.get('/byclient/:idclient',findAll);
 router.get('/byclient/garage/:idclient',findAllWhereEtatVoitureGaraga);
-router.put('/recuperation',recuperation);
+router.get('/recuperation',recuperation);
 
 module.exports = router;

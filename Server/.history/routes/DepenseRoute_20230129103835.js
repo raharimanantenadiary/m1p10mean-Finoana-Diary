@@ -6,7 +6,7 @@ const {save,findAll, DepenseparMois, saveTypeDep} = require('../controller/Depen
 router.post('/save',save);
 router.post('/saveType',saveTypeDep);
 router.get('/',findAll);
-router.get('/total/mois/:mois',DepenseparMois);
+router.get('/total/:mois',DepenseparMois);
 
 
 module.exports = router;

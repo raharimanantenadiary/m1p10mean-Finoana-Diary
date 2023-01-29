@@ -77,6 +77,9 @@
                             <p>Marque: {{voiture.voiture.marque}}</p>
                             <p>Matricule: {{voiture.voiture.matricule}}</p>
                             </div>
+                            <div style="display: flex;flex-direction: column;" >
+                                <a [routerLink]="['/t/historique', voiture.voiture._id]"> <button class="btn btn-outline-success mt-3">Historique</button></a>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -127,7 +130,7 @@
                     <p>Matricule: {{voiture.voiture.matricule}}</p>
                 </div>
                 <div style="display: flex;flex-direction: column;" >
-                    <a [routerLink]="['/t/avancement']"> <button class="btn btn-outline-success mt-3">Avancement</button></a>
+                    <a [routerLink]="['/t/avancement', voiture.voiture._id]"> <button class="btn btn-outline-success mt-3">Avancement</button></a>
                     <a [routerLink]="['/t/detailfacture/', voiture.voiture._id]"> <button class="btn btn-outline-primary mt-3">Facture</button></a>
                 </div>
             </div>

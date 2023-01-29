@@ -35,12 +35,22 @@ export class SgarageService {
     return this.http.get(this.apiurl + "reparation/moyenne/voiture");
   }
   
+
+  
   listeReparationFin() {
     return this.http.get(this.apiurl + "reparation/finition/template");
   }
   
   detailDepot_dans_Reparation(id:any){
     return this.http.get(this.apiurl + "reparation/infodepot/"+id);
+  }
+  
+  voirAvancement(id:any){
+    return this.http.get(this.apiurl + "reparation/findAvancement/"+id);
+  }
+  
+  voirHistorique(id:any){
+    return this.http.get(this.apiurl + "reparation/histoRep/"+id);
   }
 
   ajoutListeReparation(inputData: any) {

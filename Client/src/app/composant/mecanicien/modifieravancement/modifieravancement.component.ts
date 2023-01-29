@@ -47,7 +47,6 @@ export class ModifieravancementComponent   implements OnInit {
 
 
     modifier(){
-      // alert(this.formData.avancement); 
       this.service.updateDiag(
         {
           "idreparation": this.id_rep,

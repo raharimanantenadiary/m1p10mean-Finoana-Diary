@@ -2,37 +2,61 @@
     <h1 class="h3 mb-0 text-gray-800">Avancement de la répration</h1>
 </div>
 
+<div *ngIf="detail_evancement[0] != null">
+
 <div class="card">
     <div class="card-header">
-      Deposition n°12348 le 22 Janvier 2023
+      Deposition n°12348 le {{detail_evancement[0].depot.datedepot | date}}
     </div>
     <div class="card-body">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Description</th>
-            <th scope="col">Montant</th>
-            <th scope="col">Statut</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Changement de pneus</td>
-            <td>500 000 Ar</td>
-            <td>En cours</td>
-          </tr>
-          <tr>
-            <td>Remplacement de la batterie</td>
-            <td>750 000 Ar</td>
-            <td>Réparer</td>
+            <th>Partie</th>
+            <th>Montant</th>
+            <th>Avancement</th>
+            <th>Détail</th>
+            <th>Jours</th>
+        </tr>  
+    </thead>
+    <tbody>
+        <tr *ngFor="let diag of detail_evancement[0].diagnostic ">
+            <th> {{diag.partie}}</th>
+            <th>{{diag.montant | number }} Ar</th>
+            <th>
+                <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" [ngStyle]="{'width': diag.avancement + '%'}" [attr.aria-valuenow]="diag.avancement" aria-valuemin="0" aria-valuemax="100">{{diag.avancement}}%</div>
+                  </div>
+             </th>
+             <th>{{diag.details}}</th>
+            <th>{{diag.duree}} jour</th>
         </tr>
-        <tr>
-            <td>Révision générale</td>
-            <td>1000 000 Ar</td>
-            <td>Réparer</td>
-          </tr>
         </tbody>
       </table>
-        <h3>En cours / Juste deposition / Réparation effectuée</h3>
     </div>
   </div>
+
+  <div class="card">
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <h6 class="mb-0">Total Montant</h6>
+          <span class="text-secondary">{{ detail_evancement[0].sumMont | number }} Ar</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <h6 class="mb-0">Total Avancement</h6>
+          <span class="text-secondary">{{ detail_evancement[0].sumAvanc }} %</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <h6 class="mb-0">Total Durée de répration</h6>
+          <span class="text-secondary">{{ detail_evancement[0].sumJour }} jours </span>
+        </li>
+      </ul>
+    </div>
+</div>
+</div>
+<div *ngIf="detail_evancement[0] == null">
+    <div class="alert alert-warning">
+            <h3>En attente</h3>
+    </div>
+</div>

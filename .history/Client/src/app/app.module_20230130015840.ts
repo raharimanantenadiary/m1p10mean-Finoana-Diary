@@ -1,3 +1,5 @@
+import { TestGuard } from './../../.history/src/app/guard/test.guard_20230129000126';
+import { ClientGuard } from './../../.history/src/app/guard/client.guard_20230128235051';
 import { ModifieravancementComponent } from './composant/mecanicien/modifieravancement/modifieravancement.component';
 import { FooterComponent } from './composant/footer/footer.component';
 import { NgModule } from '@angular/core';
@@ -17,6 +19,7 @@ import { AcceuilComponent } from './composant/client/acceuil/acceuil.component';
 import { TemplateComponent } from './composant/template/template.component';
 import { HeaderComponent } from './composant/header/header.component';
 import { NavbarComponent } from './composant/navbar/navbar.component';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ToastrModule } from 'ngx-toastr';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SidebarComponent } from './composant/sidebar/sidebar.component';

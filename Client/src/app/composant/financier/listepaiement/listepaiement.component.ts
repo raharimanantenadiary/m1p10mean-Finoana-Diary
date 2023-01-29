@@ -1,5 +1,5 @@
 import { Component , OnInit} from '@angular/core';
-
+import { ToastrService } from 'ngx-toastr';
 import { SfincancierService } from './../../../service/sfincancier.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { SfincancierService } from './../../../service/sfincancier.service';
 })
 export class ListepaiementComponent implements OnInit {
 
-  constructor(private service: SfincancierService){}
+  constructor(private service: SfincancierService, private toastr: ToastrService){}
 
   liste_non_valide: any;
 
@@ -30,8 +30,11 @@ export class ListepaiementComponent implements OnInit {
       "idfacture": idfacture
     }).subscribe(response => {
       this.getListeNonValide();
+      this.showSuccess();
     });
-    this.getListeNonValide();
   }
+        showSuccess() {
+        this.toastr.success('Effectuée avec success!','Paiement!');
+    }
 
 }

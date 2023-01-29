@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 import { _isTestEnvironment } from '@angular/cdk/platform';
 import { isNgTemplate } from '@angular/compiler';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class AcceuilmecanicienComponent implements OnInit {
   message: any;
   chart: any;
 
-  constructor(private service: SgarageService) { }
+  constructor(private service: SgarageService, private toastr: ToastrService) { }
 
 
   ngOnInit() {
@@ -56,7 +57,7 @@ export class AcceuilmecanicienComponent implements OnInit {
 
 
     drop(event: CdkDragDrop<any[]>) {
-     
+     console.log(event.item.data);
     this.getListeVoitureReparation();
     this.getListeVoitureFin();
       if (event.previousContainer === event.container) {
@@ -71,7 +72,8 @@ export class AcceuilmecanicienComponent implements OnInit {
           event.currentIndex,
         );
         //changement de depot dans reparation
-        this.service.ajoutDeposition_dans_reparation({ "iddepot": event.item.data._id}).subscribe(response => {this.getListeVoitureDepot();this.getListeVoitureReparation();});
+        this.service.ajoutDeposition_dans_reparation({ "iddepot": event.item.data._id}).subscribe(response => {
+          this.getListeVoitureDepot();this.getListeVoitureReparation();this.showSuccess();});
       }
         if( event.item.data.depot.etat == 1  && event.item.data.sumAvanc == 100 ){
           transferArrayItem(
@@ -81,10 +83,10 @@ export class AcceuilmecanicienComponent implements OnInit {
             event.currentIndex,
           );
 
-          this.service.transfertDansFin({"idreparation": event.item.data._id ,"iddepot": event.item.data.depot._id}).subscribe(response => {this.getListeVoitureReparation();this.getListeVoitureFin();});
+          this.service.transfertDansFin({"idreparation": event.item.data._id ,"iddepot": event.item.data.depot._id}).subscribe(response => {this.getListeVoitureReparation();this.getListeVoitureFin();this.showSuccess();});
         }
         if( event.item.data.depot.etat == 1  && event.item.data.sumAvanc < 100 ){
-          alert("La répration n'est pas encore achevé");
+         this.showErreur();
           return;
         }
 
@@ -97,6 +99,12 @@ export class AcceuilmecanicienComponent implements OnInit {
     return false;
   }
   
+      showSuccess() {
+        this.toastr.success('Effectuée avec success!','Déplacement effectuer');
+    } 
+      showErreur() {
+        this.toastr.warning('Réparation non achevé!','Déplacement non effectuer');
+    }
 
 
   // drop(event: CdkDragDrop<any[]>) {

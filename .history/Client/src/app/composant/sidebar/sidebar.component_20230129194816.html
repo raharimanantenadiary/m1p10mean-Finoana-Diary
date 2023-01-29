@@ -1,0 +1,66 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Garage <sup>Fabiola</sup></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Menu
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link" *ngIf="user_actif.role.intitule == 'mecaniciens' "  [routerLink]="['/t/'] "  >
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Home default</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link"   *ngIf="user_actif.role.intitule == 'client' " [routerLink]="['/t/acceuil']">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Acceuil Client</span></a>
+    </li>
+    <li class="nav-item" *ngIf="user_actif.role.intitule == 'client' ">
+        <a class="nav-link"  [routerLink]="['/t/acm']">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Acceuil Mécanicien</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" *ngIf="user_actif.role.intitule == 'client' "  [routerLink]="['/t/acf']">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Acceuil Financier</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"*ngIf="user_actif.role.intitule == 'mecanicien' "  [routerLink]="['/t/lp']">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Validation paiement</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" *ngIf="user_actif.role.intitule == 'mecanicien' " [routerLink]="['/t/moyenne']">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Moyenne</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" *ngIf="user_actif.role.intitule == 'mecanicien' " [routerLink]="['/t/depense']">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Dépense</span></a>
+        </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>

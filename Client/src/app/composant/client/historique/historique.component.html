@@ -12,7 +12,7 @@
 
 <div *ngIf="detail != null">
   <div class="card mt-3 mb-2" *ngFor="let d of detail">
-    <div class="card-header bg-primary" style="color: black;"  >
+    <div class="card-header bg-success" style="color: black;"  >
       Deposition n°12348 le {{d.depot.datedepot|date}}
     </div>
     <div class="card-body">
@@ -28,17 +28,17 @@
           <tr *ngFor="let diag of d.diagnostic" >
             <td>{{diag.partie}}</td>
             <td>{{diag.montant |number }} Ar</td>
-            <td>{{diag.duree}}</td>
+            <td>{{diag.duree}} jours</td>
           </tr>
         </tbody>
       </table>
       <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-          <h6 class="mb-0">Total Montant</h6>
+          <h6 class="mb-0">Total montant</h6>
           <span class="text-secondary">{{ d.sumMont | number }} Ar</span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-          <h6 class="mb-0">Total Durée de répration</h6>
+          <h6 class="mb-0">Total durée de répration</h6>
           <span class="text-secondary">{{ d.sumJour }} jours </span>
         </li>
       </ul>

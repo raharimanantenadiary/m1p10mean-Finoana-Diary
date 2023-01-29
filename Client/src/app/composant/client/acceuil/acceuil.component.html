@@ -1,7 +1,15 @@
+<style>
+.vertical-line{
+border-left: 1px solid #ccc;
+display: inline-block;
+height: 130px;
+margin: 0 10px;
+}
+</style>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Client: Valimbavaka</h1>
-  </div>
-  <div class="row">
+    <h1 class="h3 mb-0 text-gray-800">Utilisateur: {{user_actif}}</h1>
+</div>
+<div class="row">
     <!-- //Liste voiture du client -->
     <div class="col-lg-6">
         <div class="card shadow mb-4">
@@ -32,57 +40,71 @@
             <div class="card-body" >
                 
                 <div *ngIf="loading" class="d-flex justify-content-center">
-                <div class="spinner-border" role="status">
-                  <span class="visually-hidden">Loading...</span>
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-danger" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-warning" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-info" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-light" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-dark" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
-                <div class="spinner-grow text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                  <div class="spinner-grow text-secondary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                  <div class="spinner-grow text-success" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                  <div class="spinner-grow text-danger" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                  <div class="spinner-grow text-warning" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                  <div class="spinner-grow text-info" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                  <div class="spinner-grow text-light" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                  <div class="spinner-grow text-dark" role="status">
-                      <span class="visually-hidden">Loading...</span>
-                  </div>
-              </div>
             </div>
-              
-              <div class="card-body" >
-                   <div id="parking" 
-                   cdkDropList 
-                   class="example-list"
-                   [cdkDropListData]="listevoitures" 
-                   cdkDropListConnectedTo="deposition" 
-                   (cdkDropListDropped)="drop($event)" 
-                   [cdkDropListEnterPredicate]="Pas_de_retour">
-                        <div class="example-box" *ngFor="let voiture of listevoitures" [cdkDragData]="voiture" cdkDrag>
+            
+            <div class="card-body" >
+                <div id="parking"
+                    cdkDropList
+                    class="example-list"
+                    [cdkDropListData]="listevoitures"
+                    cdkDropListConnectedTo="deposition"
+                    (cdkDropListDropped)="drop($event)"
+                    [cdkDropListEnterPredicate]="Pas_de_retour">
+                    <div class="mb-3"
+                        style="width: 300px;
+                        height: 180px;
+                        border: solid 1px #ccc;
+                        color: rgba(0, 0, 0, 0.87);
+                        cursor: move;
+                        background: #fff;
+                        border-radius: 4px;
+                        margin-right: 25px;
+                        position: relative;
+                        z-index: 1;
+                        margin-top: 20px;
+                        box-sizing: border-box;
+                        transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+                        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+                        0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                        0 1px 5px 0 rgba(0, 0, 0, 0.12);" *ngFor="let voiture of listevoitures" [cdkDragData]="voiture" cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
-                            <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                            <p>Designation: {{voiture.voiture.designation}}</p>
-                            <p>Marque: {{voiture.voiture.marque}}</p>
-                            <p>Matricule: {{voiture.voiture.matricule}}</p>
+                            <div style="background-color: ghostwhite;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                                <p>Designation: {{voiture.voiture.designation}}</p>
+                                <p>Marque: {{voiture.voiture.marque}}</p>
+                                <p>Matricule: {{voiture.voiture.matricule}}</p>
                             </div>
+                            <span class="vertical-line"></span>
                             <div style="display: flex;flex-direction: column;" >
-                                <a [routerLink]="['/t/historique', voiture.voiture._id]"> <button class="btn btn-outline-success mt-3">Historique</button></a>
+                                <a [routerLink]="['/t/historique', voiture.voiture._id]"> <button  class="btn btn-outline-success mt-3">Historique</button></a>
                             </div>
-                        </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -94,22 +116,35 @@
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Garages</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                        aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
             </div>
             <!-- Card Body -->
+            <div *ngIf="loading_garage" class="d-flex justify-content-center">
+                
+                <div class="spinner-grow text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-info" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-dark" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
             <div class="card-body">
                 <div
                     id="deposition"
@@ -119,42 +154,58 @@
                     cdkDropListConnectedTo="parking"
                     (cdkDropListDropped)="drop($event)"
                     >
-                   <div id="deposition" cdkDropList [cdkDropListData]="liste_voiture_garage" cdkDropListConnectedTo="parking" (cdkDropListDropped)="drop($event)"  [cdkDropListEnterPredicate]="interdireDepot">
-    <div class="example-box" *ngFor="let voiture of liste_voiture_garage" [cdkDragData]="voiture" cdkDrag>
-      <div class="d-flex justify-content-between" style="margin: 10px 10px;">
-        <div  style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-            <div  class="d-flex justify-content-between" style="margin: 10px 10px;">
-                <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                    <p>Designation: {{voiture.voiture.designation}}</p>
-                    <p>Marque: {{voiture.voiture.marque}}</p>
-                    <p>Matricule: {{voiture.voiture.matricule}}</p>
-                </div>
-                <div style="display: flex;flex-direction: column;" >
-                    <a [routerLink]="['/t/avancement', voiture.voiture._id]"> <button class="btn btn-outline-success mt-3">Avancement</button></a>
-                    <a [routerLink]="['/t/detailfacture/', voiture.voiture._id]"> <button class="btn btn-outline-primary mt-3">Facture</button></a>
+                    <div class="mb-3"
+                        style="width: 400px;
+                        height: 200px;
+                        border: solid 1px #ccc;
+                        color: rgba(0, 0, 0, 0.87);
+                        cursor: move;
+                        background: #fff;
+                        border-radius: 4px;
+                        margin-right: 25px;
+                        position: relative;
+                        z-index: 1;
+                        margin-top: 20px;
+                        box-sizing: border-box;
+                        transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+                        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+                        0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                        0 1px 5px 0 rgba(0, 0, 0, 0.12);"
+                        *ngFor="let voiture of liste_voiture_garage" [cdkDragData]="voiture" cdkDrag>
+                        <div class="d-flex" style="margin: 10px 10px;">
+                            <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                                <div  class="d-flex justify-content-between" style="margin: 10px 10px;">
+                                    <div style="background-color: ghostwhite;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                                        <p>Designation: {{voiture.voiture.designation}}</p>
+                                        <p>Marque: {{voiture.voiture.marque}}</p>
+                                        <p>Matricule: {{voiture.voiture.matricule}}</p>
+                                    </div>
+                                    <span class="vertical-line"></span>
+                                    <div style="display: flex;flex-direction: column;" >
+                                        <a [routerLink]="['/t/avancement', voiture.voiture._id]"> <button class="btn btn-outline-success mt-3">Avancement</button></a>
+                                        <a [routerLink]="['/t/detailfacture/', voiture.voiture._id]"> <button class="btn btn-outline-primary mt-3">Facture</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-      </div>
     </div>
-  </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-  <!-- Modal Ajouter -->
-  <div class="modal fade" id="exampleModalI" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+<!-- Modal Ajouter -->
+<div class="modal fade" id="exampleModalI" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header " style="background-color: rgb(40, 40, 219);">
+            <div class="modal-header bg-success " style="color: black;">
                 <h5 class="modal-title" id="exampleModalLabel">Nouvelle voiture</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form  (ngSubmit) = "Ajouter()" >
                     <div class="col-10">
-                        <label for="">Designation</label>
+                        <label for="">Désignation</label>
                         <input type="text" [(ngModel)] = "formData.designation" name="designation" class="form-control">
                     </div>
                     <div class="col-10">
@@ -167,20 +218,20 @@
                     </div>
                     <div class="modal-footer mt-3">
                         <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Fermer</button>
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                        <button type="submit" class="btn btn-outline-success" data-bs-dismiss="modal">Ajouter</button>
                     </div>
                 </form>
                 <div *ngIf="message" class="text-center mt-2">{{message.message}}</div>
             </div>
         </div>
     </div>
-  </div>
-  <!-- Modal ajout voiture -->
-  <!-- modal-modifier -->
-  <div class="modal fade" id="exampleModalModifier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+<!-- Modal ajout voiture -->
+<!-- modal-modifier -->
+<div class="modal fade" id="exampleModalModifier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: aqua;">
+            <div class="modal-header bg-primary" style="color: white;">
                 <h5 class="modal-title" id="exampleModalLabel">Modifier voiture</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -206,10 +257,5 @@
             </div>
         </div>
     </div>
-  </div>
-  <!-- modal-modifier -->
-
-  <div *ngIf="pieChart">
-    <p>ok</p>
-    <canvas id="pieChart">{{ pieChart }}</canvas>
-  </div>
+</div>
+<!-- modal-modifier -->

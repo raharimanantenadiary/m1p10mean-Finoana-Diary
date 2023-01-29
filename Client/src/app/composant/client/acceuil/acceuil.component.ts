@@ -5,6 +5,7 @@ import { _isTestEnvironment } from '@angular/cdk/platform';
 import { SvoitureService } from './../../../service/svoiture.service';
 import { SgarageService } from './../../../service/sgarage.service';
 import { Chart } from 'chart.js';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-acceuil',
@@ -17,7 +18,9 @@ export class AcceuilComponent implements OnInit {
   searchText = '';
   annee = '';
   loading = false;
+  loading_garage = false;
   emplist_noumena: any;
+  user_actif: any;
 
   lineChart!: Chart;
   pieChart!: Chart ;
@@ -40,39 +43,14 @@ export class AcceuilComponent implements OnInit {
     idclient: this.idclient
   };
 
-  constructor(private service: SvoitureService,private depot_service: SgarageService,private router:Router, private cdr: ChangeDetectorRef) { }
+  constructor(private service: SvoitureService,private depot_service: SgarageService,private router:Router, private cdr: ChangeDetectorRef, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getListeVoitureClient();
     this.getListevoitureDansGarage();
+    this.user_actif = localStorage.getItem("mail");
 
-     this.lineChart = new Chart('lineChart', {
-      type: 'line',
-      data : {
-        labels : ['Janv', 'Feb'],
-        datasets: [{
-          label: 'Number of Items sold in mouths',
-          data: [1, 2],
-          fill: false,
-          borderColor: 'red',
-          borderWidth: 1,
-        }]
-      }
-    });
- 
-    this.pieChart = new Chart('pieChart', {
-      type: 'pie',
-      data: {
-        datasets: [{
-          data: [10, 20, 30]
-        }],
-        labels: [
-          'Red',
-          'Yellow',
-          'Blue'
-        ]
-      }
-    });
+    
   }
 
   getListeVoitureClient(){
@@ -87,8 +65,10 @@ export class AcceuilComponent implements OnInit {
   }
   
   getListevoitureDansGarage(){
+      this.loading_garage = true;
     return  this.service.voitureByIdDansGarage(this.idclient).subscribe(response => {
       this.message = response;
+      this.loading_garage = false;
       this.liste_voiture_garage = this.message;
       console.log("voiture 1", this.listevoitures);
     });
@@ -112,7 +92,7 @@ export class AcceuilComponent implements OnInit {
                 "idvoiture": event.item.data.voiture._id,"idclient": localStorage.getItem("id") ,"date": now.toString() 
               }).subscribe(response => {
                 this.message = response;
-                alert("Effectué");
+              this.showSuccess();
               });
 
             }
@@ -124,7 +104,7 @@ export class AcceuilComponent implements OnInit {
             event.currentIndex,
             );
             this.depot_service.recuperarationVoiture(event.item.data.voiture._id).subscribe(response => {
-              alert("Voiture récuperer");
+              this.showRecuperation();
               this.getListeVoitureClient();
               this.getListevoitureDansGarage();
             });
@@ -168,5 +148,15 @@ Ajouter() {
   interdireDepot(item: any) {
     return true;
 }
+
+     showSuccess() {
+        this.toastr.success('Effectuée avec success!','Déplacement effectuer');
+    } 
+      showRecuperation() {
+        this.toastr.success('Effectuée avec success!','Récupération effectuer');
+    } 
+      showErreur() {
+        this.toastr.warning('Bon de sortie non valider par le mécanicien!','Déplacement non effectuer');
+    }
 
 }

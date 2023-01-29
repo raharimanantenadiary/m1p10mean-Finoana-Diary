@@ -46,10 +46,14 @@ export class BonsortieComponent implements OnInit {
     validerBonSortie(){
       return  this.garage_service.validationBondeSortie(this.bon_sortie._id).subscribe(response => {
         this.getDepotEncours();
+        this.showSuccess();
           console.log(response);
       });
     }
 
+      showSuccess() {
+        this.toastr.success('Effectuée avec success!','Bon de sortie!');
+    }
   
 
 }

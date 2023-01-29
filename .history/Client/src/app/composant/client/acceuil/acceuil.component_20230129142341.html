@@ -1,0 +1,215 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Client: Valimbavaka</h1>
+  </div>
+  <div class="row">
+    <!-- //Liste voiture du client -->
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Voitures</h6>
+                <div class="dropdown no-arrow">
+                    <div class="d-flex justify-content-between" >
+                        <select name="" id=""  [(ngModel)]="annee">
+                            <option value="">All</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                        </select>
+                        <!-- <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Annee"> -->
+                        <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Tout....." [(ngModel)]="searchText">
+                        <button type="button"  class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModalI">
+                        Nouvelle
+                        </button>
+                    </div>
+                    <!-- Modal ajout voiture -->
+                    
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body" >
+                
+                <div *ngIf="loading" class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div class="spinner-grow text-secondary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div class="spinner-grow text-danger" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div class="spinner-grow text-warning" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                  <div class="spinner-grow text-info" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div class="spinner-grow text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div class="spinner-grow text-dark" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>
+              </div>
+            </div>
+              
+              <div class="card-body" >
+                   <div id="parking" 
+                   cdkDropList 
+                   class="example-list"
+                   [cdkDropListData]="listevoitures" 
+                   cdkDropListConnectedTo="deposition" 
+                   (cdkDropListDropped)="drop($event)" 
+                   [cdkDropListEnterPredicate]="Pas_de_retour">
+                        <div class="example-box" *ngFor="let voiture of listevoitures" [cdkDragData]="voiture" cdkDrag>
+                        <div class="d-flex justify-content-between" style="margin: 10px 10px;">
+                            <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                            <p>Designation: {{voiture.voiture.designation}}</p>
+                            <p>Marque: {{voiture.voiture.marque}}</p>
+                            <p>Matricule: {{voiture.voiture.matricule}}</p>
+                            </div>
+                            <div style="display: flex;flex-direction: column;" >
+                                <a [routerLink]="['/t/historique', voiture.voiture._id]"> <button class="btn btn-outline-success mt-3">Historique</button></a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- //Garage -->
+    <div class="col-lg-6">
+        <!-- Dropdown Card Example -->
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Garages</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div
+                    id="deposition"
+                    class="example-list"
+                    cdkDropList
+                    [cdkDropListData]="liste_voiture_garage"
+                    cdkDropListConnectedTo="parking"
+                    (cdkDropListDropped)="drop($event)"
+                    >
+                   <div id="deposition" cdkDropList [cdkDropListData]="liste_voiture_garage" cdkDropListConnectedTo="parking" (cdkDropListDropped)="drop($event)"  [cdkDropListEnterPredicate]="interdireDepot">
+    <div class="example-box" *ngFor="let voiture of liste_voiture_garage" [cdkDragData]="voiture" cdkDrag>
+      <div class="d-flex justify-content-between" style="margin: 10px 10px;">
+        <div  style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+            <div  class="d-flex justify-content-between" style="margin: 10px 10px;">
+                <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                    <p>Designation: {{voiture.voiture.designation}}</p>
+                    <p>Marque: {{voiture.voiture.marque}}</p>
+                    <p>Matricule: {{voiture.voiture.matricule}}</p>
+                </div>
+                <div style="display: flex;flex-direction: column;" >
+                    <a [routerLink]="['/t/avancement', voiture.voiture._id]"> <button class="btn btn-outline-success mt-3">Avancement</button></a>
+                    <a [routerLink]="['/t/detailfacture/', voiture.voiture._id]"> <button class="btn btn-outline-primary mt-3">Facture</button></a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Modal Ajouter -->
+  <div class="modal fade" id="exampleModalI" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header " style="background-color: rgb(40, 40, 219);">
+                <h5 class="modal-title" id="exampleModalLabel">Nouvelle voiture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form  (ngSubmit) = "Ajouter()" >
+                    <div class="col-10">
+                        <label for="">Designation</label>
+                        <input type="text" [(ngModel)] = "formData.designation" name="designation" class="form-control">
+                    </div>
+                    <div class="col-10">
+                        <label for="">Marque</label>
+                        <input type="text" name="marque" [(ngModel)] = "formData.marque" class="form-control">
+                    </div>
+                    <div class="col-10">
+                        <label for="">Matricule</label>
+                        <input type="text" name="matricule" [(ngModel)] = "formData.matricule" class="form-control">
+                    </div>
+                    <div class="modal-footer mt-3">
+                        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                    </div>
+                </form>
+                <div *ngIf="message" class="text-center mt-2">{{message.message}}</div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Modal ajout voiture -->
+  <!-- modal-modifier -->
+  <div class="modal fade" id="exampleModalModifier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: aqua;">
+                <h5 class="modal-title" id="exampleModalLabel">Modifier voiture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="col-10">
+                        <label for="">Designation</label>
+                        <input type="text" name="designation" class="form-control">
+                    </div>
+                    <div class="col-10">
+                        <label for="">Marque</label>
+                        <input type="text" name="marque" class="form-control">
+                    </div>
+                    <div class="col-10">
+                        <label for="">Matricule</label>
+                        <input type="text" name="matricule" class="form-control">
+                    </div>
+                </form>
+                <div class="modal-footer mt-3">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary">Modifier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- modal-modifier -->
+
+  <div *ngIf="pieChart">
+    <p>ok</p>
+    <canvas id="pieChart">{{ pieChart }}</canvas>
+  </div>

@@ -63,6 +63,8 @@ export class DetailavancementComponent implements OnInit {
       });
     }
 
+    
+
     showSuccess() {
       this.toastr.success('Effectuée avec success!','Ajout de reparation pour la voiture!');
     }

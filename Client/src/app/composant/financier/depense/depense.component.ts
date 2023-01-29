@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ToastrService } from 'ngx-toastr';
 import { SfincancierService } from './../../../service/sfincancier.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class DepenseComponent implements OnInit {
   formDataDepense = {idtype:'',montant: ''};
   liste_type: any;
 
-  constructor(private service:SfincancierService){}
+  constructor(private service:SfincancierService, private toastr: ToastrService){}
   
   ngOnInit(): void {
       this.getListeType();
@@ -23,14 +23,22 @@ export class DepenseComponent implements OnInit {
      this.service.ajoutTypeDepense({"intitule": this.formDataType.type}).subscribe(response => {
       this.liste_type = response;
       this.getListeType();
+      this.showSuccess();
+       this.formDataType = {type:''};
 });
   }
+
+    showSuccess() {
+        this.toastr.success('Effectuée avec success!','Ajout!');
+    }
   
   ajouterDepense(){
     alert(JSON.stringify(this.formDataDepense));
        this.service.ajoutDepense({"idtype": this.formDataDepense.idtype, "montant": this.formDataDepense.montant}).subscribe(response => {
         this.liste_type = response;
         this.getListeType();
+        this.showSuccess();
+         this.formDataDepense = {idtype:'',montant: ''};
   });
   }
 

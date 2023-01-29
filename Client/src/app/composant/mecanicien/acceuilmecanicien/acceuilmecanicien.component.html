@@ -1,17 +1,14 @@
 <style>
-    .vertical-line{
-      border-left: 2px solid #000;
-      display: inline-block;
-      height: 130px;
-      margin: 0 20px;
-    }
-  </style>
-
+.vertical-line{
+border-left: 1px solid #ccc;
+display: inline-block;
+height: 130px;
+margin: 0 10px;
+}
+</style>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Mecanicien: Valimbavaka</h1>
+    <h1 class="h3 mb-0 text-gray-800">Garage</h1>
 </div>
-
-
 <div class="row">
     <div class="col-lg-4">
         <div class="card shadow mb-4">
@@ -26,7 +23,7 @@
             <div class="card-body">
                 <div
                     id="deposition"
-                    cdkDropList 
+                    cdkDropList
                     [cdkDropListData]="listevoitures"
                     cdkDropListConnectedTo="encours"
                     class="example-list"
@@ -34,16 +31,20 @@
                     [cdkDropListEnterPredicate]="Pas_de_retour"
                     >
                     <div
-                        class="example-box"
+                        class="example-box "
                         *ngFor="let lv of listevoitures"
                         [cdkDragData]="lv"
                         cdkDrag>
-                        <div class="d-flex justify-content-between" style="margin: 10px 10px;">
-                            <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
-                                <p>Marque: {{lv.idvoiture.marque}}</p>
+                        <div  class="d-flex"  style="margin: 3px 10px;">
+                            <div style="background-color: ghostwhite;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                                <!-- <p>Marque: {{lv.idvoiture.marque}}</p> -->
                                 <p>Matricule: {{lv.idvoiture.matricule}}</p>
                                 <p>Client: {{lv.idclient.username}}</p>
-                                <p>Date: {{lv.datedepot}}</p>
+                                <p>Date: {{lv.datedepot |date }}</p>
+                            </div>
+                            <span class="vertical-line"></span>
+                            <div style="display: flex;flex-grow: 1;justify-content: center;flex-direction: row;">
+                                <i class="bi bi-car-front-fill" style="font-size: 80px" ></i>
                             </div>
                         </div>
                     </div>
@@ -89,17 +90,28 @@
                         *ngFor="let lv of garage"
                         [cdkDragData]="lv"
                         cdkDrag>
-                        <div class="d-flex justify-content-between" style="margin: 10px 10px;">
-                            <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                        <div class="d-flex" style="margin: 3px 10px;">
+                            <div style="background-color: ghostwhite;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
                                 <p>Marque: {{lv.user.username}}</p>
                                 <p>Matricule: {{lv.voiture.matricule}}</p>
+                                <p>Date: {{lv.depot.datedepot |date }}</p>
                             </div>
                             <span class="vertical-line"></span>
-                            <a [routerLink]="['/t/acm/', lv.voiture._id,lv._id]">
-                                <button type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" >
+                            <div class="d-flex flex-column align-items-center"  style="display: flex;flex-grow: 1;justify-content: center;flex-direction: row;">
+                                <a [routerLink]="['/t/acm/', lv.voiture._id,lv._id]">
+                                    <button type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" >
                                     Diagnostic
-                                </button>
-                            </a>   
+                                    </button>
+                                </a>
+                                <div *ngIf="lv.sumAvanc == 0" class="mt-2">
+                                    <p style="color: red;"> <span class="badge text-bg-warning" style="font-size: 15px;">En attente <br> de réparation </span></p>
+                                </div>
+                                <div *ngIf="lv.sumAvanc > 0" class="col-lg-8">
+                                    <div class="progress mt-3 ">
+                                        <div class="progress-bar" role="progressbar" [ngStyle]="{'width': lv.sumAvanc + '%'}" [ngClass]="{'bg-danger': lv.sumAvanc < 30, 'bg-primary': lv.sumAvanc >= 30 && lv.sumAvanc < 50, 'bg-success': lv.sumAvanc >= 50}" [attr.aria-valuenow]="lv.sumAvanc" aria-valuemin="0" aria-valuemax="100">{{lv.sumAvanc}}%</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -140,22 +152,31 @@
                         [cdkDragData]="lv"
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">
-                            <div style="background-color: white;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
+                            <div style="background-color: ghostwhite;line-height: normal;border-radius: 5px;padding: 5px ; flex-grow: 1;">
                                 <p>Marque: {{lv.voiture.designation}}</p>
                                 <p>Matricule: {{lv.voiture.matricule}}</p>
+                                <p>Date: {{lv.depot.datedepot |date }}</p>
                             </div>
                             <span class="vertical-line"></span>
                             <!-- <a [routerLink]="['/t/acm/', lv.voiture[0]._id,lv._id]"> -->
-                                    <div *ngIf=" lv.bonsortie.length > 0  ;">
-                                       <a [routerLink]="['/t/bdetail', lv.voiture._id,lv._id ]" >
-                                           <button   type="button" class="btn btn-outline-success" style="height: 50px;margin-top: 20px;" >
-                                            BS
+                            <div style="display: flex;flex-grow: 1;justify-content: center;flex-direction: row;">
+                                <!-- <div *ngIf=" lv.bonsortie.length > 0  ;" class="d-flex flex-column align-items-center"> -->
+                                <div *ngIf=" (lv.bonsortie.length > 0 && lv.bonsortie[0].etatLivraison == '0' )">
+                                    <a [routerLink]="['/t/bdetail', lv.voiture._id,lv._id ]" >
+                                        <button   type="button" class="btn btn-outline-success mt-5" style="height: 50px;margin-top: 2px;" >
+                                        Bon de sortie
                                         </button>
                                     </a>
-                                    </div>
-                                    <div *ngIf=" lv.bonsortie.length == 0  ;">
-                                            En attente
-                                    </div>
+                                </div>
+                                <div *ngIf=" (lv.bonsortie.length > 0 && lv.bonsortie[0].etatLivraison == '1' )">
+                                    <p class="mt-4"><span class="badge text-bg-success" style="font-size: 18px;margin-top: 15px;">Bon de sortie <br> validée </span></p>
+                                </div>
+                                
+                                <!-- </div> -->
+                                <div *ngIf=" lv.bonsortie.length == 0  ;" >
+                                    <p class="mt-4"><span class="badge text-bg-warning" style="font-size: 18px;margin-top: 15px;">En attente <br> de paiement </span></p>
+                                </div>
+                            </div>
                             <!-- </a>    -->
                         </div>
                     </div>
@@ -164,6 +185,3 @@
         </div>
     </div>
 </div>
-
-
-      

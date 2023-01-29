@@ -26,7 +26,7 @@ export class DetailfactureComponent implements OnInit {
     return  this.facture_service.facturebyvoiture(this.id_voiture).subscribe(response => {
       this.detail_facture = response;
       this.liste_diag = this.detail_facture[0].diagnostic;
-      console.log(response);
+      console.log("reponse",response);
     });
   }
 

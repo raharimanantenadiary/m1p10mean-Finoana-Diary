@@ -1,68 +1,65 @@
-
-    <div class="container-fluid">
-      <!-- Title -->
-      <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
-        <h2 class="h5 mb-3 mb-lg-0"><a href="../../pages/admin/customers.html" class="text-muted"><i class="bi bi-arrow-left-square me-2"></i></a> Dépense</h2>
-      </div>
-    
-      <!-- Main content -->
-      <div class="row">
-        <!-- Left side -->
-        <div class="col-lg-8">
-          <!-- Basic information -->
-          <div class="card mb-4">
-            <div class="card-body">
-              <h3 class="h6 mb-4">Ajout depense</h3>
-              <div class="row">
-                <form (ngSubmit)="ajouterDepense()" >
-                <div class="col-lg-6">
-                  <div class="mb-3">
-                    <label class="form-label">Type</label>
-                    <select [(ngModel)]="formDataDepense.idtype" name="iddtype" class="form-select">
-                        <option *ngFor="let t of liste_type" value="{{t._id}}" selected="">{{t.intitule}}</option>
-                      </select>
-                  </div>
+<div class="container-fluid">
+  <!-- Title -->
+  <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+    <h2 class="h5 mb-3 mb-lg-0"><a href="../../pages/admin/customers.html" class="text-muted"></a> Dépense</h2>
+  </div>
+  
+  <!-- Main content -->
+  <div class="row">
+    <!-- Left side -->
+    <div class="col-lg-7">
+      <!-- Basic information -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="h6 mb-4">Ajout dépense</h3>
+          <form (ngSubmit)="ajouterDepense()" >
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">Type</label>
+                  <select [(ngModel)]="formDataDepense.idtype" name="iddtype" class="form-select">
+                    <option *ngFor="let t of liste_type" value="{{t._id}}" selected="">{{t.intitule}}</option>
+                  </select>
                 </div>
-                <div class="col-lg-6">
-                  <div class="mb-3">
-                    <label class="form-label">montant</label>
-                    <input  [(ngModel)]="formDataDepense.montant" name="montant"  type="number" min="0" class="form-control">
-                  </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">Montant</label>
+                  <input  [(ngModel)]="formDataDepense.montant" name="montant"  type="number" min="0" class="form-control">
                 </div>
-                <div class="d-flex  justify-content-end">
-                    <div class=" col-lg-3 mb-3 ">
-                        <button type="sumbit" class="btn btn-outline-success mt-4" >Ajouter</button>
-                    </div>
+              </div>
+              <div class=" d-flex justify-content-end">
+                <div class="  mb-3 ">
+                  <button style="width: 200px" type="sumbit" class="btn btn-outline-success mt-4" >Ajouter</button>
                 </div>
-            </form>
               </div>
             </div>
-          </div>
- 
+          </form>
         </div>
-        <!-- Right side -->
-        <div class="col-lg-4">
-            <!-- Basic information -->
-            <div class="card mb-4">
-              <div class="card-body">
-                <h3 class="h6 mb-4">Ajout type depense</h3>
-                <div class="row">
-                    <form  (ngSubmit) = "ajouterType()">
-                  <div class="col-lg-6">
-                    <div class="mb-3">
-                      <label class="form-label">type</label>
-                      <input type="text" name="intitule"[(ngModel)]="formDataType.type"  class="form-control">
-                    </div>
-                  </div>
-                  <div class="col-lg-5">
-                    <div class="mb-3 d-flex flex-column justify-content-end">
-                        <button type="sumbit" class="btn btn-outline-success mt-4" >Ajouter</button>
-                    </div>
-                  </div>
-                </form>
+      </div>
+      
+    </div>
+    <!-- Right side -->
+    <div class="col-lg-5">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="h6 mb-4">Ajout type dépense</h3>
+          <form  (ngSubmit) = "ajouterType()">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">type</label>
+                  <input type="text" name="intitule"[(ngModel)]="formDataType.type"  class="form-control">
+                </div>
+              </div>
+              <div class="col-lg-5">
+                <div class="mt-1" style="display: flex;flex-direction: column;justify-content: center;">
+                  <button type="sumbit" class="btn btn-outline-success mt-4" >Ajouter</button>
                 </div>
               </div>
             </div>
+          </form>
+        </div>
       </div>
     </div>
-    
+  </div>

@@ -24,8 +24,83 @@
     </div>
 </div>
 
+<!-- bilan par default -->
+<div class="row mt-3 mb-2" *ngIf="affichage_default">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Chiffre d'affaire de ce mois de:  {{moiss_encours_default | date: "MMMM" }}</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_facture_mois_default |number}} Ar</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Dépense</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{tableau_benefice_default.depense |number}} Ar</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Bénéfice</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{tableau_benefice_default.benefice |number}} Ar</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   
+</div>
+
+<div class="row  mt-3 d-flex justify-content-start" *ngIf="affichage_default" >
+    <div class="col-9">
+        <h3>Par jour</h3>
+        <table class="table">
+            <thead class="bg-success" style="color: black;">
+                <tr>
+                    <td>jour</td>
+                    <td>Montant</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of tableau_chiffre_default">
+                    <th>{{c._id | date: 'dd'}}</th>
+                    <th>{{c.total | number}} Ar</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- //Par default -->
 <div class="row mt-3 mb-2" *ngIf="affichage">
-    <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
@@ -42,7 +117,6 @@
             </div>
         </div>
     </div>
-    <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
@@ -90,7 +164,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- dd pour le jour, yyyy annee, MMMM mois -->
                 <tr *ngFor="let c of tableau_chiffre">
                     <th>{{c._id | date: 'dd'}}</th>
                     <th>{{c.total | number}} Ar</th>
@@ -98,23 +171,4 @@
             </tbody>
         </table>
     </div>
-   <!--  <div class="col-6">
-        <h3>Bilan </h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <td>Chiffre</td>
-                    <td>Dépense</td>
-                    <td>Bénefice</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>{{tableau_benefice.chiffre |number}} Ar</th>
-                    <th>{{tableau_benefice.depense |number}} Ar</th>
-                    <th>{{tableau_benefice.benefice |number}} Ar</th>
-                </tr>
-            </tbody>
-        </table>
-    </div> -->
 </div>

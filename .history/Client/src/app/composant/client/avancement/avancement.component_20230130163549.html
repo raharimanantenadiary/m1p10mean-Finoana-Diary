@@ -1,0 +1,62 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Avancement de la réparation</h1>
+</div>
+
+<div *ngIf="detail_evancement[0] != null">
+
+<div class="card">
+    <div class="card-header">
+      Déposition le {{detail_evancement[0].depot.datedepot | date}}
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Partie</th>
+            <th>Montant</th>
+            <th>Avancement</th>
+            <th>Détail</th>
+            <th>Jours</th>
+        </tr>  
+    </thead>
+    <tbody>
+        <tr *ngFor="let diag of detail_evancement[0].diagnostic ">
+            <th> {{diag.partie}}</th>
+            <th>{{diag.montant | number }} Ar</th>
+            <th>
+                <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" [ngStyle]="{'width': diag.avancement + '%'}" [attr.aria-valuenow]="diag.avancement" aria-valuemin="0" aria-valuemax="100">{{diag.avancement}}%</div>
+                  </div>
+             </th>
+             <th>{{diag.details}}</th>
+            <th>{{diag.duree}} jour</th>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <h6 class="mb-0">Total Montant</h6>
+          <span class="text-secondary">{{ detail_evancement[0].sumMont | number }} Ar</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <h6 class="mb-0">Total Avancement</h6>
+          <span class="text-secondary">{{ detail_evancement[0].sumAvanc }} %</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <h6 class="mb-0">Total Durée de répration</h6>
+          <span class="text-secondary">{{ detail_evancement[0].sumJour }} jours </span>
+        </li>
+      </ul>
+    </div>
+</div>
+</div>
+<div *ngIf="detail_evancement[0] == null">
+    <div class="alert alert-warning d-flex justify-content-center" >
+            <h3>En attente</h3>
+    </div>
+</div>

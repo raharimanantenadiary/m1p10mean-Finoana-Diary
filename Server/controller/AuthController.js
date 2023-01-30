@@ -91,7 +91,7 @@ const envoyecode = (req, res) => {
     let code = generator.generate({ length: 5, numbers: true });
 
     var mailOptions = {
-        from: 'garage1340260@gmail.com',
+        from: '"Garage13401260"<garage1340260@gmail.com>',
         to: req.body.mail,
         subject: 'Verification email',
         text: '',

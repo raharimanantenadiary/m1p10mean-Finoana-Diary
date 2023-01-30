@@ -259,13 +259,17 @@ const findByVoiture = async (req, res) => {
                     }
                 },
                 {
-                    $project:
-                    {
-                    facture:1,
-                    sumMont:{ $sum:"$diagnostic.montant" }
-                    }
-                }
-                
+                  $project: {
+                    day: { $dateToString: { format: "%Y-%m-%d", date: "$facture.datefacture" } },
+                    sumMont: { $sum:"$diagnostic.montant" }
+                  }
+                },
+                {
+                  $group: {
+                    _id: "$day",
+                    total: { $sum:"$sumMont" }
+                  }
+                }               
                
               ]) .exec(function (err, reparation) {
                 if (err) {

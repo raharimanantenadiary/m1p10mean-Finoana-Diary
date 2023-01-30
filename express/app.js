@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors");
-
 var userRouter = require('./routes/UserRoute');
 var authRouter = require('./routes/AuthRoute');
 var voitureRouter = require('./routes/VoitureRoute');
@@ -14,37 +13,23 @@ var factureRouter = require('./routes/FactureRoute');
 var bonsortieRouter = require('./routes/BonSortieRoute');
 var depenseRouter = require('./routes/DepenseRoute');
 
+const {
+  connecter
+} = require("./db/connect");
+
 
 var app = express();
-require('./db/connection') ;
+
 app.use(cors());
-
-
-
-
-// app.get('/', (req, res) => {
-//     res.send('Hello World');
-// });
-
-// // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
-
-// /*******************
-// *    MIDDLEWARE    *
-// *******************/
-
-
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+require("./db/mongooseconnect");
 
-
-// /*************
-// *    PATH    *
-// *************/
 app.use('/api/voiture', voitureRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
@@ -54,26 +39,29 @@ app.use('/api/facture', factureRouter);
 app.use('/api/bonsortie', bonsortieRouter);
 app.use('/api/depense',depenseRouter);
 
-const port = process.env.PORT;
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
 
-//dsfjhk
-// // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
+// app.get('/profil/:id',function(req,res){
+// res.send("id est ="+req.params)
+// })
 
-// // error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
+// A faire redirect Login click sur le lien login de mila makaty am back alo zany ny any am angular
 
-// module.exports = app;
+connecter("mongodb+srv://mean:mdpprom13@mean1340.lmu1flv.mongodb.net/?retryWrites=true&w=majority", (erreur) => {
+  if (erreur) {
+    console.log("erreur lors de la connexion avec la base de données");
+    console.log(erreur);
+    process.exit(-1)
+  } else {
+    console.log("Connexion avec la base de données établie");
+  }
+})
+
+module.exports = app;
+
+/**
+ * 
+ * https://api-mean.onrender.com/
+ * 
+ * api-mean
+ */

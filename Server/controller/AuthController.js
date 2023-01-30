@@ -91,18 +91,18 @@ const envoyecode = (req, res) => {
     let code = generator.generate({ length: 5, numbers: true });
 
     var mailOptions = {
-        from: "Garage Laurence",
+        from: 'Garage13401260@gmail.com',
         to: req.body.mail,
         subject: 'Verification email',
-        text: 'Vous etes authorise a utiliser le plateforme Suivi de projet; Votre mot de passe est: ZJbcsuygSUHXAIUSsiduc; Veuillez le changer apres activation,Cordialement, l equipe DSI',
+        text: '',
         html: `<!doctype html>
                 <html>
                 <head></head>
                 <body>
                  
-                    <h1>GARAGE</h1>
+                    <h1 color='blue'>GARAGE 13401260</h1>
         
-                    <p>Votre code de validation:${code} </p>
+                    <p>Votre code de validation:<h2>${code}</h2></p>
                     <p>Cordialement, GARAGE</p>
                 </body>
                 </html>`

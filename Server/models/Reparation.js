@@ -9,7 +9,7 @@ const ReparationSchema = new Schema({
 
     diagnostic:[{
         partie:{ type: String } ,
-        avancement:{ type: Number } ,
+        avancement:{ type: Number} ,
         montant:{ type: Number },
         details:{ type: String } ,
         duree:{ type: Number }   

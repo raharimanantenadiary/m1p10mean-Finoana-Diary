@@ -59,9 +59,15 @@ const findByVoiture = async (req, res) => {
         {
             $match: {
                 $and: [
-                    {"depot.idvoiture":idvoiture},
-                    {"facture.etat":0},
-                    {"depot.etat":2}
+                  {"depot.idvoiture":idvoiture},
+                  {
+                    $or:
+                    [
+                      {"depot.etat":1},
+                      {"depot.etat":2}
+                    ]
+                  }
+            
                 ]
                 
             }

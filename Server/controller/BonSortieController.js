@@ -76,7 +76,14 @@ const verifieBS= async (req, res) => {
             $match: {
                 $and: [
                     {"depot.idvoiture":idvoiture},
-                    {"depot.etat":2}
+                    {
+                        
+                        $or: [
+                            {"depot.etat":1},
+                            {"depot.etat":2}
+                        ]
+                    }
+                  
                 ]
                 
             }

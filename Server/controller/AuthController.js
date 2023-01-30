@@ -95,8 +95,7 @@ const envoyecode = (req, res) => {
         to: req.body.mail,
         subject: 'Verification email',
         text: '',
-        html: `
-<!DOCTYPE html>
+        html: `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -106,16 +105,16 @@ const envoyecode = (req, res) => {
       background-color: lightblue;
     }
     h1 {
-      color: white;
+      color: black;
       text-align: center;
     }
     p {
-      color: white;
+      color: #2C2889;
       font-size: 16px;
       text-align: center;
     }
     h3 {
-        color: orange;
+        color: #2EEBD7;
         font-size: 16px;
         text-align: center;
       }

@@ -158,6 +158,18 @@ const findReparationByvoiture = async (req, res) => {
               }
         },
         {
+          $lookup:
+            {
+              from: "voitures",
+              localField: "depot.idvoiture",
+              foreignField: "_id",
+              as: "voiture"
+            }
+      },
+      {
+        $unwind: "$voiture"
+      },
+        {
             $match: {
                 $and: [
                     {"_id":idreparation},

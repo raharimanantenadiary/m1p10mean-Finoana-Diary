@@ -51,33 +51,27 @@ export class ModifieravancementComponent   implements OnInit {
       let vrai_avancement = 0;
       let nouveau_avancement= Number(this.avancement) + Number(this.formData.avancement);
       
-      if(!this.formData.avancement){
-            this.showVide();
+      if(Number(this.formData.avancement) < 0){
+            this.showErreurNegatif();
             return;
       }else{
-        if(Number(this.formData.avancement) < 0){
-              this.showErreurNegatif();
-              return;
-        }else{
-          if(nouveau_avancement < 100  ){
-            vrai_avancement = nouveau_avancement ;
-          }
-          else{
-            vrai_avancement = 100 ;
-          }
-          this.service.updateDiag(
-            {
-              "idreparation": this.id_rep,
-              "iddiag": this.id_diag,
-              "avancement": vrai_avancement 
-            }
-            ).subscribe(response => {
-              this.showSuccess();
-                this.router.navigate(['/t/acm/',this.id_voiture,this.id_rep]);
-            });
+        if(nouveau_avancement < 100  ){
+          vrai_avancement = nouveau_avancement ;
         }
+        else{
+          vrai_avancement = 100 ;
+        }
+        this.service.updateDiag(
+          {
+            "idreparation": this.id_rep,
+            "iddiag": this.id_diag,
+            "avancement": vrai_avancement 
+          }
+          ).subscribe(response => {
+            this.showSuccess();
+              this.router.navigate(['/t/acm/',this.id_voiture,this.id_rep]);
+          });
       }
-
     }
 
 
@@ -85,12 +79,8 @@ export class ModifieravancementComponent   implements OnInit {
         this.toastr.success('Effectuée avec success!','Modification de l\'avancement la voiture!');
     }
      
-    showVide() {
-        this.toastr.warning('Erreur!','Veuillez ajouter l\'avancement');
-    }
-     
     showErreurNegatif() {
-        this.toastr.warning('Erreur!','avancement doit etre positif!');
+        this.toastr.success('Erreur!','avancement doit etre positif!');
     }
 
 

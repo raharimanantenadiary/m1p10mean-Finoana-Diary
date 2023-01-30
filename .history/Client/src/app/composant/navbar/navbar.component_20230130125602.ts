@@ -12,7 +12,7 @@ export class NavbarComponent implements OnInit {
   nom:any;
 
   ngOnInit(): void {
-      this.nom = localStorage.getItem('nom');
+      this.nom = localStorage.getItem('nnom');
   }
 
 }

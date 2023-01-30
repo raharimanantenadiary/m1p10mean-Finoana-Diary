@@ -9,25 +9,23 @@
         </div>
       </div>
 
+
       <div class="row">
         <div class="col-xl-12">
 
           <ul class="list-unstyled float-end">
-            <li style="font-size: 30px; color: rgb(108, 108, 202);">   <div class="sidebar-brand-icon rotate-n-15">
-              <i class="bi bi-car-front-fill"></i>
-           </div>
-           <div class="sidebar-brand-text mx-3">Garage</div></li>
-            <li>garage001@gmail.com</li>
+            <li style="font-size: 30px; color: red;">Garage-V</li>
+            <li>mail@mail.com</li>
           </ul>
         </div>
       </div>
 
       <div class="row text-center">
         <h3 class="text-uppercase text-center mt-3" style="font-size: 40px;">Facture</h3>
-        <p>Réference: {{detail_facture[0].facture.reference}}</p>
+        <p>123456789</p>
       </div>
       <div>
-        <p>Client: {{detail_facture[0].user[0].mail }}</p>
+        <p>Client: {{detail_facture[0].user[0].mail}}</p>
       </div>
 
       <div class="row ">
@@ -61,8 +59,7 @@
 
       <div class="row mt-2 mb-5">
         <p class="fw-bold">Date: <span class="text-muted">{{detail_facture[0].facture.datefacture | date}}</span></p>
-        <p class="fw-bold mt-3" style="color: green"  *ngIf="detail_facture[0].facture.etat == 1" >Statut: Payé </p>
-        <p class="fw-bold mt-3"  style="color: red" *ngIf="detail_facture[0].facture.etat == 0" >Statut: Non Payé </p>
+        <p class="fw-bold mt-3">Statut: Non Payé </p>
       </div>
 
     </div>

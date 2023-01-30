@@ -17,12 +17,6 @@ margin: 0 10px;
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Déposition</h6>
                 <div class="dropdown no-arrow">
-                    <div class="d-flex justify-content-between" >
-                        <!-- <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Annee"> -->
-                        <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Tout....." [(ngModel)]="searchTextDeposition">
-                    </div>
-                    <!-- Modal ajout voiture -->
-                    
                 </div>
             </div>
             <!-- Card Body -->
@@ -38,7 +32,7 @@ margin: 0 10px;
                     >
                     <div
                         class="example-box "
-                        *ngFor="let lv of listevoitures | search : searchTextDeposition  "
+                        *ngFor="let lv of listevoitures"
                         [cdkDragData]="lv"
                         cdkDrag>
                         <div  class="d-flex"  style="margin: 3px 10px;">
@@ -66,12 +60,18 @@ margin: 0 10px;
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">En cours</h6>
                 <div class="dropdown no-arrow">
-                    <div class="d-flex justify-content-between" >
-                        <!-- <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Annee"> -->
-                        <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Tout....." [(ngModel)]="searchTextEncours">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
                     </div>
-                    <!-- Modal ajout voiture -->
-                    
                 </div>
             </div>
             <!-- Card Body -->
@@ -87,7 +87,7 @@ margin: 0 10px;
                     >
                     <div
                         class="example-box"
-                        *ngFor="let lv of garage | search : searchTextEncours "
+                        *ngFor="let lv of garage"
                         [cdkDragData]="lv"
                         cdkDrag>
                         <div class="d-flex" style="margin: 3px 10px;">
@@ -124,12 +124,18 @@ margin: 0 10px;
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Fin</h6>
                 <div class="dropdown no-arrow">
-                    <div class="d-flex justify-content-between" >
-                        <!-- <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Annee"> -->
-                        <input class="form-control"  style="margin-right: 20px;" type="text" class="form-control" placeholder="Tout....." [(ngModel)]="searchTextFin">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
                     </div>
-                    <!-- Modal ajout voiture -->
-                    
                 </div>
             </div>
             <div class="card-body">
@@ -142,7 +148,7 @@ margin: 0 10px;
                     >
                     <div
                         class="example-box"
-                        *ngFor="let lv of fin | search : searchTextFin"
+                        *ngFor="let lv of fin"
                         [cdkDragData]="lv"
                         cdkDrag>
                         <div class="d-flex justify-content-between" style="margin: 10px 10px;">

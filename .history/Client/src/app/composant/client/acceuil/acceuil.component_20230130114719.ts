@@ -17,7 +17,6 @@ import { ToastrService } from 'ngx-toastr';
 export class AcceuilComponent implements OnInit {
 
   searchText = '';
-  searchTextGarage = '';
   annee = '';
   loading = false;
   loading_garage = false;
@@ -151,7 +150,6 @@ Ajouter() {
   console.log('form',this.formData);
     if(!this.formData.marque && !this.formData.designation && !this.formData.matricule){
         this.showErreur();
-        return;
     }else if(this.formData.marque && this.formData.designation && this.formData.matricule){
      // this.router.navigate(['/t/acm']);
       this.service.ajoutVoiture(this.formData).subscribe(response => {

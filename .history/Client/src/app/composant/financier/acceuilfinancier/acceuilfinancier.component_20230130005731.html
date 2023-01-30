@@ -92,8 +92,8 @@
             <tbody>
                 <!-- dd pour le jour, yyyy annee, MMMM mois -->
                 <tr *ngFor="let c of tableau_chiffre">
-                    <th>{{c._id | date: 'dd'}}</th>
-                    <th>{{c.total | number}} Ar</th>
+                    <th>{{c.facture.datefacture | date: 'dd'}}</th>
+                    <th>{{c.sumMont | number}} Ar</th>
                 </tr>
             </tbody>
         </table>

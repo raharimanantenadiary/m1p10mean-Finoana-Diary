@@ -17,7 +17,6 @@ import { ToastrService } from 'ngx-toastr';
 export class AcceuilComponent implements OnInit {
 
   searchText = '';
-  searchTextGarage = '';
   annee = '';
   loading = false;
   loading_garage = false;

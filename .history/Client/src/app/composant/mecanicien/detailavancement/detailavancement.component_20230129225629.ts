@@ -32,30 +32,18 @@ export class DetailavancementComponent implements OnInit {
   constructor(private toastr: ToastrService,private garage_service: SgarageService,private route: ActivatedRoute){}
   
   OnSubmit() {
-    if(!this.formData.partie && !this.formData.montant && !this.formData.duree && !this.formData.detail){
-      
-        this.showErreur();
-        return ;
-    }else if(this.formData.partie && this.formData.montant && this.formData.duree){
-      this.garage_service.ajoutListeReparation({
-        "id": this.info_reparation[0]._id,
-        "partie": this.formData.partie,
-        "montant": this.formData.montant,
-        "details": this.formData.detail,
-        "duree": this.formData.duree
-      }).subscribe(response => {
-        this.showSuccess();
-        this.getDepotEncours();
-        this.formData = {
-          partie: '',
-          montant: '',
-          detail: '',
-          duree: '',
-          avancement: '' 
-        };
-      });
-    }
+    this.garage_service.ajoutListeReparation({
+      "id": this.info_reparation[0]._id,
+      "partie": this.formData.partie,
+      "montant": this.formData.montant,
+      "details": this.formData.detail,
+      "duree": this.formData.duree
+    }).subscribe(response => {
+      this.showSuccess();
+      this.getDepotEncours();
+    });
   };
+  progress = 60;
 
 
   ngOnInit(){
@@ -79,9 +67,5 @@ export class DetailavancementComponent implements OnInit {
 
     showSuccess() {
       this.toastr.success('Effectuée avec success!','Ajout de reparation pour la voiture!');
-    }
-    
-    showErreur() {
-      this.toastr.warning('Erreur!','Veuillez completer les champs!');
     }
 } 

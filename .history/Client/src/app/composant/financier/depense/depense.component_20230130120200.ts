@@ -20,17 +20,12 @@ export class DepenseComponent implements OnInit {
   }
   
   ajouterType(){
-    if(!this.formDataType.type){
-        this.showErreurType();
-        return;
-    }else{
-      this.service.ajoutTypeDepense({"intitule": this.formDataType.type}).subscribe(response => {
-       this.liste_type = response;
-       this.getListeType();
-       this.showSuccess();
-        this.formDataType = {type:''};
-      });
-    }
+     this.service.ajoutTypeDepense({"intitule": this.formDataType.type}).subscribe(response => {
+      this.liste_type = response;
+      this.getListeType();
+      this.showSuccess();
+       this.formDataType = {type:''};
+});
   }
 
     showSuccess() {
@@ -47,18 +42,13 @@ export class DepenseComponent implements OnInit {
     }
   
   ajouterDepense(){
-    // alert(JSON.stringify(this.formDataDepense));
-    if(!this.formDataDepense.idtype && !this.formDataDepense.montant){
-        this.showErreurDepense();
-      return;
-    }else{
-      this.service.ajoutDepense({"idtype": this.formDataDepense.idtype, "montant": this.formDataDepense.montant}).subscribe(response => {
-       this.liste_type = response;
-       this.getListeType();
-       this.showSuccess();
-        this.formDataDepense = {idtype:'',montant: ''};
- });
-    }
+    alert(JSON.stringify(this.formDataDepense));
+       this.service.ajoutDepense({"idtype": this.formDataDepense.idtype, "montant": this.formDataDepense.montant}).subscribe(response => {
+        this.liste_type = response;
+        this.getListeType();
+        this.showSuccess();
+         this.formDataDepense = {idtype:'',montant: ''};
+  });
   }
 
   getListeType(){

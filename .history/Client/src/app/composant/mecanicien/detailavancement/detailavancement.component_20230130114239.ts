@@ -33,9 +33,15 @@ export class DetailavancementComponent implements OnInit {
   
   OnSubmit() {
     if(!this.formData.partie && !this.formData.montant && !this.formData.duree && !this.formData.detail){
-      
+      this.formData = {
+        partie: '',
+        montant: '',
+        detail: '',
+        duree: '',
+        avancement: '' 
+      };
         this.showErreur();
-        return ;
+        // return;
     }else if(this.formData.partie && this.formData.montant && this.formData.duree){
       this.garage_service.ajoutListeReparation({
         "id": this.info_reparation[0]._id,

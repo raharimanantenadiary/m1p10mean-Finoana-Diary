@@ -50,7 +50,7 @@ export class AcceuilfinancierComponent implements OnInit {
       console.log('chiffre', this.tableau_chiffre);
       let sommefacture =0;
       for(let i=0;i<  this.tableau_chiffre.length; i++){
-          sommefacture = sommefacture +  this.tableau_chiffre[i].total;
+          sommefacture = sommefacture +  this.tableau_chiffre[i].sumMont;
       }
       this.total_facture_mois = sommefacture;
   });

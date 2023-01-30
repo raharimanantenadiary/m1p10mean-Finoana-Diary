@@ -47,7 +47,7 @@ export class DepenseComponent implements OnInit {
     }
   
   ajouterDepense(){
-    // alert(JSON.stringify(this.formDataDepense));
+    alert(JSON.stringify(this.formDataDepense));
     if(!this.formDataDepense.idtype && !this.formDataDepense.montant){
         this.showErreurDepense();
       return;

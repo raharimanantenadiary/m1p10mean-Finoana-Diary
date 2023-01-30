@@ -91,21 +91,46 @@ const envoyecode = (req, res) => {
     let code = generator.generate({ length: 5, numbers: true });
 
     var mailOptions = {
-        from: 'garage1340260@example.com',
+        from: 'garage1340260@gmail.com',
         to: req.body.mail,
         subject: 'Verification email',
         text: '',
-        html: `<!doctype html>
-                <html>
-                <head></head>
-                <body>
-                 
-                    <h1 color='blue'>GARAGE 13401260</h1>
-        
-                    <p>Votre code de validation:<h2>${code}</h2></p>
-                    <p>Cordialement, GARAGE</p>
-                </body>
-                </html>`
+        html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Email de test</title>
+  <style>
+    body {
+      background-color: lightblue;
+    }
+    h1 {
+      color: white;
+      text-align: center;
+    }
+    p {
+      color: white;
+      font-size: 16px;
+      text-align: center;
+    }
+    h3 {
+        color: orange;
+        font-size: 16px;
+        text-align: center;
+      }
+  </style>
+</head>
+<body>
+  <h1>Bonjour,</h1>
+  <p>Votre code de validation est:<h3>${code}</h3></p>
+  <p>Merci d'avoir utilisé notre service !</p>
+  <p>Cordialement,</p>
+  <p>L'équipe Garage13401260</p>
+</body>
+</html>
+                
+                `
     };
 
     transporter.sendMail(mailOptions)

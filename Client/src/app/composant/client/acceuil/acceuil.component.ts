@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef ,  ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 import { _isTestEnvironment } from '@angular/cdk/platform';
@@ -25,7 +25,7 @@ export class AcceuilComponent implements OnInit {
   user_actif: any;
 
   lineChart!: Chart;
-  pieChart!: Chart ;
+  pieChart!: Chart;
 
   message: any;
 
@@ -42,19 +42,19 @@ export class AcceuilComponent implements OnInit {
     idclient: this.idclient
   };
 
-  constructor(private service_financier: SfincancierService,private service: SvoitureService,private depot_service: SgarageService,private router:Router, private cdr: ChangeDetectorRef, private toastr: ToastrService) { }
+  constructor(private service_financier: SfincancierService, private service: SvoitureService, private depot_service: SgarageService, private router: Router, private cdr: ChangeDetectorRef, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getListeVoitureClient();
     this.getListevoitureDansGarage();
     this.user_actif = localStorage.getItem("nom");
 
-    
+
   }
 
-  getListeVoitureClient(){
+  getListeVoitureClient() {
     this.loading = true;
-    return  this.service.voitureById(localStorage.getItem("id")).subscribe(response => {
+    return this.service.voitureById(localStorage.getItem("id")).subscribe(response => {
       this.message = response;
       // console.log(this.message);
       this.loading = false;
@@ -62,10 +62,10 @@ export class AcceuilComponent implements OnInit {
       // console.log("voiture 1", this.listevoitures);
     });
   }
-  
-  getListevoitureDansGarage(){
-      this.loading_garage = true;
-    return  this.service.voitureByIdDansGarage(this.idclient).subscribe(response => {
+
+  getListevoitureDansGarage() {
+    this.loading_garage = true;
+    return this.service.voitureByIdDansGarage(this.idclient).subscribe(response => {
       this.message = response;
       this.loading_garage = false;
       this.liste_voiture_garage = this.message;
@@ -73,87 +73,87 @@ export class AcceuilComponent implements OnInit {
     });
   }
 
-  verifierBS(idvoiture:any){
-    return  this.service_financier.verifieBS(idvoiture).subscribe(response => {
-          console.log(response);
-  });
-}
+  verifierBS(idvoiture: any) {
+    return this.service_financier.verifieBS(idvoiture).subscribe(response => {
+      console.log(response);
+    });
+  }
 
- 
-  
 
-drop(event: CdkDragDrop<any[]>) {
-    console.log("etat",event.item.data.voiture.etat);
+
+
+  drop(event: CdkDragDrop<any[]>) {
+    console.log("etat", event.item.data.voiture.etat);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      if( event.item.data.voiture.etat == 0){
-                  transferArrayItem(
-                    event.previousContainer.data,
-                    event.container.data,
-                    event.previousIndex,
-                    event.currentIndex,
-                    );
-                    const now = new Date();
+      if (event.item.data.voiture.etat == 0) {
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex,
+        );
+        const now = new Date();
 
-              this.depot_service.ajoutDeposition({
-                "idvoiture": event.item.data.voiture._id,"idclient": localStorage.getItem("id") ,"date": now.toString() 
-              }).subscribe(response => {
-                this.message = response;
-                this.getListeVoitureClient();
-                this.getListevoitureDansGarage();
-              this.showSuccess();
-              });
+        this.depot_service.ajoutDeposition({
+          "idvoiture": event.item.data.voiture._id, "idclient": localStorage.getItem("id"), "date": now.toString()
+        }).subscribe(response => {
+          this.message = response;
+          this.getListeVoitureClient();
+          this.getListevoitureDansGarage();
+          this.showSuccess();
+        });
 
-            }
-        if( event.item.data.voiture.etat == 1){
+      }
+      if (event.item.data.voiture.etat == 1) {
 
-          let verfi = this.verifierBS(event.item.data.voiture._id);
-          console.log("verify",verfi);
-          if(!verfi){
-            transferArrayItem(
-              event.previousContainer.data,
-              event.container.data,
-              event.previousIndex,
-              event.currentIndex,
-              );
+        let verfi = this.verifierBS(event.item.data.voiture._id);
+        console.log("verify", verfi);
+        if (!verfi) {
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex,
+          );
 
-              this.depot_service.recuperarationVoiture(event.item.data.voiture._id).subscribe(response => {
-                this.showRecuperation();
-                this.getListeVoitureClient();
-                this.getListevoitureDansGarage();
-              });
-              this.showSuccess();
-          }else{
-              this.showErreur();
-              this.getListeVoitureClient();
-              this.getListevoitureDansGarage();
-              return;
-          }
-          }
+          this.depot_service.recuperarationVoiture(event.item.data.voiture._id).subscribe(response => {
+            this.showRecuperation();
+            this.getListeVoitureClient();
+            this.getListevoitureDansGarage();
+          });
+          this.showSuccess();
+        } else {
+          this.showErreur();
+          this.getListeVoitureClient();
+          this.getListevoitureDansGarage();
+          return;
+        }
+      }
     }
-}
-
-drop_vers_parking(event: CdkDragDrop<any[]>) {
-  if (event.previousContainer === event.container) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-  } else {
+  }
+  // lala
+  drop_vers_parking(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
-        );
+      );
+    }
   }
-}
 
-Ajouter() {
-  console.log('form',this.formData);
-    if(!this.formData.marque && !this.formData.designation && !this.formData.matricule){
-        this.showErreur();
-        return;
-    }else if(this.formData.marque && this.formData.designation && this.formData.matricule){
-     // this.router.navigate(['/t/acm']);
+  Ajouter() {
+    console.log('form', this.formData);
+    if (!this.formData.marque && !this.formData.designation && !this.formData.matricule) {
+      this.showErreur();
+      return;
+    } else if (this.formData.marque && this.formData.designation && this.formData.matricule) {
+      // this.router.navigate(['/t/acm']);
       this.service.ajoutVoiture(this.formData).subscribe(response => {
         this.getListeVoitureClient();
         this.formData = {
@@ -168,7 +168,7 @@ Ajouter() {
 
 
   showErreurAjoutVoiture() {
-    this.toastr.warning('Erreur!','Veuillez completer les champs!');
+    this.toastr.warning('Erreur!', 'Veuillez completer les champs!');
   }
 
 
@@ -179,16 +179,16 @@ Ajouter() {
 
   interdireDepot(item: any) {
     return true;
-}
+  }
 
-     showSuccess() {
-        this.toastr.success('Effectuée avec success!','Déplacement effectuer');
-    } 
-      showRecuperation() {
-        this.toastr.success('Effectuée avec success!','Récupération effectuer');
-    } 
-      showErreur() {
-        this.toastr.warning('Bon de sortie non valider par le mécanicien!','Déplacement non effectuer');
-    }
+  showSuccess() {
+    this.toastr.success('Effectuée avec success!', 'Déplacement effectuer');
+  }
+  showRecuperation() {
+    this.toastr.success('Effectuée avec success!', 'Récupération effectuer');
+  }
+  showErreur() {
+    this.toastr.warning('Bon de sortie non valider par le mécanicien!', 'Déplacement non effectuer');
+  }
 
 }

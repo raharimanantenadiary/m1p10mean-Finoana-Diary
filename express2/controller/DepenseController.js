@@ -1,6 +1,6 @@
 
 const Depense= require("../models/Depense") ;
-const TypeDepense= require("../models/TypeDepense") ;
+const TypeDepense= require("../models/Typedepense") ;
 
 
 

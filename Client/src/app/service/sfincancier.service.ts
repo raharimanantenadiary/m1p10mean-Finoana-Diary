@@ -12,7 +12,8 @@ export class SfincancierService {
   constructor(private http: HttpClient) { }
 
 
-  apiurl = "http://localhost:3050/api/";
+  // apiurl = "http://localhost:3050/api/";
+  apiurl = "https://projet-mean.onrender.com/api/";
   apiAdd = "https://jf101.onrender.com/test";
 
 

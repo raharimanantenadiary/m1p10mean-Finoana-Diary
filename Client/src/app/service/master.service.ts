@@ -9,7 +9,8 @@ export class MasterService {
   constructor(private http: HttpClient) { }
 
   // apiurl = "localhost:4900/test/getAll";
-  apiurl = "http://localhost:3050/api/";
+  // apiurl = "http://localhost:3050/api/";
+  apiurl = "https://projet-mean.onrender.com/api/";
   apiAdd = "https://jf101.onrender.com/test";
 
 

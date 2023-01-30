@@ -44,9 +44,6 @@ app.use('/api/depense',depenseRouter);
 // res.send("id est ="+req.params)
 // })
 
-
-// A faire redirect Login click sur le lien login de mila makaty am back alo zany ny any am angular
-
 connecter("mongodb+srv://mean:mdpprom13@mean1340.lmu1flv.mongodb.net/?retryWrites=true&w=majority", (erreur) => {
   if (erreur) {
     console.log("erreur lors de la connexion avec la base de données");
@@ -59,9 +56,3 @@ connecter("mongodb+srv://mean:mdpprom13@mean1340.lmu1flv.mongodb.net/?retryWrite
 
 module.exports = app;
 
-/**
- * 
- * https://api-mean.onrender.com/
- * 
- * api-mean
- */

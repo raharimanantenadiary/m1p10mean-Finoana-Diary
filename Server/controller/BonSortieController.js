@@ -1,8 +1,7 @@
 
 const BonSortie = require("../models/BonSortie") ;
-const Facture = require("../models/Facture") ;
 const Reparation = require("../models/Reparation") ;
-
+const mongoose=require("mongoose");
 
 const findByFacture = async (req, res) => {
     await BonSortie.find({idFacture:req.body.idfacture})
@@ -56,6 +55,72 @@ const validation = async (req, res) => {
     })
 };
 
+const verifieBS= async (req, res) => {
+    let idvoiture=mongoose.Types.ObjectId(req.params.idvoiture);
+    Reparation.aggregate([
+        {
+          $lookup:
+            {
+              from: "depots",
+              localField: "iddepot",
+              foreignField: "_id",
+              as: "depot"
+            }
+        },
+        {
+          $unwind: "$depot"
+        },
+
+        
+        {
+            $match: {
+                $and: [
+                    {"depot.idvoiture":idvoiture},
+                    {"depot.etat":2}
+                ]
+                
+            }
+        },
+        {
+            $lookup:
+            {
+                from: "bonsorties",
+                localField: "idbonsortie",
+                foreignField: "_id",
+                as: "bonsortie"
+            }
+        },
+        {
+            $unwind: "$bonsortie"
+        },
+    
+        
+        {
+            $project:
+            {
+             depot:1,
+             bonsortie:1
+            }
+        }
+       
+      ]) .exec(function (err, reparation) {
+        if (err) {
+            sendResult(res, err);
+        } else {
+            if(reparation.length>0)
+            {
+                console.log(reparation);
+                if(reparation[0].bonsortie.etatLivraison==1)
+                {
+                    sendResult(res, true);
+
+                }
+            }
+            sendResult(res, false);
+    
+        }})
+     
+}
 /****************
  * SEND GENERAL *
  ***************/
@@ -70,7 +135,8 @@ module.exports = {
     save,
     validation,
     findNonValide,
-    findByFacture
+    findByFacture,
+    verifieBS
 
 }
 
